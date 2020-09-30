@@ -1,11 +1,11 @@
 # LAIG 2020/2021 - TP1
 
-## Group: T0xG0y
+## Group: T07G07
 
-| Name             | Number    | E-Mail             |
-| ---------------- | --------- | ------------------ |
-| John Doe         | 201801010 | ...                |
-| Jane Doe         | 201801011 | ...                |
+| Name             | Number    | E-Mail              |
+| ---------------- | --------- | ------------------  |
+| Nuno Resende     | 201806825 | up201806825@fe.up.pt|
+| João Gonçalves   | 201806796 | up201806796@fe.up.pt|
 
 ----
 ## Project information
