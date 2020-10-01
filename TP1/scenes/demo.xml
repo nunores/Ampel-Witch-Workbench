@@ -109,7 +109,6 @@
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
             <transformations>
-                <translation x="5" y="5" z="0" /> <!-- TODO: a fazer mais tarde -->
             </transformations>
 
             <!-- declaring descendants, at least one node or one leaf must be present
@@ -121,6 +120,79 @@
                 <noderef id="vigas_compridas" />
             </descendants>
         </node>
+
+        <node id="tampos">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="tampo1" />
+                <noderef id="tampo2" />
+                <noderef id="tampo3" />
+            </descendants>
+
+        </node>
+
+        <node id="tampo1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="4.5" />
+                <scale sx="4.26" sy="24" sz="0.125"/>            
+        
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="tampo2">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0" y="2.33" z="4.5" />
+                <scale sx="4.26" sy="24" sz="0.125"/>            
+        
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="tampo3">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-2.33" z="4.5" />
+                <scale sx="4.26" sy="24" sz="0.125"/>            
+        
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
 
         <node id="pernas">
         
@@ -443,5 +515,53 @@
 
         </node>
 
+        <node id="crystal_ball">
+         
+            <material id="null" />
+
+            <texture id="default_textureTexture">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="crystal_ball_base" />
+                <noderef id="ball" />
+            </descendants>
+        </node>
+
+        <node id="crystal_ball_base">       
+         
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-4" z="5.5" />
+            </transformations>
+            
+            <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.5" bottomRadius="1" stacks="20" slices="20"/>
+            </descendants>
+        </node>
+
+        <node id="ball">
+         
+            <material id="null" />
+
+            <texture id="crystal_ballTexture">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-4" z="6.5" />
+            </transformations>
+            
+            <descendants>
+                <leaf type="sphere" radius="1" slices="20" stacks="20"/>
+            </descendants>
+        </node>
+        
     </nodes>
 </lsf>
