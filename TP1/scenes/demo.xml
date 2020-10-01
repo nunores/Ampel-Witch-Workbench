@@ -2,7 +2,7 @@
     <initials>
         <reference length="2" />
         <!-- axis length; "0" means no axis displayed -->
-        <root id="demoRoot" />
+        <root id="root" />
         <!-- identifier of root node of the scene graph; this node -->
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
@@ -27,7 +27,7 @@
 
     <lights>
         <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
-        <light id="demoLight">            <!-- light identifier -->
+        <light id="light1">            <!-- light identifier -->
             <enable value="1" />
             <!-- enable/disable -->
             <position x="10" y="12" z="9.5" w="1.0" /><!-- light position; w=1: point light; w=0: directional light -->
@@ -63,52 +63,385 @@
     </materials>
 
     <nodes>
-        <node id="demoRoot">            <!-- defines one intermediate node; may be repeated as necessary -->
+        <node id="root">            <!-- defines one intermediate node; may be repeated as necessary -->
             <!-- next two lines are mandatory -->
-            <material id="demoMaterial" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
+            <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
 
-            <texture id="demoTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+
+            <texture id="default_textureTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
                 <amplification afs="2.0" aft="2.0" /><!-- for primitives = dx/afs, dy/aft -->
             </texture>
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
-            <transformations>
+            <!--transformations>
                 <translation x="0" y="1.0" z="1.0" />
                 <rotation axis="yy" angle="45" />
                 <scale sx="2" sy="1" sz="1" />
+            </transformations> -->
+
+            <transformations>
             </transformations>
 
             <!-- declaring descendants, at least one node or one leaf must be present
              descendants may be mixed, nodes and leafs -->
             <descendants>
-                <noderef id="demoChild" />
+                <noderef id="table" />
+                <noderef id="cauldron" />
+                <noderef id="vials" />
+                <noderef id="crystal_ball" />
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!-- identifier of another node, before or later defined in the file. -->
                 <!-- next lines define nodes of type leaf; may be repeated, in any order, as necessary -->
-                <leaf type="rectangle" x1="0" y1="1" x2="1" y2="0" />
+                <!-- leaf type="rectangle" x1="0" y1="1" x2="1" y2="0" /> -->
                 <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
             </descendants>
+
         </node>
-        <node id="demoChild">            <!-- defines one intermediate node; may be repeated as necessary -->
+
+        <node id="table">            <!-- defines one intermediate node; may be repeated as necessary -->
             <!-- next two lines are mandatory -->
             <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
 
-            <texture id="clear"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+            <texture id="tableTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
                 <amplification afs="2.0" aft="2.0" /><!-- for primitives = dx/afs, dy/aft -->
             </texture>
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
             <transformations>
-                <translation x="2" y="0.0" z="2.0" />
+                <translation x="5" y="5" z="0" /> <!-- TODO: a fazer mais tarde -->
             </transformations>
 
             <!-- declaring descendants, at least one node or one leaf must be present
              descendants may be mixed, nodes and leafs -->
             <descendants>
-                <leaf type="triangle" x1="ff" y1="ff" x2="ff" y2="ff" x3="ff" y3="ff" z3="ff"/>
-                <!-- x y z coordinates of each vertex -->
+                <noderef id="pernas" />
+                <noderef id="vigas_curtas" />
+                <noderef id="tampos" />
+                <noderef id="vigas_compridas" />
             </descendants>
         </node>
+
+        <node id="pernas">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="perna1" />
+                <noderef id="perna2" />
+                <noderef id="perna3" />
+                <noderef id="perna4" />
+            </descendants>
+
+        </node>
+
+        <node id="perna1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="2.5" y="5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="perna2">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="2.5" y="-5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="perna3">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="-2.5" y="-5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="perna4">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="-2.5" y="5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="paralelipipedo">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <!-- Quadrados do topo/baixo -->
+
+                <noderef id="quadrado_topo" />
+                <noderef id="quadrado_baixo" />
+                <noderef id="retangulo_lado1" />
+                <noderef id="retangulo_lado2" />
+                <noderef id="retangulo_lado3" />
+                <noderef id="retangulo_lado4" />
+                
+            </descendants>
+        
+        </node>
+
+
+        <node id="quadrado_baixo">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
+            </descendants>
+        
+        </node>
+
+        <node id="quadrado_topo">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="4" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
+            </descendants>
+        
+        </node>
+
+        
+        <node id="retangulo_lado1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.25" z="0" />
+                <rotation axis="xx" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+            </descendants>
+        
+        </node>
+
+        <node id="retangulo_lado2">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-0.25" z="0" />
+                <rotation axis="xx" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+            </descendants>
+        
+        </node>
+
+        <node id="retangulo_lado3">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="0.25" y="0" z="0" />
+                <rotation axis="yy" angle="45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
+            </descendants>
+        
+        </node>
+
+        <node id="retangulo_lado4">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <translation x="-0.25" y="0" z="0" />
+                <rotation axis="yy" angle="45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
+            </descendants>
+        
+        </node>
+
+        <node id="vigas_compridas">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="viga_comprida1" />
+                <noderef id="viga_comprida2" />
+            </descendants>
+
+        </node>
+
+        <node id="vigas_curtas">
+        
+            <material id = "null" />
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="viga_curta1" />
+                <noderef id="viga_curta2" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_curta1">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="2.25" y="-5" z="3.75" />
+                <rotation axis="yy" angle="-45" />
+                <translation x="0.25" y="0" z="0" />
+                <scale sx="1" sy="1" sz="1.125"/>            
+        
+            </transformations>
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_curta2">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="2.25" y="5" z="3.75" />
+                <rotation axis="yy" angle="-45" />
+                <translation x="0.25" y="0" z="0" />
+                <scale sx="1" sy="1" sz="1.125"/>            
+        
+            </transformations>
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_comprida1">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="-2.5" y="-4.75" z="3.75" />
+                <rotation axis="xx" angle="-45" />
+                <translation x="0" y="-0.25" z="0" />
+                <scale sx="1" sy="1" sz="2.375"/>            
+        
+            </transformations>
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_comprida2">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="2.5" y="-4.75" z="3.75" />
+                <rotation axis="xx" angle="-45" />
+                <translation x="0" y="-0.25" z="0" />
+                <scale sx="1" sy="1" sz="2.375"/>            
+        
+            </transformations>
+
+            <texture id="null">
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
     </nodes>
 </lsf>
