@@ -40,7 +40,13 @@
 
     <textures>
         <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
-        <texture id="demoTexture" path="./scenes/images/vidral.jpg" />
+        <texture id="cauldronTexture" path="./scenes/images/cauldron.jpg" />
+        <texture id="crystal_ballTexture" path="./scenes/images/crystal_ball.jpg" />
+        <texture id="default_textureTexture" path="./scenes/images/default_texture.jpg" />
+        <texture id="tableTexture" path="./scenes/images/table.jpg" />
+        <texture id="vial_1Texture" path="./scenes/images/vial_1.jpg" />
+        <texture id="vial_2Texture" path="./scenes/images/vial_2.jpg" />
+        <texture id="vial_3Texture" path="./scenes/images/vial_3.jpg" />
     </textures>
 
 
