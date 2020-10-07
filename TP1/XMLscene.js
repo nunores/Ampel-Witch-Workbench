@@ -10,6 +10,8 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+
+        this.nodes = [];
     }
 
     /**

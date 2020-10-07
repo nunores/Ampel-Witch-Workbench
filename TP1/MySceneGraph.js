@@ -454,6 +454,7 @@ class MySceneGraph {
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
+            this.scene.nodes.push(new MyNode(this.scene, nodeID));
 
             this.onXMLMinorError("To do: Parse nodes.");
             // Transformations
@@ -463,6 +464,7 @@ class MySceneGraph {
             // Texture
 
             // Descendants
+            
         }
     }
 
