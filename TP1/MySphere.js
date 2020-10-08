@@ -5,10 +5,11 @@ class MySphere extends CGFobject {
    * @param  {integer} slices - number of slices around Y axis (fatias em X)
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere) (fatias em Y)
    */
-  constructor(scene, slices, stacks) {
+  constructor(scene, radius, slices, stacks) {
     super(scene);
     this.latDivs = stacks * 2;
     this.longDivs = slices;
+    this.radius = radius;
 
     this.initBuffers();
   }
@@ -38,9 +39,9 @@ class MySphere extends CGFobject {
       theta = 0;
       for (let longitude = 0; longitude <= this.longDivs; longitude++) {
         //--- Vertices coordinates
-        var x = Math.cos(theta) * sinPhi;
-        var y = cosPhi;
-        var z = Math.sin(-theta) * sinPhi;
+        var x = this.radius * Math.cos(theta) * sinPhi;
+        var y = this.radius * cosPhi;
+        var z = this.radius * Math.sin(-theta) * sinPhi;
         this.vertices.push(x, y, z);
 
         //--- Indices

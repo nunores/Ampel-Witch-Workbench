@@ -507,7 +507,7 @@ class MySceneGraph {
                     var slices = node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue;
                     var stacks = node.children[descendantsIndex].children[0].attributes[stacksIndex].nodeValue;
 
-                    component.addChildren(new MySphere(this.scene, slices, stacks));
+                    component.addChildren(new MySphere(this.scene, radius, slices, stacks));
 
                 }
 
@@ -534,6 +534,8 @@ class MySceneGraph {
                     component.addChildren(node.children[descendantsIndex][n]);
                 }
             }
+
+            // Adicionar componentes
         }
     }
 
