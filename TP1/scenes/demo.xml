@@ -138,8 +138,6 @@
             <texture id="null">
             </texture>
 
-            
-
             <descendants>
                 <noderef id="vial_1" />
                 <noderef id="vial_2" />
@@ -552,7 +550,7 @@
                 <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
             </descendants>
         
-        </node>
+        </node> 
 
         <node id="vigas_compridas">
         

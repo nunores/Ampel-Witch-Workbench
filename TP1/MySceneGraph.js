@@ -453,20 +453,96 @@ class MySceneGraph {
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
-            var descendantsIndex = nodeNames.indexOf("descendants");
-            this.scene.nodes.push(new MyNode(this.scene, nodeID));
+			var descendantsIndex = nodeNames.indexOf("descendants");
 
+			// TODO: tratar de erros com estas tags
+			
+            this.scene.nodes[this.reader.getString(children[i], 'id')] = children[i];
+            
             this.onXMLMinorError("To do: Parse nodes.");
-            // Transformations
-
+			// Transformations
+	
             // Material
 
             // Texture
 
-            // Descendants
+			// Descendants
+
             
         }
+
+        for (const nodeId in this.scene.nodes)
+        {
+            const node = this.scene.nodes[nodeId];
+            var component = new MyComponent(this.scene);
+            grandChildren = node.children;
+            nodeNames = [];
+
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            var descendantsIndex = nodeNames.indexOf("descendants");
+
+            var type = node.children[descendantsIndex].children[0].nodeName;
+
+            if(type == "leaf")
+            {
+                let primitive = node.children[descendantsIndex].children[0].attributes[0].value;
+
+                if(primitive == "sphere")
+                {
+                    var attributeNames = [];
+                    var attributes = [];
+                    attributes = node.children[descendantsIndex].children[0].attributes;
+                    for (var j = 0; j < attributes.length; j++) {
+                        attributeNames.push(attributes[j].name);
+                    }
+                    
+                    let radiusIndex = attributeNames.indexOf("radius");
+                    let slicesIndex = attributeNames.indexOf("slices");
+                    let stacksIndex = attributeNames.indexOf("stacks");
+
+                    var radius = node.children[descendantsIndex].children[0].attributes[radiusIndex].nodeValue;
+                    var slices = node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue;
+                    var stacks = node.children[descendantsIndex].children[0].attributes[stacksIndex].nodeValue;
+
+                    component.addChildren(new MySphere(this.scene, slices, stacks));
+
+                }
+
+                /*
+                else if(primitive == "cylinder"){
+
+                }
+                else if(primitive == "rectangle"){
+
+                }
+                else if(primitive == "triangle"){
+
+                }
+                else if(primitive == "torus")*/
+
+            }
+
+
+            else {
+            
+                // Adding intermediate nodes
+                for (var n = 0; n < node.children[descendantsIndex].length; n++) // Iterating over descendents
+                {
+                    component.addChildren(node.children[descendantsIndex][n]);
+                }
+            }
+        }
     }
+
+
+
+    parseNode(nodesNode){
+		// Se for noderef -> parseNode(noderef), senão, new MyNode com a leaf
+        
+	}
 
 
     parseBoolean(node, name, messageError){
