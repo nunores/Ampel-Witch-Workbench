@@ -671,6 +671,9 @@ class MySceneGraph {
      */
     displayScene() {
 
-        this.scene.components[0].display(); // Display root
+        //this.scene.components[0].display(); // Display root
+        var triangle = new MyTriangle(this.scene, 0, -1, 0, 1, 1, 0, -1, -0, 0, 1, 1); // Drawn in XY Plane
+        triangle.display();
+
     }
 }
