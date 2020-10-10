@@ -53,18 +53,25 @@ class MyTriangle extends CGFobject {
 		var cos_gamma = (- distance_a * distance_a + distance_c * distance_c + distance_b * distance_b) / (2 * distance_b * distance_c);
 		var sin_gamma = Math.sqrt(1 - cos_gamma * cos_gamma);
 
+		//var cosalpha 
+		//var sinalphja
+
+		/*this.texCoords=[
+            0, 0,
+            this.a, 0,
+            this.c * this.cosa, this.c * this.sina,
+
+            0, 0,
+            this.a, 0,
+            this.c * this.cosa, this.c * this.sina,
+        ];
+
+
+		*/
+
+
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	}
-
-/* 	updateTexCoords() {
-		this.texCoords = [
-			(distance_b - distance_c * cos_gamma) / this.amp_u, (this.amp_v - distance_c * sin_gamma) / this.amp_v,
-			0, 1,
-			distance_b / this.amp_u, 1
-		];
-		this.updateTexCoordsGLBuffers();
-	} */
-
 }

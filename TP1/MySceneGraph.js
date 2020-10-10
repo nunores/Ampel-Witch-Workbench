@@ -672,8 +672,10 @@ class MySceneGraph {
     displayScene() {
 
         //this.scene.components[0].display(); // Display root
-        var torus = new MyTorus(this.scene, 5, 10, 10, 10);
-        torus.display();
+        var cylinder = new MyCylinder(this.scene, 4, 4, 4, 2, 2);
+        cylinder.display();
+        var torus = new MyTorus(this.scene, 5, 10, 40, 40);
+        //torus.display();
 
     }
 }

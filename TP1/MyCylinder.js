@@ -4,82 +4,104 @@
 */
 
 class MyCylinder extends CGFobject {
-    constructor(scene, slices, stacks, height, base_radius, top_radius) {
-        super(scene);
-        this.slices = slices;
+	constructor(scene, slices, stacks, height, base_radius, top_radius) {
+		super(scene);
+		this.slices = slices;
 		this.stacks = stacks;
 		this.height = height;
-		this.base_radius = base;
-		this.top_radius = top;
+		this.base_radius = base_radius;
+		this.top_radius = top_radius;
 
-        this.initBuffers();
-    }
-    initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = []; 
+		this.initBuffers();
+	}
+	initBuffers() {
+		this.vertices = [];
+		this.indices = [];
+		this.normals = [];
+		this.texCoords = [];
 
-        var ang = 0;
-        var alphaAng = 2*Math.PI/this.slices;
-        var alphaAng2 = Math.PI/this.slices;
+		var stack_alpha = this.height / this.stacks;
+		var radius_alpha = (this.top_radius - this.base_radius) / this.stacks;
+		var slice_alpha = (2 * Math.PI) / this.slices;
+		var z_height = 0;
 
-        var stack_alpha = this.height/this.stacks;
-		var radius_alpha = (this.top_radius - this.base_radius)/this.stacks;
+		for (var n = 0; n < this.stacks + 1; n++) {
+			for (var i = 0; i < this.slices; i++) {
+				this.vertices.push(
+					Math.cos(i * slice_alpha) * this.base_radius,
+					Math.sin(i * slice_alpha) * this.base_radius,
+					z_height
+				);
+			}
 
-        this.vertices.push(0, 0, 0);    //0
-        this.vertices.push(0, 1, 0);    //1
+ 			this.normals.push(
+				Math.cos(i * slice_alpha) * this.base_radius,
+				Math.sin(i * slice_alpha) * this.base_radius,
+				0
 
-        this.normals = [];
-        this.normals.push(0,0,0);
-        this.normals.push(0,0,0);
+			);
 
-        for(var i = 0; i <= this.slices; i++){
+			this.texCoords.push(n / this.slices, 1 - i / this.stacks);
 
-            for(var j = 0; j <= this.stacks; j++){
+			z_height += stack_alpha;
+			this.base_radius += radius_alpha;
 
-            }
-
-            var sa=Math.sin(ang);
-            var saa=Math.sin(ang+alphaAng);
-            var ca=Math.cos(ang);
-            var caa=Math.cos(ang+alphaAng);
-
-            this.vertices.push(ca, 0, -sa);     // 12*i+2
-            this.vertices.push(caa, 0, -saa);   // 12*i+3
-            this.vertices.push(ca, 1, -sa);     // 12*i+4
-            this.vertices.push(caa, 1, -saa);   // 12*i+5
-            this.vertices.push(caa, 0, -saa);   // 12*i+6
-            this.vertices.push(ca, 1, -sa);     // 12*i+7
-
-
-            this.texCoords.push((1/this.slices)*i,1,
-                                (1/this.slices)*i,1,
-                                (1/this.slices)*i,0,
-                                (1/this.slices)*i,0)
-
-            this.normals.push(Math.cos(2*Math.PI - (ang + alphaAng2)), 0, Math.sin(2*Math.PI - (ang + alphaAng2)));
-            this.normals.push(Math.cos(2*Math.PI - (ang + alphaAng2)), 0, Math.sin(2*Math.PI - (ang + alphaAng2)));
-            this.normals.push(Math.cos(2*Math.PI - (ang + alphaAng2)), 0, Math.sin(2*Math.PI - (ang + alphaAng2)));
-            this.normals.push(Math.cos(2*Math.PI - (ang + alphaAng2)), 0, Math.sin(2*Math.PI - (ang + alphaAng2)));
-            this.normals.push(0,-1,0);
-            this.normals.push(0,1,0);
-            
-            this.indices.push(6*i+2, 0, 6*i+3);
-
-            this.indices.push(6*i+5, 1, 6*i+4);
-            
-            this.indices.push((6*i+2), (6*i+3), (6*i+4));
-            this.indices.push((6*i+4), (6*i+3), (6*+2));
-
-            this.indices.push((6*i+4), (6*i+3), (6*i+5));
-            this.indices.push((6*i+5), (6*i+3), (6*i+4));
-
-            ang+=alphaAng;
         }
+        
+        this.vertices.push(0,0,0);
+        this.vertices.push(0,0,this.height);
 
+        /*for (var i = 0; i < this.stacks; i++)
+        {
+            if (i == this.stacks - 1)
+            {
+                //this.indices.push(i, 0, this.vertices.length - 1);
+                //this.indices.push(this.vertices.length - 1, 0, i);
+            }
+            else{
+                //this.indices.push(i , i + 1, this.vertices.length - 1);
+                //this.indices.push(this.vertices.length - 1, i + 1, i);
+            }
+        }
+        
+        for (var i = 0; i < this.stacks; i++)
+        {
+			this.indices.push(this.vertices.length - 5 + i, this.vertices.length, this.vertices.length - 4 + i);
+        }*/
 
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    }
+		for (var i = 0; i < this.stacks - 1; i++) {
+			for (var n = 0; n < this.slices; n++) {
+                if (n == this.slices - 1)
+                {
+                    this.indices.push(
+						n + this.slices * i, n + this.slices * i - this.slices + 1, n + this.slices * i + this.slices,
+                        n + this.slices * i + this.slices, n + this.slices * i + 1, n + this.slices * i - this.slices + 1
+					)
+					
+					// Reverse Order
+                    this.indices.push(
+						n + this.slices * i + this.slices, n + this.slices * i - this.slices + 1, n + this.slices * i,
+						n + this.slices * i - this.slices + 1, n + this.slices * i + 1, n + this.slices * i + this.slices
+                    )
+				}
+				else {
+					this.indices.push(
+						n + (i * (this.slices)), n + (i * (this.slices)) + 1, n + (i * (this.slices)) + this.slices,
+						n + (i * (this.slices)) + 1, n + (i * (this.slices)) + this.slices, n + (i * (this.slices)) + this.slices + 1
+					);
+					
+					// Reverse Order
+					this.indices.push(
+						n + (i * (this.slices)) + this.slices, n + (i * (this.slices)) + 1, n + (i * (this.slices)), 
+						n + (i * (this.slices)) + this.slices + 1, n + (i * (this.slices)) + this.slices, n + (i * (this.slices)) + 1
+					)
+				}
+			}
+		}
+
+		// Drawing top and bottom circles
+    
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	}
 }
