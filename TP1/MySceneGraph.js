@@ -214,7 +214,7 @@ class MySceneGraph {
         var referenceIndex = nodeNames.indexOf("reference");
 
         // Get root of the scene.
-        if(rootIndex == -1)
+        if (rootIndex == -1)
             return "No root id defined for scene.";
 
         var rootNode = children[rootIndex];
@@ -225,7 +225,7 @@ class MySceneGraph {
         this.idRoot = id;
 
         // Get axis length        
-        if(referenceIndex == -1)
+        if (referenceIndex == -1)
             this.onXMLMinorError("no axis_length defined for scene; assuming 'length = 1'");
 
         var refNode = children[referenceIndex];
@@ -313,7 +313,7 @@ class MySceneGraph {
             }
             else {
                 attributeNames.push(...["enable", "position", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["boolean","position", "color", "color", "color"]);
+                attributeTypes.push(...["boolean", "position", "color", "color", "color"]);
             }
 
             // Get id of the current light.
@@ -417,7 +417,7 @@ class MySceneGraph {
    * Parses the <nodes> block.
    * @param {nodes block element} nodesNode
    */
-  parseNodes(nodesNode) {
+    parseNodes(nodesNode) {
         var children = nodesNode.children;
 
         this.nodes = [];
@@ -453,27 +453,26 @@ class MySceneGraph {
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
-			var descendantsIndex = nodeNames.indexOf("descendants");
-			
+            var descendantsIndex = nodeNames.indexOf("descendants");
+
             this.scene.nodes[this.reader.getString(children[i], 'id')] = children[i];
-            
+
             //this.onXMLMinorError("To do: Parse nodes.");
-			// Transformations
-	
+            // Transformations
+
             // Material
 
             // Texture
 
-			// Descendants
+            // Descendants
 
-            
-		}
-		
-		// TODO: Tratar erros pequenos e grandes, incluindo loaded
 
-		// Adding and building components
-        for (const nodeId in this.scene.nodes)
-        {
+        }
+
+        // TODO: Tratar erros pequenos e grandes, incluindo loaded
+
+        // Adding and building components
+        for (const nodeId in this.scene.nodes) {
             const node = this.scene.nodes[nodeId];
             var component = new MyComponent(this.scene, nodeId);
             grandChildren = node.children;
@@ -483,35 +482,138 @@ class MySceneGraph {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
-			var descendantsIndex = nodeNames.indexOf("descendants");
+            var descendantsIndex = nodeNames.indexOf("descendants");
             var textureIndex = nodeNames.indexOf("texture");
-			
-			// Setting Texture
+            var transformationsIndex = nodeNames.indexOf("transformations");
+
+            // Handling Transformations
+
+            // Indexes 
+            var xIndex = null;
+            var yIndex = null;
+            var zIndex = null;
+            
+            var axisIndex = null;
+            var angleIndex = null;
+
+            var axisValue = null;
+            var angleValue = null;
+
+            var sxIndex = null;
+            var syIndex = null;
+            var szIndex = null;
+
+            var sxValue = null;
+            var syValue = null;
+            var szValue = null;
+
+            var xValue = null;
+            var yValue = null;
+            var zValue = null;
+
+            var rotationXValue = null;
+            var rotationYValue = null;
+            var rotationZValue = null;
+
+
+            var matrix = mat4.create();
+
+            if (transformationsIndex >= 0) {
+                for (var i = 0; i < node.children[transformationsIndex].children.length; i++) { // For
+
+                    if (node.children[transformationsIndex].children[i].nodeName == "translation") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[transformationsIndex].children[i].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+                        xIndex = attributeNames.indexOf("x");
+                        yIndex = attributeNames.indexOf("y");
+                        zIndex = attributeNames.indexOf("z");
+
+                        xValue = node.children[transformationsIndex].children[i].attributes[xIndex].value;
+                        yValue = node.children[transformationsIndex].children[i].attributes[yIndex].value;
+                        zValue = node.children[transformationsIndex].children[i].attributes[zIndex].value;
+
+                        matrix = mat4.translate(matrix, matrix, [xValue, yValue, zValue]);
+                    }
+                    else if (node.children[transformationsIndex].children[i].nodeName == "rotation") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[transformationsIndex].children[i].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+                        axisIndex = attributeNames.indexOf("axis");
+                        angleIndex = attributeNames.indexOf("angle");
+
+                        axisValue = node.children[transformationsIndex].children[i].attributes[axisIndex].value;
+                        angleValue = Number(node.children[transformationsIndex].children[i].attributes[angleIndex].value);
+                        if (axisValue == "x") {
+                            rotationXValue = 1;
+                            rotationYValue = 0;
+                            rotationZValue = 0;
+                        }
+                        if (axisValue == "y") {
+                            rotationXValue = 0;
+                            rotationYValue = 1;
+                            rotationZValue = 0;
+                        }
+                        if (axisValue == "z") {
+                            rotationXValue = 0;
+                            rotationYValue = 0;
+                            rotationZValue = 1;
+                        }
+
+                        matrix = mat4.rotate(matrix, matrix, angleValue * DEGREE_TO_RAD, [rotationXValue, rotationYValue, rotationZValue]);
+                    }
+                    else if (node.children[transformationsIndex].children[i].nodeName == "scale") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[transformationsIndex].children[i].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+                        sxIndex = attributeNames.indexOf("sx");
+                        syIndex = attributeNames.indexOf("sy");
+                        szIndex = attributeNames.indexOf("sz");
+
+                        sxValue = Number(node.children[transformationsIndex].children[i].attributes[sxIndex].value);
+                        syValue = Number(node.children[transformationsIndex].children[i].attributes[syIndex].value);
+                        szValue = Number(node.children[transformationsIndex].children[i].attributes[szIndex].value);
+
+                        matrix = mat4.translate(matrix, matrix, [sxValue, syValue, szValue]);
+                    }
+                }
+            }
+
+            component.setTransformations(matrix);
+
+            // Setting Texture
             var texture = node.children[textureIndex].attributes[0].value;
             component.setTexture(texture);
 
-			// Setting node order and children
+            // Setting node order and children
 
             var type = node.children[descendantsIndex].children[0].nodeName;
 
-            if(type == "leaf")
-            {
+            if (type == "leaf") {
                 let primitive = node.children[descendantsIndex].children[0].attributes[0].value;
 
-                if(primitive == "sphere")
-                {
+                if (primitive == "sphere") {
                     var attributeNames = [];
                     var attributes = [];
                     attributes = node.children[descendantsIndex].children[0].attributes;
                     for (var j = 0; j < attributes.length; j++) {
                         attributeNames.push(attributes[j].name);
                     }
-                    
+
                     let radiusIndex = attributeNames.indexOf("radius");
                     let slicesIndex = attributeNames.indexOf("slices");
                     let stacksIndex = attributeNames.indexOf("stacks");
-					
-					var radius = Number(node.children[descendantsIndex].children[0].attributes[radiusIndex].nodeValue);
+
+                    var radius = Number(node.children[descendantsIndex].children[0].attributes[radiusIndex].nodeValue);
                     var slices = Number(node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue);
                     var stacks = Number(node.children[descendantsIndex].children[0].attributes[stacksIndex].nodeValue);
 
@@ -519,13 +621,13 @@ class MySceneGraph {
 
                 }
 
-                
+
                 /*else if(primitive == "cylinder"){
 
 
                 }*/
-                else if(primitive == "rectangle"){
-					var attributeNames = [];
+                else if (primitive == "rectangle") {
+                    var attributeNames = [];
                     var attributes = [];
                     attributes = node.children[descendantsIndex].children[0].attributes;
                     for (var j = 0; j < attributes.length; j++) {
@@ -543,7 +645,7 @@ class MySceneGraph {
                     var y2 = Number(node.children[descendantsIndex].children[0].attributes[y2Index].nodeValue);
 
                     component.addChildren(new MyRectangle(this.scene, x1, y1, x2, y2));
-				}
+                }
 
                 /*else if(primitive == "triangle"){
 
@@ -554,7 +656,7 @@ class MySceneGraph {
 
 
             else {
-            
+
                 // Adding intermediate nodes
                 for (var n = 0; n < node.children[descendantsIndex].children.length; n++) // Iterating over descendents
                 {
@@ -564,22 +666,23 @@ class MySceneGraph {
 
             // Adicionar componentes
             this.scene.components.push(component);
-            
+
 
         }
         this.scene.components[0].assignTextures();
+        this.scene.components[0].assignTransformations();
     }
 
 
-    parseBoolean(node, name, messageError){
+    parseBoolean(node, name, messageError) {
         var boolVal = true;
         boolVal = this.reader.getBoolean(node, name);
         if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false)))
             this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 1'");
 
         return boolVal || 1;
-	}
-	
+    }
+
     /**
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
@@ -670,11 +773,10 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-
-        //this.scene.components[0].display(); // Display root
-        var cylinder = new MyCylinder(this.scene, 4, 4, 4, 2, 2);
-        cylinder.display();
-        var torus = new MyTorus(this.scene, 5, 10, 40, 40);
+        this.scene.components[0].display(); // Display root
+        //var cylinder = new MyCylinder(this.scene, 4, 4, 4, 2, 2);
+        //cylinder.display();
+        //var torus = new MyTorus(this.scene, 5, 10, 40, 40);
         //torus.display();
 
     }

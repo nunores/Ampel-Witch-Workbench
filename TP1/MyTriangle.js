@@ -49,25 +49,18 @@ class MyTriangle extends CGFobject {
 		var distance_b = Math.sqrt(Math.pow(this.x3 - this.x2, 2) + Math.pow(this.y3 - this.y2, 2) + Math.pow(this.z3 - this.z2, 2));
 		var distance_c = Math.sqrt(Math.pow(this.x1 - this.x3, 2) + Math.pow(this.y1 - this.y3, 2) + Math.pow(this.z1 - this.z3, 2));
 
-		//this.cosb = (Math.pow(this.distance_c, 2) - Math.pow(this.distance_a,2) + Math.pow(this.distance_b,2)) / (2*this.a*this.c);
-		var cos_gamma = (- distance_a * distance_a + distance_c * distance_c + distance_b * distance_b) / (2 * distance_b * distance_c);
-		var sin_gamma = Math.sqrt(1 - cos_gamma * cos_gamma);
+		var cos_alpha = (distance_a * distance_a - distance_b * distance_b + distance_c * distance_c) / 2 * distance_a * distance_c;
+		var sin_alpha = Math.sqrt(1 - cos_alpha * cos_alpha);
 
-		//var cosalpha 
-		//var sinalphja
-
-		/*this.texCoords=[
+		this.texCoords=[
             0, 0,
-            this.a, 0,
-            this.c * this.cosa, this.c * this.sina,
+            this.distance_a, 0,
+            this.c * this.cos_alpha, this.distance_c * this.sin_alpha,
 
             0, 0,
-            this.a, 0,
-            this.c * this.cosa, this.c * this.sina,
+            this.distance_a, 0,
+            this.distance_c * this.cos_alpha, this.distance_c * this.sin_alpha
         ];
-
-
-		*/
 
 
 
