@@ -621,11 +621,12 @@ class MySceneGraph {
 
                 }
 
-
                 /*else if(primitive == "cylinder"){
 
 
                 }*/
+
+
                 else if (primitive == "rectangle") {
                     var attributeNames = [];
                     var attributes = [];
@@ -647,10 +648,52 @@ class MySceneGraph {
                     component.addChildren(new MyRectangle(this.scene, x1, y1, x2, y2));
                 }
 
-                /*else if(primitive == "triangle"){
+                else if(primitive == "triangle"){
+                    var attributeNames = [];
+                    var attributes = [];
+                    attributes = node.children[descendantsIndex].children[0].attributes;
+                    for (var j = 0; j < attributes.length; j++) {
+                        attributeNames.push(attributes[j].name);
+                    }
 
+                    let x1Index = attributeNames.indexOf("x1");
+                    let y1Index = attributeNames.indexOf("y1");
+                    let x2Index = attributeNames.indexOf("x2");
+                    let y2Index = attributeNames.indexOf("y2");
+                    let x3Index = attributeNames.indexOf("x3");
+                    let y3Index = attributeNames.indexOf("y3");
+
+                    var x1 = Number(node.children[descendantsIndex].children[0].attributes[x1Index].nodeValue);
+                    var y1 = Number(node.children[descendantsIndex].children[0].attributes[y1Index].nodeValue);
+                    var x2 = Number(node.children[descendantsIndex].children[0].attributes[x2Index].nodeValue);
+                    var y2 = Number(node.children[descendantsIndex].children[0].attributes[y2Index].nodeValue);
+                    var x3 = Number(node.children[descendantsIndex].children[0].attributes[x3Index].nodeValue);
+                    var y3 = Number(node.children[descendantsIndex].children[0].attributes[y3Index].nodeValue);
+
+                    component.addChildren(new MyTriangle(this.scene, x1, y1, 0, x2, y2, 0, x3, y3, 0, 0, 0));
                 }
-                else if(primitive == "torus")*/
+
+                else if(primitive == "torus")
+                {
+                    var attributeNames = [];
+                    var attributes = [];
+                    attributes = node.children[descendantsIndex].children[0].attributes;
+                    for (var j = 0; j < attributes.length; j++) {
+                        attributeNames.push(attributes[j].name);
+                    }
+
+                    let innerIndex = attributeNames.indexOf("inner");
+                    let outerIndex = attributeNames.indexOf("outer");
+                    let slicesIndex = attributeNames.indexOf("slices");
+                    let loopsIndex = attributeNames.indexOf("loops");
+
+                    var inner = Number(node.children[descendantsIndex].children[0].attributes[innerIndex].nodeValue);
+                    var outer = Number(node.children[descendantsIndex].children[0].attributes[outerIndex].nodeValue);
+                    var slices = Number(node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue);
+                    var loops = Number(node.children[descendantsIndex].children[0].attributes[loopsIndex].nodeValue);
+
+                    component.addChildren(new MyTorus(this.scene, inner, outer, slices, loops));
+                }
 
             }
 

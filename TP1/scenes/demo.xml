@@ -99,7 +99,6 @@
                 <noderef id="cauldron" />
                 <noderef id="vials" /> 
                 <noderef id="crystal_ball" />
-                <noderef id="paralelipipedo" />
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!-- identifier of another node, before or later defined in the file. -->
@@ -278,6 +277,10 @@
             <texture id="null">
             </texture>
 
+            <transformations>
+                <translation x="0" y="0" z="-0.5" />          
+            </transformations>
+
             <descendants>
                 <noderef id="tampo1" />
                 <noderef id="tampo2" />
@@ -294,7 +297,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="4.5" />
+                <translation x="2.15" y="0" z="4.5" />
                 <scale sx="4.26" sy="24" sz="0.125"/>            
         
             </transformations>
@@ -313,7 +316,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="2.33" z="4.5" />
+                <translation x="-2.15" y="0" z="4.5" />
                 <scale sx="4.26" sy="24" sz="0.125"/>            
         
             </transformations>
@@ -332,7 +335,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="-2.33" z="4.5" />
+                <translation x="0" y="0" z="4.5" />
                 <scale sx="4.26" sy="24" sz="0.125"/>            
         
             </transformations>
@@ -487,12 +490,12 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0.25" z="0" />
+                <translation x="-0.25" y="0.25" z="0" />
                 <rotation axis="x" angle="-90" />
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="0.25" y1="-4" x2="0.5" y2="0" />
+                <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
             </descendants>
         
         </node>
@@ -505,7 +508,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="-0.25" z="0" />
+                <translation x="-0.25" y="-0.25" z="0" />
                 <rotation axis="x" angle="-90" />
             </transformations>
 
@@ -523,7 +526,7 @@
             </texture>
 
             <transformations>
-                <translation x="0.25" y="0" z="0" />
+                <translation x="0.25" y="-0.25" z="0" />
                 <rotation axis="y" angle="90" />
             </transformations>
 
@@ -541,7 +544,7 @@
             </texture>
 
             <transformations>
-                <translation x="-0.25" y="0" z="0" />
+                <translation x="-0.25" y="-0.25" z="0" />
                 <rotation axis="y" angle="90" />
             </transformations>
 
@@ -558,6 +561,10 @@
             <texture id="null">
             </texture>
 
+            <transformations>
+                <translation x="0" y="0" z="-0.25" />
+            </transformations>
+
             <descendants>
                 <noderef id="viga_comprida1" />
                 <noderef id="viga_comprida2" />
@@ -571,6 +578,10 @@
 
             <texture id="null">
             </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.25" />
+            </transformations>
 
             <descendants>
                 <noderef id="viga_curta1" />
@@ -835,7 +846,7 @@
             </transformations>
                 
             <descendants>
-                <leaf type="torus" inner="2.5" outer="3" slices="30" loops="30" />
+                <leaf type="torus" inner="0.2" outer="1" slices="30" loops="30" />
             </descendants>
         </node>
 
