@@ -60,6 +60,8 @@ class MyComponent extends CGFobject {
     }
 
     display(){
+        this.scene.pushMatrix();
+        this.scene.multMatrix(this.transformations);
         if (typeof this.children[0] === 'string') // If the child is not a leaf - need only to check the first one
         {
             for (var i = 0; i < this.children.length; i++)
@@ -68,22 +70,28 @@ class MyComponent extends CGFobject {
                 {
                     if (this.scene.components[n].id == this.children[i]) // Find component corresponding to stored string
                     {
+                        
                         this.scene.components[n].display();
                     }
                 }
             }
         }
         else {
+
             for (var i = 0; i < this.children.length; i++)
             {
                 // parseMatrix()   
-                this.scene.pushMatrix();
-                this.scene.multMatrix(this.transformations);
+                //this.scene.pushMatrix();
+                //this.scene.multMatrix(this.transformations);
                 this.children[i].display();
-                this.scene.popMatrix();
+                //this.scene.popMatrix();
             }
-            
+
         }
+
+        this.scene.popMatrix();
+
     }
+
 
 }

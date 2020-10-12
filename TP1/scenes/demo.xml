@@ -99,6 +99,7 @@
                 <noderef id="cauldron" />
                 <noderef id="vials" /> 
                 <noderef id="crystal_ball" />
+                <noderef id="paralelipipedo" />
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!-- identifier of another node, before or later defined in the file. -->
@@ -435,8 +436,6 @@
             </texture>
 
             <descendants>
-                <!-- Quadrados do topo/baixo -->
-
                 <noderef id="quadrado_topo" />
                 <noderef id="quadrado_baixo" />
                 <noderef id="retangulo_lado1" />
@@ -493,7 +492,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+                <leaf type="rectangle" x1="0.25" y1="-4" x2="0.5" y2="0" />
             </descendants>
         
         </node>

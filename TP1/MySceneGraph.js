@@ -532,9 +532,9 @@ class MySceneGraph {
                         yIndex = attributeNames.indexOf("y");
                         zIndex = attributeNames.indexOf("z");
 
-                        xValue = node.children[transformationsIndex].children[i].attributes[xIndex].value;
-                        yValue = node.children[transformationsIndex].children[i].attributes[yIndex].value;
-                        zValue = node.children[transformationsIndex].children[i].attributes[zIndex].value;
+                        xValue = Number(node.children[transformationsIndex].children[i].attributes[xIndex].value);
+                        yValue = Number(node.children[transformationsIndex].children[i].attributes[yIndex].value);
+                        zValue = Number(node.children[transformationsIndex].children[i].attributes[zIndex].value);
 
                         matrix = mat4.translate(matrix, matrix, [xValue, yValue, zValue]);
                     }
@@ -583,7 +583,7 @@ class MySceneGraph {
                         syValue = Number(node.children[transformationsIndex].children[i].attributes[syIndex].value);
                         szValue = Number(node.children[transformationsIndex].children[i].attributes[szIndex].value);
 
-                        matrix = mat4.translate(matrix, matrix, [sxValue, syValue, szValue]);
+                        matrix = mat4.scale(matrix, matrix, [sxValue, syValue, szValue]);
                     }
                 }
             }
@@ -669,8 +669,9 @@ class MySceneGraph {
 
 
         }
+
         this.scene.components[0].assignTextures();
-        this.scene.components[0].assignTransformations();
+        //this.scene.components[0].assignTransformations();
     }
 
 
