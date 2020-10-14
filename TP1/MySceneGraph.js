@@ -621,10 +621,31 @@ class MySceneGraph {
 
                 }
 
-                /*else if(primitive == "cylinder"){
+                // <leaf type="cylinder" height="0.8" topRadius="0.4" bottomRadius="0.4" stacks="50" slices="50"/>
 
+                else if(primitive == "cylinder"){
+                    var attributeNames = [];
+                    var attributes = [];
+                    attributes = node.children[descendantsIndex].children[0].attributes;
+                    for (var j = 0; j < attributes.length; j++) {
+                        attributeNames.push(attributes[j].name);
+                    }
 
-                }*/
+                    let heightIndex = attributeNames.indexOf("height");
+                    let topRadiusIndex = attributeNames.indexOf("topRadius");
+                    let bottomRadiusIndex = attributeNames.indexOf("bottomRadius");
+                    let slicesIndex = attributeNames.indexOf("slices");
+                    let stacksIndex = attributeNames.indexOf("stacks");
+
+                    var height = parseFloat(node.children[descendantsIndex].children[0].attributes[heightIndex].nodeValue);
+                    var topRadius = parseFloat(node.children[descendantsIndex].children[0].attributes[topRadiusIndex].nodeValue)
+                    var bottomRadius = parseFloat(node.children[descendantsIndex].children[0].attributes[bottomRadiusIndex].nodeValue);
+                    var slices = Number(node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue);
+                    var stacks = Number(node.children[descendantsIndex].children[0].attributes[stacksIndex].nodeValue);
+
+                    component.addChildren(new MyCylinder(this.scene, slices, stacks, height, bottomRadius, topRadius));
+
+                }
 
 
                 else if (primitive == "rectangle") {
@@ -714,7 +735,6 @@ class MySceneGraph {
         }
 
         this.scene.components[0].assignTextures();
-        //this.scene.components[0].assignTransformations();
     }
 
 
@@ -817,11 +837,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.scene.components[0].display(); // Display root
-        //var cylinder = new MyCylinder(this.scene, 4, 4, 4, 2, 2);
-        //cylinder.display();
-        //var torus = new MyTorus(this.scene, 5, 10, 40, 40);
-        //torus.display();
-
+        this.scene.components[0].display(); // Display root    
     }
 }

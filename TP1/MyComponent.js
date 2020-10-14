@@ -23,23 +23,6 @@ class MyComponent extends CGFobject {
         this.transformations = transformations;
     }
 
-    assignTransformations(){
-        var main_transformations = this.transformations;
-        if (typeof this.children[0] === 'string') { // If the child is not a leaf
-            for (var i = 0; i < this.children.length; i++){
-                for (var n = 0; n < this.scene.components.length; n++){
-                    if (this.scene.components[n].id == this.children[i]) // Find component corresponding to stored string
-                    {
-                        var temp_transformations = this.scene.components[n].transformations;
-                        temp_transformations = mat4.multiply(temp_transformations, this.transformations, temp_transformations);
-                        this.scene.components[n].setTransformations(temp_transformations);
-                        this.scene.components[n].assignTransformations();
-                    }
-                }
-            }
-        }
-    }
-    
     assignTextures()
     {
         var main_texture = this.texture;
