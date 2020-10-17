@@ -621,8 +621,6 @@ class MySceneGraph {
 
                 }
 
-                // <leaf type="cylinder" height="0.8" topRadius="0.4" bottomRadius="0.4" stacks="50" slices="50"/>
-
                 else if(primitive == "cylinder"){
                     var attributeNames = [];
                     var attributes = [];
@@ -837,6 +835,18 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.scene.components[0].display(); // Display root    
+        //this.scene.components[0].display(); // Display root
+        
+        this.scene.enableTextures(true);
+        var texture = new CGFtexture(this.scene, 'scenes/images/leaves.jpg');
+		var material = new CGFappearance(this.scene);
+		material.setAmbient(1, 0, 0, 0.5);
+		material.setDiffuse(1, 0, 0, 0.5);
+		material.setTexture(texture);
+
+        var rectangle = new MyRectangle(this.scene, 10, 0, 0, 10);
+        material.apply();
+		rectangle.display();
+		
     }
 }
