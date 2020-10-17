@@ -13,6 +13,10 @@ class XMLscene extends CGFscene {
 
         this.nodes = [];
         this.components = [];
+        this.materials = [];
+        this.textures = [];
+        this.lights = [];
+        this.cameras = [];
     }
 
     /**

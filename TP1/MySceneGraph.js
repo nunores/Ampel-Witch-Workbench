@@ -26,8 +26,6 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
-        this.nodes = [];
-
         this.idRoot = null; // The id of the root element.
 
         this.axisCoords = [];
@@ -385,8 +383,8 @@ class MySceneGraph {
 
         this.materials = [];
 
-        var grandChildren = [];
-        var nodeNames = [];
+        //var grandChildren = [];
+        //var nodeNames = [];
 
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
@@ -405,11 +403,108 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
-        }
 
-        //this.log("Parsed materials");
+            var nodeNames = [];
+
+            for (var j = 0; j < children[i].children.length; j++){
+                nodeNames.push(children[i].children[j].nodeName);
+            }
+            
+            
+            var shininessIndex = nodeNames.indexOf("shininess");
+            var specularIndex = nodeNames.indexOf("specular");
+            var diffuseIndex = nodeNames.indexOf("diffuse");
+            var ambientIndex = nodeNames.indexOf("ambient");
+            var emissiveIndex = nodeNames.indexOf("emissive");
+            
+            var shininessValue = Number(children[i].children[shininessIndex].attributes[0].value);
+            
+            // Specular Indexes and Values
+
+            var nodeNames = [];
+
+            for (var j = 0; j < children[i].children[specularIndex].attributes.length; j++){
+                nodeNames.push(children[i].children[specularIndex].attributes[j].nodeName);
+            }
+
+            var specularIndexR = nodeNames.indexOf("r");
+            var specularIndexG = nodeNames.indexOf("g");
+            var specularIndexB = nodeNames.indexOf("b");
+            var specularIndexA = nodeNames.indexOf("a");
+            
+            var specularValueR = Number(children[i].children[specularIndex].attributes[specularIndexR].value);
+            var specularValueG = Number(children[i].children[specularIndex].attributes[specularIndexG].value);
+            var specularValueB = Number(children[i].children[specularIndex].attributes[specularIndexB].value);
+            var specularValueA = Number(children[i].children[specularIndex].attributes[specularIndexA].value);
+            
+            
+            // Diffuse Indexes and Values
+
+            var nodeNames = [];
+
+            for (var j = 0; j < children[i].children[diffuseIndex].attributes.length; j++){
+                nodeNames.push(children[i].children[diffuseIndex].attributes[j].nodeName);
+            }
+
+            var diffuseIndexR = nodeNames.indexOf("r");
+            var diffuseIndexG = nodeNames.indexOf("g");
+            var diffuseIndexB = nodeNames.indexOf("b");
+            var diffuseIndexA = nodeNames.indexOf("a");
+            
+            var diffuseValueR = Number(children[i].children[diffuseIndex].attributes[diffuseIndexR].value);
+            var diffuseValueG = Number(children[i].children[diffuseIndex].attributes[diffuseIndexG].value);
+            var diffuseValueB = Number(children[i].children[diffuseIndex].attributes[diffuseIndexB].value);
+            var diffuseValueA = Number(children[i].children[diffuseIndex].attributes[diffuseIndexA].value);
+
+            // Ambient Indexes and Values
+
+            var nodeNames = [];
+
+            for (var j = 0; j < children[i].children[ambientIndex].attributes.length; j++){
+                nodeNames.push(children[i].children[ambientIndex].attributes[j].nodeName);
+            }
+            
+            var ambientIndexR = nodeNames.indexOf("r");
+            var ambientIndexG = nodeNames.indexOf("g");
+            var ambientIndexB = nodeNames.indexOf("b");
+            var ambientIndexA = nodeNames.indexOf("a");
+
+            var ambientValueR = Number(children[i].children[ambientIndex].attributes[ambientIndexR].value);
+            var ambientValueG = Number(children[i].children[ambientIndex].attributes[ambientIndexG].value);
+            var ambientValueB = Number(children[i].children[ambientIndex].attributes[ambientIndexB].value);
+            var ambientValueA = Number(children[i].children[ambientIndex].attributes[ambientIndexA].value);
+
+
+            // Emissive Indexes and Values
+
+            var nodeNames = [];
+
+            for (var j = 0; j < children[i].children[emissiveIndex].attributes.length; j++){
+                nodeNames.push(children[i].children[emissiveIndex].attributes[j].nodeName);
+            }
+            
+            var emissiveIndexR = nodeNames.indexOf("r");
+            var emissiveIndexG = nodeNames.indexOf("g");
+            var emissiveIndexB = nodeNames.indexOf("b");
+            var emissiveIndexA = nodeNames.indexOf("a");
+
+            var emissiveValueR = Number(children[i].children[emissiveIndex].attributes[emissiveIndexR].value);
+            var emissiveValueG = Number(children[i].children[emissiveIndex].attributes[emissiveIndexG].value);
+            var emissiveValueB = Number(children[i].children[emissiveIndex].attributes[emissiveIndexB].value);
+            var emissiveValueA = Number(children[i].children[emissiveIndex].attributes[emissiveIndexA].value);
+
+            var material = new CGFappearance(this.scene);
+
+            material.setShininess(shininessValue);
+            material.setAmbient(ambientValueR, ambientValueG, ambientValueB, ambientValueA);
+            material.setDiffuse(diffuseValueR, diffuseValueG, diffuseValueB, diffuseValueA);
+            material.setEmission(emissiveValueR, emissiveValueG, emissiveValueB, emissiveValueA);
+            material.setSpecular(specularValueR, specularValueG, specularValueB, specularValueA);
+
+            this.scene.materials[materialID] = material;
+
+        }
+        this.log("Parsed materials");
         return null;
     }
 
@@ -485,6 +580,7 @@ class MySceneGraph {
             var descendantsIndex = nodeNames.indexOf("descendants");
             var textureIndex = nodeNames.indexOf("texture");
             var transformationsIndex = nodeNames.indexOf("transformations");
+            var materialIndex = nodeNames.indexOf("material");
 
             // Handling Transformations
 
@@ -515,9 +611,8 @@ class MySceneGraph {
             var rotationYValue = null;
             var rotationZValue = null;
 
-
             var matrix = mat4.create();
-
+            
             if (transformationsIndex >= 0) {
                 for (var i = 0; i < node.children[transformationsIndex].children.length; i++) { // For
 
@@ -589,6 +684,15 @@ class MySceneGraph {
             }
 
             component.setTransformations(matrix);
+
+            // Setting Material
+
+            if (node.children[materialIndex].id != "null")
+            {
+                component.setMaterial(this.scene.materials[node.children[materialIndex].id]);
+            }
+            else
+                component.setMaterial("null");
 
             // Setting Texture
             var texture = node.children[textureIndex].attributes[0].value;
@@ -835,9 +939,17 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.scene.components[0].display(); // Display root
         
-        this.scene.enableTextures(true);
+        //var material = new CGFappearance(this.scene);
+        //var material = this.scene.components[36].material;
+		//material.setAmbient(1, 0, 0, 0.5);
+        //material.setDiffuse(1, 0, 0, 0.5);
+        //material.apply();
+        //material.apply();
+        this.scene.components[0].display(); // Display root
+        
+        
+/*         this.scene.enableTextures(true);
         var texture = new CGFtexture(this.scene, 'scenes/images/leaves.jpg');
 		var material = new CGFappearance(this.scene);
 		material.setAmbient(1, 0, 0, 0.5);
@@ -846,7 +958,7 @@ class MySceneGraph {
 
         var rectangle = new MyRectangle(this.scene, 10, 0, 0, 10);
         material.apply();
-		rectangle.display();
+		rectangle.display(); */
 		
     }
 }
