@@ -369,8 +369,11 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
 
-        //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        for (var i = 0; i < texturesNode.children.length; i++)
+        {
+            this.scene.textures[texturesNode.children[i].id] = texturesNode.children[i].attributes[1].value;
+        }
+
         return null;
     }
 
@@ -552,19 +555,7 @@ class MySceneGraph {
 
             this.scene.nodes[this.reader.getString(children[i], 'id')] = children[i];
 
-            //this.onXMLMinorError("To do: Parse nodes.");
-            // Transformations
-
-            // Material
-
-            // Texture
-
-            // Descendants
-
-
         }
-
-        // TODO: Tratar erros pequenos e grandes, incluindo loaded
 
         // Adding and building components
         for (const nodeId in this.scene.nodes) {
@@ -685,19 +676,23 @@ class MySceneGraph {
 
             component.setTransformations(matrix);
 
+            // Setting Texture
+            var texture_key = node.children[textureIndex].attributes[0].value;
+
+            if(texture_key == "clear")
+                component.setTexture(null);
+            else
+                component.setTexture(this.scene.textures[texture_key]);
+
             // Setting Material
 
             if (node.children[materialIndex].id != "null")
             {
                 component.setMaterial(this.scene.materials[node.children[materialIndex].id]);
             }
-            else
-                component.setMaterial("null");
-
-            // Setting Texture
-            var texture = node.children[textureIndex].attributes[0].value;
-            component.setTexture(texture);
-
+            else {
+                component.setMaterial(this.scene.defaultAppearance);
+            }
             // Setting node order and children
 
             var type = node.children[descendantsIndex].children[0].nodeName;
@@ -835,8 +830,11 @@ class MySceneGraph {
 
 
         }
+        for (var n = 0; n < this.scene.components.length; n++)
+        {
+            this.scene.components[n].assignTextures();
+        }
 
-        this.scene.components[0].assignTextures();
     }
 
 

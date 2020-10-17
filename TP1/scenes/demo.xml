@@ -154,6 +154,8 @@
             </texture>
 
             <transformations>
+                <translation x="5" y="15" z="-0.18" />
+                <rotation axis="z" angle = "150" />
                 <translation x="-1" y="11" z="4.5" /> 
                 <rotation axis="x" angle="-90" />
                 <translation x="0" y="-0.4" z="0" />
@@ -173,6 +175,8 @@
             </texture>
             
             <transformations>
+                <translation x="7" y="-1" z="-0.18" />
+                <rotation axis="z" angle = "45" />
                 <translation x="-3" y="9" z="4.5" /> 
                 <rotation axis="x" angle="-90" />
                 <translation x="0" y="-0.4" z="0" />
@@ -192,6 +196,8 @@
             </texture>
 
             <transformations>
+                <translation x="-7" y="-4" z="-0.18" />
+                <rotation axis="z" angle = "-30" />
                 <translation x="4" y="10" z="4.5" /> 
                 <rotation axis="x" angle="-90" />
                 <translation x="0" y="-0.4" z="0" />
@@ -209,6 +215,11 @@
 
             <texture id="null">
             </texture>
+
+            <transformations>
+                <scale sx="1" sy="1" sz="2" />
+                <scale sx = "0.5" sy = "0.5" sz = "0.5" />        
+            </transformations>
 
             <descendants>
                 <noderef id="vial_esfera" />
@@ -243,7 +254,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.8" />          
+                <translation x="0" y="0" z="0.4" />          
             </transformations>
 
             <descendants>
@@ -264,7 +275,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="0.3" topRadius="0.4" bottomRadius="0.4" stacks="50" slices="50"/>
+                <leaf type="cylinder" height="0.1" topRadius="0.45" bottomRadius="0.45" stacks="50" slices="50"/>
             </descendants>
 
         </node>
@@ -681,6 +692,10 @@
          
             <material id="null" />
 
+            <transformations>
+                <translation x = "0" y = "0" z = "-1"/>
+            </transformations>
+
             <texture id="default_textureTexture">
                 <amplification afs="2.0" aft="2.0" />
             </texture>
@@ -717,7 +732,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="-4" z="6.5" />
+                <translation x="0" y="-4" z="7" />
             </transformations>
             
             <descendants>
@@ -728,6 +743,10 @@
         <node id="cauldron">  
         
             <material id="null" />
+
+            <transformations>
+                <translation x="0" y="0" z="4.2" />
+            </transformations>
 
             <texture id="null">
                 <amplification afs="2.0" aft="2.0" />
@@ -768,11 +787,11 @@
 
             <material id="null" />
 
-            <texture id="clear">
+            <texture id="null">
             </texture>
 
             <transformations>
-                <translation x="0.3" y="0.6" z="0.8" />
+                <translation x="1" y="0.6" z="-2" />
             </transformations>
                 
             <descendants>
@@ -786,15 +805,15 @@
             <material id="null" />
 
 
-            <texture id="clear">
+            <texture id="null">
             </texture>
 
             <transformations>
-                <translation x="-1" y="-0.5" z="1.4" />
+                <translation x="1" y="0" z="0" />
             </transformations>
                 
             <descendants>
-                <leaf type="sphere" radius="0.6" slices="30" stacks="30"/>
+                <leaf type="sphere" radius="0.1" slices="30" stacks="30"/>
             </descendants>
         </node>
 
@@ -803,11 +822,11 @@
 
             <material id="null" />
 
-            <texture id="clear">
+            <texture id="null">
             </texture>
 
             <transformations>
-                <translation x="-1" y="0.1" z="0.9" />
+                <translation x="-0.5" y="0.1" z="-1" />
             </transformations>
                 
             <descendants>
@@ -824,7 +843,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="5.6" />
+                <translation x="0" y="0" z="4" />
             </transformations>
                 
             <descendants>
@@ -841,11 +860,11 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="6.5" />
+                <translation x="0" y="0" z="4.2" />
             </transformations>
                 
             <descendants>
-                <leaf type="torus" inner="0.2" outer="1" slices="30" loops="30" />
+                <leaf type="torus" inner="0.4" outer="2.5" slices="60" loops="60" />
             </descendants>
         </node>
 
@@ -863,7 +882,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="4.5" topRadius="2.5" bottomRadius="2.5" stacks="30" slices="30"/>
+                <leaf type="cylinder" height="3.5" topRadius="2.5" bottomRadius="2.5" stacks="30" slices="30"/>
             </descendants>
         </node>
 
@@ -871,7 +890,11 @@
 
             <material id="null" />
 
+            <transformations>
+                <scale sx = "0.5" sy = "0.5" sz = "0.5"/>
+            </transformations>
 
+            
             <texture id="cauldronTexture">
             </texture>
 
@@ -891,7 +914,7 @@
             </texture>
 
             <transformations>
-                <translation x="1.7675" y="1.7675" z="0" />
+                <rotation axis="z" angle="0" />
             </transformations>
 
 
@@ -910,7 +933,6 @@
             </texture>
 
             <transformations>
-                <translation x="1.7675" y="1.7675" z="0" />
                 <rotation axis="z" angle="120" />
             </transformations>
 
@@ -930,7 +952,6 @@
             </texture>
 
             <transformations>
-                <translation x="1.7675" y="1.7675" z="0" />
                 <rotation axis="z" angle="240" />
             </transformations>
 
@@ -946,6 +967,9 @@
 
             <material id="null" />
 
+            <transformations>
+                <translation x="3" y="3" z="0" />
+            </transformations>
 
             <texture id="cauldronTexture">
             </texture>
@@ -986,7 +1010,7 @@
             </texture>
 
             <transformations>
-                <translation x="0" y="0" z="0.5" />
+                <translation x="0" y="0" z="1" />
             </transformations>
 
             <descendants>

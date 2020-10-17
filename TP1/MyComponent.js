@@ -3,6 +3,7 @@ class MyComponent extends CGFobject {
         super(scene);
         this.id = id;
         this.texture = null;
+        this.textureObject = null;
         this.transformations = null;
         this.children = [];
         this.material = null;
@@ -30,28 +31,25 @@ class MyComponent extends CGFobject {
 
     assignTextures()
     {
-        var main_texture = this.texture;
-        if (typeof this.children[0] === 'string') { // If the child is not a leaf
-            for (var i = 0; i < this.children.length; i++){
-                for (var n = 0; n < this.scene.components.length; n++){
-                    if (this.scene.components[n].id == this.children[i]) // Find component corresponding to stored string
-                    {
-                        if (this.scene.components[n].texture == "null")
-                        {
-                            this.scene.components[n].setTexture(main_texture);
-                        }
-                        this.scene.components[n].assignTextures();
-                    }
-                }
-            }
-        } 
+        this.textureObject = new CGFtexture(this.scene, this.texture);
     }
 
     display(){
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformations);
-        if (this.material != "null")
+        if (this.texture != "null")
+        {
+            this.material.setTexture(this.textureObject);
+        }
+        if (this.texture == "clear")
+        {
+            //this.material.texture = null;
+            this.material.setTexture(null);
+        }
+        this.material.apply();
+        if (this.material != this.scene.defaultAppearance){
             this.material.apply();
+        }
         
         if (typeof this.children[0] === 'string') // If the child is not a leaf - need only to check the first one
         {
@@ -73,14 +71,14 @@ class MyComponent extends CGFobject {
 
             for (var i = 0; i < this.children.length; i++)
             {
-                //if (this.material != "null")
-                //   this.material.apply();
+
                 this.children[i].display();
                 
             }
 
         }
-        
+
+        this.scene.defaultAppearance.apply();
         this.scene.popMatrix();
 
     }
