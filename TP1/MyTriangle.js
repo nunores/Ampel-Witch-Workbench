@@ -1,5 +1,5 @@
 class MyTriangle extends CGFobject {
-	constructor(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, amp_u, amp_v) {
+	constructor(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
 		super(scene);
 
 		this.x1 = x1;
@@ -13,9 +13,6 @@ class MyTriangle extends CGFobject {
 		this.x3 = x3;
 		this.y3 = y3;
 		this.z3 = z3;
-
-		this.amp_u = amp_u;
-		this.amp_v = amp_v;
 
 		this.initBuffers();
 	}
@@ -56,19 +53,30 @@ class MyTriangle extends CGFobject {
 
 		var cos_alpha = (distance_a * distance_a - distance_b * distance_b + distance_c * distance_c) / 2 * distance_a * distance_c;
 		var sin_alpha = Math.sqrt(1 - cos_alpha * cos_alpha);
+		
 
-		this.texCoords=[
-            0, 0,
-            this.distance_a, 0,
-            this.c * this.cos_alpha, this.distance_c * this.sin_alpha,
-
-            0, 0,
-            this.distance_a, 0,
-            this.distance_c * this.cos_alpha, this.distance_c * this.sin_alpha
-        ];
-
+		this.texCoords = [
+			0, 1,
+			1, 1,
+			0.5, 0
+		]
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	}
+
+	updateTexCoords(length_u, length_v){
+		this.texCoords=[
+			0, 0,
+			this.distance_a/length_u, 0,
+			this.distance_c * this.cos_alpha / length_u, this.distance_c * this.sin_alpha / length_v,
+	
+			0, 0,
+			this.distance_a/length_u, 0,
+			this.distance_c * this.cos_alpha / length_u, this.distance_c * this.sin_alpha / length_v,
+		];
+
+		this.updateTexCoordsGLBuffers();
+	}
+
 }

@@ -48,6 +48,8 @@
         <texture id="vial_2Texture" path="./scenes/images/vial_2.jpg" />
         <texture id="vial_3Texture" path="./scenes/images/vial_3.jpg" />
         <texture id="corkTexture" path="./scenes/images/cork.jpg" />
+        <texture id="crystal_ball_baseTexture" path="./scenes/images/crystal_ball_base.jpg" />
+        <texture id="pyramidTexture" path="./scenes/images/pyramid.jpg" />
 
     </textures>
 
@@ -99,12 +101,100 @@
                 <noderef id="cauldron" />
                 <noderef id="vials" /> 
                 <noderef id="crystal_ball" />
+                <noderef id="pyramid" />
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!-- identifier of another node, before or later defined in the file. -->
                 <!-- next lines define nodes of type leaf; may be repeated, in any order, as necessary -->
                 <!-- leaf type="rectangle" x1="0" y1="1" x2="1" y2="0" /> -->
                 <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
+            </descendants>
+
+        </node>
+
+        <node id="pyramid">
+            <material id="null" />
+
+            <texture id="pyramidTexture">
+            </texture>
+
+            <transformations>
+                <translation x="-1" y="5" z="5"/>
+                <scale sx="4" sy="4" sz="4"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="pyramid_side_1" />
+                <noderef id="pyramid_side_2" />
+                <noderef id="pyramid_side_3" />
+                <noderef id="pyramid_side_4" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_1">
+            <material id="null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_2">
+            <material id="null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90" />
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_3">
+            <material id="null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="180" />
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_4">
+            <material id="null" />
+
+            <texture id="null">
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="270" />
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
             </descendants>
 
         </node>
@@ -710,12 +800,13 @@
          
             <material id="null" />
 
-            <texture id="null">
+            <texture id="crystal_ball_baseTexture">
                 <amplification afs="2.0" aft="2.0" />
             </texture>
 
             <transformations>
                 <translation x="0" y="-4" z="5.5" />
+                <rotation axis="z" angle="180" />
             </transformations>
             
             <descendants>
@@ -879,6 +970,7 @@
 
             <transformations>
                 <translation x="0" y="0" z="0.75" />
+                <rotation axis="z" angle="180" />
             </transformations>
 
             <descendants>

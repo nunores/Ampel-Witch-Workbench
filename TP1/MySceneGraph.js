@@ -680,9 +680,9 @@ class MySceneGraph {
             var texture_key = node.children[textureIndex].attributes[0].value;
 
             if(texture_key == "clear")
-                component.setTexture(null);
+                component.setTexturePath(null);
             else
-                component.setTexture(this.scene.textures[texture_key]);
+                component.setTexturePath(this.scene.textures[texture_key]);
 
             // Setting Material
 
@@ -788,7 +788,7 @@ class MySceneGraph {
                     var x3 = Number(node.children[descendantsIndex].children[0].attributes[x3Index].nodeValue);
                     var y3 = Number(node.children[descendantsIndex].children[0].attributes[y3Index].nodeValue);
 
-                    component.addChildren(new MyTriangle(this.scene, x1, y1, 0, x2, y2, 0, x3, y3, 0, 0, 0));
+                    component.addChildren(new MyTriangle(this.scene, x1, y1, 0, x2, y2, 0, x3, y3, 0));
                 }
 
                 else if(primitive == "torus")

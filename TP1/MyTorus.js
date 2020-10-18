@@ -26,6 +26,8 @@ class MyTorus extends CGFobject {
 					(this.outer_radius + this.inner_radius * Math.cos(slice_alpha * n)) * Math.sin(loop_alpha * i),
 					(this.inner_radius) * Math.sin(slice_alpha * n));
 
+					this.texCoords.push(j*1/this.slices,i*1/this.loops);
+
 					this.normals.push(
 						Math.cos(slice_alpha * n) * Math.cos(loop_alpha * i),
 						Math.cos(slice_alpha * n) * Math.sin(loop_alpha * i),

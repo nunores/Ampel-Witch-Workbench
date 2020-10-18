@@ -32,6 +32,9 @@ class MyCylinder extends CGFobject {
 					Math.sin(i * slice_alpha) * this.base_radius,
 					z_height
 				);
+
+				this.texCoords.push(i*1/this.slices, 1 - (n*1/this.stacks));
+
 				this.normals.push(
 					Math.cos(i * slice_alpha),
 					Math.sin(i * slice_alpha),
@@ -41,7 +44,7 @@ class MyCylinder extends CGFobject {
 
 			
 
-			this.texCoords.push(n / this.slices, 1 - i / this.stacks);
+			//this.texCoords.push(n / this.slices, 1 - i / this.stacks);
 
 			z_height += stack_alpha;
 			this.base_radius += radius_alpha;
