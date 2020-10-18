@@ -19,6 +19,7 @@ class XMLscene extends CGFscene {
         this.textures["clear"] = "clear";
         this.lights = [];
         this.cameras = [];
+        this.stack = [];
     }
 
     /**

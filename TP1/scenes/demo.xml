@@ -26,15 +26,22 @@
 
 
     <lights>
-        <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
-        <light id="light1">            <!-- light identifier -->
+        <!--<light id="light1">
             <enable value="1" />
-            <!-- enable/disable -->
-            <position x="10" y="12" z="9.5" w="1.0" /><!-- light position; w=1: point light; w=0: directional light -->
-            <ambient r="0" g="0" b="0" a="1.0" />                   <!-- ambient component -->
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />             <!-- diffuse component -->
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />            <!-- specular component -->
+            <position x="10" y="12" z="9.5" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />  
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
+        </light>-->
+
+        <light id="light2">
+            <enable value="1" />
+            <position x="0" y="0" z="0" w="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </light>
+
     </lights>
 
 
@@ -81,7 +88,6 @@
 
 
             <texture id="default_textureTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
-                <amplification afs="2.0" aft="2.0" /><!-- for primitives = dx/afs, dy/aft -->
             </texture>
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
@@ -204,7 +210,6 @@
             <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
 
             <texture id="tableTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
-                <amplification afs="2.0" aft="2.0" /><!-- for primitives = dx/afs, dy/aft -->
             </texture>
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
@@ -787,7 +792,6 @@
             </transformations>
 
             <texture id="default_textureTexture">
-                <amplification afs="2.0" aft="2.0" />
             </texture>
 
             <descendants>
@@ -801,7 +805,6 @@
             <material id="null" />
 
             <texture id="crystal_ball_baseTexture">
-                <amplification afs="2.0" aft="2.0" />
             </texture>
 
             <transformations>
@@ -819,7 +822,6 @@
             <material id="null" />
 
             <texture id="crystal_ballTexture">
-                <amplification afs="2.0" aft="2.0" />
             </texture>
 
             <transformations>
@@ -839,8 +841,7 @@
                 <translation x="0" y="0" z="4.2" />
             </transformations>
 
-            <texture id="null">
-                <amplification afs="2.0" aft="2.0" />
+            <texture id="cauldronTexture">
             </texture>
 
             <transformations>
@@ -895,7 +896,6 @@
 
             <material id="null" />
 
-
             <texture id="null">
             </texture>
 
@@ -947,7 +947,7 @@
 
             <material id="null" />
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>
@@ -964,8 +964,7 @@
 
             <material id="null" />
 
-
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>
@@ -987,7 +986,7 @@
             </transformations>
 
             
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <descendants>
@@ -1002,7 +1001,7 @@
             <material id="null" />
 
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>
@@ -1021,7 +1020,7 @@
             <material id="null" />
 
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>
@@ -1040,7 +1039,7 @@
             <material id="null" />
 
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>
@@ -1063,7 +1062,7 @@
                 <translation x="3" y="3" z="0" />
             </transformations>
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <descendants>
@@ -1079,7 +1078,7 @@
             <material id="null" />
 
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>
@@ -1098,7 +1097,7 @@
 
             <material id="null" />
 
-            <texture id="cauldronTexture">
+            <texture id="null">
             </texture>
 
             <transformations>

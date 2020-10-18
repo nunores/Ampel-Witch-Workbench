@@ -37,17 +37,21 @@ class MyComponent extends CGFobject {
     display(){
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformations);
-        if (this.texturePath != "null")
+        if (this.material != null)
         {
-            this.material.setTexture(this.textureObject);
-        } 
-
-        else
-        {
-            this.material.setTexture(null);
+            this.scene.stack.push(this.material);
         }
 
-        this.material.apply();
+        if (this.texturePath != "null" && this.material == null)
+        {
+            var new_material = new CGFappearance(this.scene);
+            new_material.setTexture(this.textureObject);
+            this.scene.stack.push(new_material);
+        }
+
+        if (this.scene.stack.length != 0)
+            this.scene.stack[this.scene.stack.length - 1].apply();
+
         
         if (typeof this.children[0] === 'string') // If the child is not a leaf - need only to check the first one
         {
@@ -72,6 +76,11 @@ class MyComponent extends CGFobject {
                 
             }
 
+        }
+
+        if (this.material != null || this.texturePath != "null")
+        {
+            this.scene.stack.pop();
         }
 
         this.scene.defaultAppearance.apply();

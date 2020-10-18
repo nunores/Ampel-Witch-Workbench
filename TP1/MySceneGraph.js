@@ -680,7 +680,7 @@ class MySceneGraph {
             var texture_key = node.children[textureIndex].attributes[0].value;
 
             if(texture_key == "clear")
-                component.setTexturePath(null);
+                component.setTexturePath("clear");
             else
                 component.setTexturePath(this.scene.textures[texture_key]);
 
@@ -691,8 +691,9 @@ class MySceneGraph {
                 component.setMaterial(this.scene.materials[node.children[materialIndex].id]);
             }
             else {
-                component.setMaterial(this.scene.defaultAppearance);
+                component.setMaterial(null);
             }
+
             // Setting node order and children
 
             var type = node.children[descendantsIndex].children[0].nodeName;
