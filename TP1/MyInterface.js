@@ -47,4 +47,16 @@ class MyInterface extends CGFinterface {
     isKeyPressed(keyCode) {
         return this.activeKeys[keyCode] || false;
     }
+
+    addLightsGUI(){
+        var keyNames = Object.keys(this.scene.graph.lights);
+        var lightsFolder = this.gui.addFolder('Lights');
+
+        for(var i = 0; i < keyNames.length; i++){
+            lightsFolder.add(this.scene.lights[i], 'enabled').name(keyNames[i]);
+        }
+
+        console.log(this.scene.lights);
+    }
+
 }

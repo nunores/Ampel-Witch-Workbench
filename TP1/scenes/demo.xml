@@ -10,7 +10,7 @@
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
             <from x="30" y="15" z="30" />
-            <to x="0" y="-2" z="0" />
+            <to x="0" y="0" z="5" />
         </perspective>
         <ortho id="demoOrtho" near="0.2" far="100" left="-0.2" right="0.2" top="0.2" bottom="-0.2">
             <from x="5" y="0" z="10" />
@@ -26,20 +26,28 @@
 
 
     <lights>
-        <!--<light id="light1">
+        <light id="light1">
             <enable value="1" />
-            <position x="10" y="12" z="9.5" w="1.0" />
+            <position x="0" y="0" z="20" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />  
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
-        </light>-->
+        </light>
+
+        <light id="crystal_ball_light">
+            <enable value="1" />
+            <position x="0" y="-4" z="6" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </light>
 
         <light id="light2">
             <enable value="1" />
             <position x="0" y="0" z="0" w="1.0" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />  
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
         </light>
 
     </lights>
@@ -73,12 +81,21 @@
         </material>
 
         <material id="neon_green_liquid">                                  
-                    <shininess value="1.0" />
+                    <shininess value="20.0" />
                     <specular r="0.2235" g="1.0" b="0.078" a="1.0" />        <!-- specular reflection -->
                     <diffuse r="0.2235" g="1.0" b="0.078" a="1.0" />         <!-- diffuse reflection -->
                     <ambient r="0.2235" g="1.0" b="0.078" a="1.0" />         <!-- ambient reflection -->
-                    <emissive r="0.0" g="0.0" b="0.0" a="0.0" />        <!-- emissive component -->
+                    <emissive r="0.0" g="0.5" b="0.0" a="0.0" />        <!-- emissive component -->
         </material>
+
+        <material id="crystal_ball_material">
+            <shininess value ="20" />
+            <specular r="0.408" g="0.627" b="0.69" a="1.0" />        <!-- specular reflection -->
+            <diffuse r="0.408" g="0.627" b="0.69" a="1.0" />         <!-- diffuse reflection -->
+            <ambient r="0.408" g="0.627" b="0.69" a="1.0" />         <!-- ambient reflection -->
+            <emissive r="0.0" g="0.5" b="0.5" a="0.0" />  
+        </material>
+
     </materials>
 
     <nodes>
@@ -327,7 +344,7 @@
         <node id="vial_esfera">
         
             <material id = "null" />
-
+            
             <texture id="null">
             </texture>
 
@@ -819,7 +836,7 @@
 
         <node id="ball">
          
-            <material id="null" />
+            <material id="crystal_ball_material" />
 
             <texture id="crystal_ballTexture">
             </texture>

@@ -39,6 +39,10 @@ class MyComponent extends CGFobject {
         this.scene.multMatrix(this.transformations);
         if (this.material != null)
         {
+            if (this.texturePath != "null")
+            {
+                this.material.setTexture(this.textureObject);
+            }
             this.scene.stack.push(this.material);
         }
 
