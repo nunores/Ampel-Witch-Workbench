@@ -71,7 +71,7 @@ class MySceneGraph {
      */
     onXMLError(message) {
         console.error("XML Loading Error: " + message);
-        this.loadedOk = false;
+        //this.loadedOk = false;
     }
 
     /**
@@ -245,11 +245,8 @@ class MySceneGraph {
     parseViews(viewsNode) {
         this.onXMLMinorError("To do: Parse views and create cameras.");
 
-        this.scene.defaultCamera = viewsNode.attributes[0].value;
-        
-
-        // Retirar a camara default
-        
+        this.scene.currCamera = viewsNode.attributes[0].value;
+                
         for (var i = 0; i < viewsNode.children.length; i++)
         {
             var attNames = [];
@@ -311,8 +308,6 @@ class MySceneGraph {
 
 
                 var camera = new CGFcamera(angleValue, nearValue, farValue, vec3.fromValues(fromXValue,fromYValue,fromZValue), vec3.fromValues(toXValue, toYValue, toZValue));
-                if (viewsNode.children[i].id == this.scene.defaultCamera)
-                    this.scene.defaultCamera = camera;
             }
             else
             {
@@ -393,16 +388,17 @@ class MySceneGraph {
                     var camera = new CGFcameraOrtho(leftValue, rightValue, bottomValue, topValue, nearValue, farValue,
                          vec3.fromValues(fromXValue,fromYValue,fromZValue), vec3.fromValues(toXValue, toYValue, toZValue), vec3.fromValues(upXValue,upYValue,upZValue));
                     
-                    if (viewsNode.children[i].id == this.scene.defaultCamera)
-                        this.scene.defaultCamera = camera;
                 }
             }
             
-            this.scene.cameras.push(camera);
-
-            //this.scene.cameras[id] = camera;
+            this.scene.cameras[viewsNode.children[i].attributes[0].value] = camera;
             
         }
+
+        this.scene.camera = this.scene.cameras[this.scene.currCamera];
+        this.scene.interface.setActiveCamera(this.scene.cameras[this.scene.currCamera]);
+
+        this.log("Parsed Views.");
 
         return null;
     }
@@ -723,7 +719,7 @@ class MySceneGraph {
             var component = new MyComponent(this.scene, nodeId);
             grandChildren = node.children;
             nodeNames = [];
-
+        
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -732,6 +728,20 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var transformationsIndex = nodeNames.indexOf("transformations");
             var materialIndex = nodeNames.indexOf("material");
+
+            var amplificationsNames = [];
+
+            for (var p = 0; p < node.children[textureIndex].children[0].attributes.length; p++) {
+                amplificationsNames.push(node.children[textureIndex].children[0].attributes[p].nodeName);
+            }
+
+            var afsIndex = amplificationsNames.indexOf("afs");
+            var aftIndex = amplificationsNames.indexOf("aft");
+
+            var afsValue = Number(node.children[textureIndex].children[0].attributes[afsIndex].value);
+            var aftValue = Number(node.children[textureIndex].children[0].attributes[aftIndex].value);
+            
+            component.setAmplifications(afsValue, aftValue);
 
             // Handling Transformations
 
@@ -1100,8 +1110,5 @@ class MySceneGraph {
     displayScene() {
         
         this.scene.components[0].display(); // Display root
-        
-        //console.log(this.scene.currCamera);
-
     }
 }

@@ -5,9 +5,17 @@ class MyComponent extends CGFobject {
         this.texturePath = null;
         this.textureObject = null;
         this.transformations = null;
+        this.amplification = [];
         this.children = [];
         this.material = null;
 
+
+    }
+
+    setAmplifications(afs, aft)
+    {
+        this.amplification.push(afs);
+        this.amplification.push(aft);
     }
 
     setMaterial(material)
@@ -50,6 +58,7 @@ class MyComponent extends CGFobject {
         {
             var new_material = new CGFappearance(this.scene);
             new_material.setTexture(this.textureObject);
+            new_material.setTextureWrap("REPEAT","REPEAT");
             this.scene.stack.push(new_material);
         }
 
@@ -75,7 +84,10 @@ class MyComponent extends CGFobject {
 
             for (var i = 0; i < this.children.length; i++)
             {
-
+                if (this.children[i] instanceof MyRectangle || this.children[i] instanceof MyTriangle)
+                {
+                    this.children[i].updateTexCoords(this.amplification[0], this.amplification[1]);
+                }
                 this.children[i].display();
                 
             }

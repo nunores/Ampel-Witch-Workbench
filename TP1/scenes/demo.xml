@@ -6,15 +6,15 @@
         <!-- identifier of root node of the scene graph; this node -->
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
-    <views default="defaultCamera">
+    <views default="camera1">
         <!-- at least one of the following type of cameras must be declared -->
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+        <perspective id="camera1" near="0.1" far="500" angle="45">
             <from x="30" y="15" z="30" />
             <to x="0" y="0" z="5" />
         </perspective>
-        <ortho id="demoOrtho" near="0.2" far="100" left="-0.2" right="0.2" top="0.2" bottom="-0.2">
-            <from x="5" y="0" z="10" />
-            <to x="5" y="0" z="0" />
+        <ortho id="ortho1" near="20" far="100" left="-20" right="20" top="20" bottom="-20">
+            <from x="20" y="20" z="20" />
+            <to x="0" y="0" z="0" />
             <up x="0" y="1" z="0" /><!-- optional, default 0,1,0 -->
         </ortho>
     </views>
@@ -28,7 +28,7 @@
     <lights>
         <light id="light1">
             <enable value="1" />
-            <position x="0" y="0" z="20" w="1.0" />
+            <position x="0" y="20" z="0" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />  
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
@@ -36,7 +36,7 @@
 
         <light id="crystal_ball_light">
             <enable value="1" />
-            <position x="0" y="-4" z="6" w="1.0" />
+            <position x="0" y="7" z="4" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -102,20 +102,13 @@
         <node id="root">            <!-- defines one intermediate node; may be repeated as necessary -->
             <!-- next two lines are mandatory -->
             <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
-
+            <transformations>
+                <rotation axis="x" angle="-90"/>
+            </transformations>
 
             <texture id="default_textureTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+                <amplification afs="1.0" aft="1.0" />
             </texture>
-
-            <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
-            <!--transformations>
-                <translation x="0" y="1.0" z="1.0" />
-                <rotation axis="yy" angle="45" />
-                <scale sx="2" sy="1" sz="1" />
-            </transformations> -->
-
-            <transformations>
-            </transformations>
 
             <!-- declaring descendants, at least one node or one leaf must be present
              descendants may be mixed, nodes and leafs -->
@@ -139,6 +132,7 @@
             <material id="null" />
 
             <texture id="pyramidTexture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -158,7 +152,8 @@
         <node id="pyramid_side_1">
             <material id="null" />
 
-            <texture id="null">
+            <texture id="null"> 
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -175,6 +170,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="0.2" aft="0.2" />
             </texture>
 
             <transformations>
@@ -192,6 +188,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="10.0" aft="10.0" />
             </texture>
 
             <transformations>
@@ -209,6 +206,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -227,6 +225,7 @@
             <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
 
             <texture id="tableTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
@@ -248,7 +247,11 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="vial_1" />
@@ -263,6 +266,7 @@
             <material id = "null" />
 
             <texture id="vial_1Texture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -284,6 +288,7 @@
             <material id = "null" />
 
             <texture id="vial_2Texture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
             
             <transformations>
@@ -305,6 +310,7 @@
             <material id = "null" />
 
             <texture id="vial_3Texture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -326,6 +332,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -346,6 +353,7 @@
             <material id = "null" />
             
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -363,6 +371,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -380,6 +389,7 @@
             <material id = "null" />
 
             <texture id="corkTexture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -398,6 +408,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -417,6 +428,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -436,6 +448,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -455,6 +468,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -475,7 +489,11 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="perna1" />
@@ -491,6 +509,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -508,6 +527,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -525,6 +545,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -542,6 +563,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -559,7 +581,11 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <noderef id="quadrado_topo" />
@@ -579,7 +605,11 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
+
+            <transformations>
+            </transformations>
 
             <descendants>
                 <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
@@ -592,6 +622,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -610,6 +641,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -628,6 +660,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -646,6 +679,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -664,6 +698,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -682,6 +717,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -700,6 +736,7 @@
             <material id = "null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -726,6 +763,7 @@
             </transformations>
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -747,6 +785,7 @@
             </transformations>
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -767,9 +806,8 @@
         
             </transformations>
 
-
-
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -792,6 +830,7 @@
 
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -809,6 +848,7 @@
             </transformations>
 
             <texture id="default_textureTexture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -822,6 +862,7 @@
             <material id="null" />
 
             <texture id="crystal_ball_baseTexture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -839,6 +880,7 @@
             <material id="crystal_ball_material" />
 
             <texture id="crystal_ballTexture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -859,11 +901,8 @@
             </transformations>
 
             <texture id="cauldronTexture">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
-
-            <transformations>
-            </transformations>
-
 
             <descendants>
                 <noderef id="corpo" />
@@ -883,6 +922,7 @@
             </transformations>
 
             <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
                 
             <descendants>
@@ -897,6 +937,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -913,7 +954,8 @@
 
             <material id="null" />
 
-            <texture id="null">
+            <texture id="null">~
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -931,6 +973,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -948,6 +991,7 @@
             <material id="neon_green_liquid" />
 
             <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -965,6 +1009,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -982,6 +1027,7 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -1004,6 +1050,7 @@
 
             
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -1019,6 +1066,7 @@
 
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -1038,6 +1086,7 @@
 
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -1057,6 +1106,7 @@
 
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -1080,6 +1130,7 @@
             </transformations>
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <descendants>
@@ -1096,6 +1147,7 @@
 
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
             </texture>
 
             <transformations>
@@ -1115,6 +1167,8 @@
             <material id="null" />
 
             <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+
             </texture>
 
             <transformations>
@@ -1125,8 +1179,5 @@
                 <leaf type="sphere" radius="0.5" slices="20" stacks="20"/>
             </descendants>
         </node>
-
-
-        
     </nodes>
 </lsf>

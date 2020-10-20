@@ -47,12 +47,12 @@ class MyTriangle extends CGFobject {
 			-normal_x, -normal_y, -normal_z,
 			-normal_x, -normal_y, -normal_z);
 
-		var distance_a = Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2) + Math.pow(this.z2 - this.z1, 2));
+		/*var distance_a = Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2) + Math.pow(this.z2 - this.z1, 2));
 		var distance_b = Math.sqrt(Math.pow(this.x3 - this.x2, 2) + Math.pow(this.y3 - this.y2, 2) + Math.pow(this.z3 - this.z2, 2));
 		var distance_c = Math.sqrt(Math.pow(this.x1 - this.x3, 2) + Math.pow(this.y1 - this.y3, 2) + Math.pow(this.z1 - this.z3, 2));
 
 		var cos_alpha = (distance_a * distance_a - distance_b * distance_b + distance_c * distance_c) / 2 * distance_a * distance_c;
-		var sin_alpha = Math.sqrt(1 - cos_alpha * cos_alpha);
+		var sin_alpha = Math.sqrt(1 - cos_alpha * cos_alpha);*/
 		
 
 		this.texCoords = [
@@ -69,11 +69,7 @@ class MyTriangle extends CGFobject {
 		this.texCoords=[
 			0, 0,
 			this.distance_a/length_u, 0,
-			this.distance_c * this.cos_alpha / length_u, this.distance_c * this.sin_alpha / length_v,
-	
-			0, 0,
-			this.distance_a/length_u, 0,
-			this.distance_c * this.cos_alpha / length_u, this.distance_c * this.sin_alpha / length_v,
+			this.distance_b * this.cos_alpha / length_u, this.distance_b * this.sin_alpha / length_v
 		];
 
 		this.updateTexCoordsGLBuffers();
