@@ -244,6 +244,166 @@ class MySceneGraph {
      */
     parseViews(viewsNode) {
         this.onXMLMinorError("To do: Parse views and create cameras.");
+
+        this.scene.defaultCamera = viewsNode.attributes[0].value;
+        
+
+        // Retirar a camara default
+        
+        for (var i = 0; i < viewsNode.children.length; i++)
+        {
+            var attNames = [];
+
+            for (var n = 0; n < viewsNode.children[i].attributes.length; n++)
+            {
+                attNames.push(viewsNode.children[i].attributes[n].nodeName);
+            }
+            
+            if (viewsNode.children[i].nodeName == "perspective")
+            {
+                var nearIndex = attNames.indexOf("near");
+                var farIndex = attNames.indexOf("far");
+                var angleIndex = attNames.indexOf("angle");
+
+                var nearValue = Number(viewsNode.children[i].attributes[nearIndex].value);
+                var farValue = Number(viewsNode.children[i].attributes[farIndex].value);
+                var angleValue = Number(viewsNode.children[i].attributes[angleIndex].value);
+
+                var childrenNames = [];
+
+                for (var j = 0; j < viewsNode.children[i].children.length; j++)
+                {
+                    childrenNames.push(viewsNode.children[i].children[j].nodeName);
+                }
+
+                var fromIndex = childrenNames.indexOf("from");
+                var toIndex = childrenNames.indexOf("to");
+
+                var coordinatesFromNames = [];
+
+                for (var j = 0; j < viewsNode.children[i].children[fromIndex].attributes.length; j++)
+                {
+                    coordinatesFromNames.push(viewsNode.children[i].children[fromIndex].attributes[j].nodeName);
+                }
+
+                var fromXIndex = coordinatesFromNames.indexOf("x");
+                var fromYIndex = coordinatesFromNames.indexOf("y");
+                var fromZIndex = coordinatesFromNames.indexOf("z");
+
+                var fromXValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromXIndex].value);
+                var fromYValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromYIndex].value);
+                var fromZValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromZIndex].value);
+
+                var coordinatesToNames = [];
+
+                for (var j = 0; j < viewsNode.children[i].children[toIndex].attributes.length; j++)
+                {
+                    coordinatesToNames.push(viewsNode.children[i].children[toIndex].attributes[j].nodeName);
+                }
+
+                var toXIndex = coordinatesToNames.indexOf("x");
+                var toYIndex = coordinatesToNames.indexOf("y");
+                var toZIndex = coordinatesToNames.indexOf("z");
+
+                var toXValue = Number(viewsNode.children[i].children[toIndex].attributes[toXIndex].value);
+                var toYValue = Number(viewsNode.children[i].children[toIndex].attributes[toYIndex].value);
+                var toZValue = Number(viewsNode.children[i].children[toIndex].attributes[toZIndex].value);
+
+
+                var camera = new CGFcamera(angleValue, nearValue, farValue, vec3.fromValues(fromXValue,fromYValue,fromZValue), vec3.fromValues(toXValue, toYValue, toZValue));
+                if (viewsNode.children[i].id == this.scene.defaultCamera)
+                    this.scene.defaultCamera = camera;
+            }
+            else
+            {
+                if (viewsNode.children[i].nodeName == "ortho")
+                {
+                    var nearIndex = attNames.indexOf("near");
+                    var farIndex = attNames.indexOf("far");
+                    var leftIndex = attNames.indexOf("left");
+                    var rightIndex = attNames.indexOf("right");
+                    var topIndex = attNames.indexOf("top");
+                    var bottomIndex = attNames.indexOf("bottom");
+
+                    var nearValue = Number(viewsNode.children[i].attributes[nearIndex].value);
+                    var farValue = Number(viewsNode.children[i].attributes[farIndex].value);
+                    var leftValue = Number(viewsNode.children[i].attributes[leftIndex].value);
+                    var rightValue = Number(viewsNode.children[i].attributes[rightIndex].value);
+                    var topValue = Number(viewsNode.children[i].attributes[topIndex].value);
+                    var bottomValue = Number(viewsNode.children[i].attributes[bottomIndex].value);
+
+                    var childrenNames = [];
+
+                    for (var j = 0; j < viewsNode.children[i].children.length; j++)
+                    {
+                        childrenNames.push(viewsNode.children[i].children[j].nodeName);
+                    }
+
+                    var fromIndex = childrenNames.indexOf("from");
+                    var toIndex = childrenNames.indexOf("to");
+                    var upIndex = childrenNames.indexOf("up");
+
+                    var coordinatesFromNames = [];
+
+                    for (var j = 0; j < viewsNode.children[i].children[fromIndex].attributes.length; j++)
+                    {
+                        coordinatesFromNames.push(viewsNode.children[i].children[fromIndex].attributes[j].nodeName);
+                    }
+
+                    var fromXIndex = coordinatesFromNames.indexOf("x");
+                    var fromYIndex = coordinatesFromNames.indexOf("y");
+                    var fromZIndex = coordinatesFromNames.indexOf("z");
+
+                    var fromXValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromXIndex].value);
+                    var fromYValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromYIndex].value);
+                    var fromZValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromZIndex].value);
+
+                    var coordinatesToNames = [];
+
+                    for (var j = 0; j < viewsNode.children[i].children[toIndex].attributes.length; j++)
+                    {
+                        coordinatesToNames.push(viewsNode.children[i].children[toIndex].attributes[j].nodeName);
+                    }
+
+                    var toXIndex = coordinatesToNames.indexOf("x");
+                    var toYIndex = coordinatesToNames.indexOf("y");
+                    var toZIndex = coordinatesToNames.indexOf("z");
+
+                    var toXValue = Number(viewsNode.children[i].children[toIndex].attributes[toXIndex].value);
+                    var toYValue = Number(viewsNode.children[i].children[toIndex].attributes[toYIndex].value);
+                    var toZValue = Number(viewsNode.children[i].children[toIndex].attributes[toZIndex].value);
+
+                    var coordinatesUpNames = [];
+
+                    for (var j = 0; j < viewsNode.children[i].children[upIndex].attributes.length; j++)
+                    {
+                        coordinatesUpNames.push(viewsNode.children[i].children[upIndex].attributes[j].nodeName);
+                    }
+
+                    var upXIndex = coordinatesUpNames.indexOf("x");
+                    var upYIndex = coordinatesUpNames.indexOf("y");
+                    var upZIndex = coordinatesUpNames.indexOf("z");
+
+                    var upXValue = Number(viewsNode.children[i].children[upIndex].attributes[upXIndex].value);
+                    var upYValue = Number(viewsNode.children[i].children[upIndex].attributes[upYIndex].value);
+                    var upZValue = Number(viewsNode.children[i].children[upIndex].attributes[upZIndex].value);
+
+
+
+                    var camera = new CGFcameraOrtho(leftValue, rightValue, bottomValue, topValue, nearValue, farValue,
+                         vec3.fromValues(fromXValue,fromYValue,fromZValue), vec3.fromValues(toXValue, toYValue, toZValue), vec3.fromValues(upXValue,upYValue,upZValue));
+                    
+                    if (viewsNode.children[i].id == this.scene.defaultCamera)
+                        this.scene.defaultCamera = camera;
+                }
+            }
+            
+            this.scene.cameras.push(camera);
+
+            //this.scene.cameras[id] = camera;
+            
+        }
+
         return null;
     }
 
@@ -939,25 +1099,9 @@ class MySceneGraph {
      */
     displayScene() {
         
-        //var material = new CGFappearance(this.scene);
-        //var material = this.scene.components[36].material;
-		//material.setAmbient(1, 0, 0, 0.5);
-        //material.setDiffuse(1, 0, 0, 0.5);
-        //material.apply();
-        //material.apply();
         this.scene.components[0].display(); // Display root
         
-        
-/*         this.scene.enableTextures(true);
-        var texture = new CGFtexture(this.scene, 'scenes/images/leaves.jpg');
-		var material = new CGFappearance(this.scene);
-		material.setAmbient(1, 0, 0, 0.5);
-		material.setDiffuse(1, 0, 0, 0.5);
-		material.setTexture(texture);
+        //console.log(this.scene.currCamera);
 
-        var rectangle = new MyRectangle(this.scene, 10, 0, 0, 10);
-        material.apply();
-		rectangle.display(); */
-		
     }
 }

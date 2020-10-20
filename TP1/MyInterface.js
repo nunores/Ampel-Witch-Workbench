@@ -55,8 +55,14 @@ class MyInterface extends CGFinterface {
         for(var i = 0; i < keyNames.length; i++){
             lightsFolder.add(this.scene.lights[i], 'enabled').name(keyNames[i]);
         }
+    }
 
-        console.log(this.scene.lights);
+    addCamerasGUI(){
+        this.gui.add(this.scene, 'currCamera', Object.keys(this.scene.cameras)).name('View Points').onChange(this.interface.updateView());
+    }
+
+    updateView(){
+        this.setActiveCamera(this.currCamera);
     }
 
 }

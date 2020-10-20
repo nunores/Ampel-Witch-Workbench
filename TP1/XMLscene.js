@@ -18,8 +18,11 @@ class XMLscene extends CGFscene {
         this.textures["null"] = "null";
         this.textures["clear"] = "clear";
         this.lights = [];
-        this.cameras = [];
         this.stack = [];
+        this.cameras = [];
+        this.defaultCamera = null;
+        this.currCamera = null;
+
     }
 
     /**
@@ -55,6 +58,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        //this.camera = new CGFcameraOrtho(-0.2, 0.2, -0.2, 0.2, 0.2, 100, vec3.fromValues(5, 0, 10), vec3.fromValues(5, 0, 0), vec3.fromValues(0, 1, 0));
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -103,7 +107,11 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = true;
 
+        this.currCamera = this.defaultCamera;
+
         this.interface.addLightsGUI();
+        this.interface.addCamerasGUI();
+
     }
 
     /**
@@ -118,7 +126,7 @@ class XMLscene extends CGFscene {
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
-        this.loadIdentity();
+        this.loadIdentity(); 
 
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
