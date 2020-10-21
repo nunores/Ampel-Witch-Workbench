@@ -1,0 +1,1183 @@
+<lsf>
+    <initials>
+        <reference length="2" />
+        <!-- axis length; "0" means no axis displayed -->
+        <root id="root" />
+        <!-- identifier of root node of the scene graph; this node -->
+        <!-- must be defined in one of the following NODE declarations -->
+    </initials>
+    <views default="camera1">
+        <!-- at least one of the following type of cameras must be declared -->
+        <perspective id="camera1" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="0" z="5" />
+        </perspective>
+        <ortho id="ortho1" near="20" far="100" left="-20" right="20" top="20" bottom="-20">
+            <from x="20" y="20" z="20" />
+            <to x="0" y="0" z="0" />
+            <up x="0" y="1" z="0" /><!-- optional, default 0,1,0 -->
+        </ortho>
+    </views>
+
+    <illumination>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />           <!-- global ambient -->
+        <background r="0" g="0" b="0" a="1.0" />        <!-- background color -->
+    </illumination>
+
+
+    <lights>
+        <light id="light1">
+            <enable value="1" />
+            <position x="0" y="20" z="0" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />  
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
+        </light>
+
+        <light id="crystal_ball_light">
+            <enable value="1" />
+            <position x="0" y="7" z="4" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </light>
+
+        <light id="light2">
+            <enable value="1" />
+            <position x="0" y="0" z="0" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />  
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
+        </light>
+
+    </lights>
+
+
+    <textures>
+        <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
+        <texture id="cauldronTexture" path="./scenes/images/cauldron.jpg" />
+        <texture id="crystal_ballTexture" path="./scenes/images/crystal_ball.jpg" />
+        <texture id="default_textureTexture" path="./scenes/images/default_texture.jpg" />
+        <texture id="tableTexture" path="./scenes/images/table.jpg" />
+        <texture id="vial_1Texture" path="./scenes/images/vial_1.jpg" />
+        <texture id="vial_2Texture" path="./scenes/images/vial_2.jpg" />
+        <texture id="vial_3Texture" path="./scenes/images/vial_3.jpg" />
+        <texture id="corkTexture" path="./scenes/images/cork.jpg" />
+        <texture id="crystal_ball_baseTexture" path="./scenes/images/crystal_ball_base.jpg" />
+        <texture id="pyramidTexture" path="./scenes/images/pyramid.jpg" />
+
+    </textures>
+
+
+    <materials>
+        <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material
+         requires a distinct "id". At least one material should be present. -->
+        <material id="demoMaterial">
+            <shininess value="2.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" /> 
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="neon_green_liquid">                                  
+                    <shininess value="20.0" />
+                    <specular r="0.2235" g="1.0" b="0.078" a="1.0" />        <!-- specular reflection -->
+                    <diffuse r="0.2235" g="1.0" b="0.078" a="1.0" />         <!-- diffuse reflection -->
+                    <ambient r="0.2235" g="1.0" b="0.078" a="1.0" />         <!-- ambient reflection -->
+                    <emissive r="0.0" g="0.5" b="0.0" a="0.0" />        <!-- emissive component -->
+        </material>
+
+        <material id="crystal_ball_material">
+            <shininess value ="20" />
+            <specular r="0.408" g="0.627" b="0.69" a="1.0" />        <!-- specular reflection -->
+            <diffuse r="0.408" g="0.627" b="0.69" a="1.0" />         <!-- diffuse reflection -->
+            <ambient r="0.408" g="0.627" b="0.69" a="1.0" />         <!-- ambient reflection -->
+            <emissive r="0.0" g="0.5" b="0.5" a="0.0" />  
+        </material>
+
+    </materials>
+
+    <nodes>
+        <node id="root">            <!-- defines one intermediate node; may be repeated as necessary -->
+            <!-- next two lines are mandatory -->
+            <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
+            <transformations>
+                <rotation axis="x" angle="-90"/>
+            </transformations>
+
+            <texture id="default_textureTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <!-- declaring descendants, at least one node or one leaf must be present
+             descendants may be mixed, nodes and leafs -->
+            <descendants>
+                <noderef id="table" />
+                <noderef id="cauldron" />
+                <noderef id="vials" /> 
+                <noderef id="crystal_ball" />
+                <noderef id="pyramid" />
+                <!-- "ss" is the identifier of a node or of leaf; -->
+                <!-- may be repeated as necessary. It can refer an -->
+                <!-- identifier of another node, before or later defined in the file. -->
+                <!-- next lines define nodes of type leaf; may be repeated, in any order, as necessary -->
+                <!-- leaf type="rectangle" x1="0" y1="1" x2="1" y2="0" /> -->
+                <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
+            </descendants>
+
+        </node>
+
+        <node id="pyramid">
+            <material id="null" />
+
+            <texture id="pyramidTexture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-1" y="5" z="5"/>
+                <scale sx="4" sy="4" sz="4"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="pyramid_side_1" />
+                <noderef id="pyramid_side_2" />
+                <noderef id="pyramid_side_3" />
+                <noderef id="pyramid_side_4" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_1">
+            <material id="null" />
+
+            <texture id="null"> 
+                <amplification afs="0.2" aft="0.2" />
+            </texture>
+
+            <transformations>
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_2">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="0.2" aft="0.2" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90" />
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_3">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="0.2" aft="0.2" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="180" />
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="pyramid_side_4">
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="0.2" aft="0.2" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="270" />
+                <rotation axis="x" angle="-45" />
+            </transformations>
+
+            <descendants>
+                <leaf type="triangle" x1="0" y1="0" x2="0.1425" y2="0.2" x3="-0.1425" y3="0.2" />
+            </descendants>
+
+        </node>
+
+        <node id="table">            <!-- defines one intermediate node; may be repeated as necessary -->
+            <!-- next two lines are mandatory -->
+            <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
+
+            <texture id="tableTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
+            <transformations>
+            </transformations>
+
+            <!-- declaring descendants, at least one node or one leaf must be present
+             descendants may be mixed, nodes and leafs -->
+            <descendants>
+                <noderef id="pernas" />
+                <noderef id="vigas_curtas" />
+                <noderef id="tampos" />
+                <noderef id="vigas_compridas" />
+            </descendants>
+        </node>
+
+        <node id="vials">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="vial_1" />
+                <noderef id="vial_2" />
+                <noderef id="vial_3" />
+            </descendants>
+
+        </node>
+
+        <node id="vial_1">
+        
+            <material id = "null" />
+
+            <texture id="vial_1Texture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="5" y="15" z="-0.18" />
+                <rotation axis="z" angle = "150" />
+                <translation x="-1" y="11" z="4.5" /> 
+                <rotation axis="x" angle="-90" />
+                <translation x="0" y="-0.4" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="vial" />
+            </descendants>
+
+        </node>
+
+        <node id="vial_2">
+        
+            <material id = "null" />
+
+            <texture id="vial_2Texture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+            
+            <transformations>
+                <translation x="7" y="-1" z="-0.18" />
+                <rotation axis="z" angle = "45" />
+                <translation x="-3" y="9" z="4.5" /> 
+                <rotation axis="x" angle="-90" />
+                <translation x="0" y="-0.4" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="vial" />
+            </descendants>
+
+        </node>
+
+        <node id="vial_3">
+        
+            <material id = "null" />
+
+            <texture id="vial_3Texture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-7" y="-4" z="-0.18" />
+                <rotation axis="z" angle = "-30" />
+                <translation x="4" y="10" z="4.5" /> 
+                <rotation axis="x" angle="-90" />
+                <translation x="0" y="-0.4" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="vial" />
+            </descendants>
+
+        </node>
+
+        <node id="vial">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.7" sy="0.7" sz="3" />
+                <scale sx = "0.5" sy = "0.5" sz = "0.5" />        
+            </transformations>
+
+            <descendants>
+                <noderef id="vial_esfera" />
+                <noderef id="vial_cilindro_1" />
+                <noderef id="vial_cilindro_2" />
+            </descendants>
+
+        </node>
+
+        <node id="vial_esfera">
+        
+            <material id = "null" />
+            
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.4" />          
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.4" slices="50" stacks="50"/>
+            </descendants>
+
+        </node>
+
+        <node id="vial_cilindro_1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.4" />          
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.8" topRadius="0.4" bottomRadius="0.4" stacks="50" slices="50"/>
+            </descendants>
+
+        </node>
+        
+        <node id="vial_cilindro_2">
+        
+            <material id = "null" />
+
+            <texture id="corkTexture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="1.1" />          
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.1" topRadius="0.45" bottomRadius="0.45" stacks="50" slices="50"/>
+            </descendants>
+
+        </node>
+
+        
+        <node id="tampos">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.5" />          
+            </transformations>
+
+            <descendants>
+                <noderef id="tampo1" />
+                <noderef id="tampo2" />
+                <noderef id="tampo3" />
+            </descendants>
+
+        </node>
+
+        <node id="tampo1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="2.15" y="0" z="4.5" />
+                <scale sx="4.26" sy="24" sz="0.125"/>            
+        
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="tampo2">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-2.15" y="0" z="4.5" />
+                <scale sx="4.26" sy="24" sz="0.125"/>            
+        
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="tampo3">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="4.5" />
+                <scale sx="4.26" sy="24" sz="0.125"/>            
+        
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+
+        <node id="pernas">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="perna1" />
+                <noderef id="perna2" />
+                <noderef id="perna3" />
+                <noderef id="perna4" />
+            </descendants>
+
+        </node>
+
+        <node id="perna1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="2.5" y="5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="perna2">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="2.5" y="-5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="perna3">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-2.5" y="-5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="perna4">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-2.5" y="5" z="0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+        
+        </node>
+
+        <node id="paralelipipedo">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="quadrado_topo" />
+                <noderef id="quadrado_baixo" />
+                <noderef id="retangulo_lado1" />
+                <noderef id="retangulo_lado2" />
+                <noderef id="retangulo_lado3" />
+                <noderef id="retangulo_lado4" />
+                
+            </descendants>
+        
+        </node>
+
+
+        <node id="quadrado_baixo">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
+            </descendants>
+        
+        </node>
+
+        <node id="quadrado_topo">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="4" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
+            </descendants>
+        
+        </node>
+
+        
+        <node id="retangulo_lado1">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.25" y="0.25" z="0" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+            </descendants>
+        
+        </node>
+
+        <node id="retangulo_lado2">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.25" y="-0.25" z="0" />
+                <rotation axis="x" angle="-90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+            </descendants>
+        
+        </node>
+
+        <node id="retangulo_lado3">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0.25" y="-0.25" z="0" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
+            </descendants>
+        
+        </node>
+
+        <node id="retangulo_lado4">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.25" y="-0.25" z="0" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
+            </descendants>
+        
+        </node> 
+
+        <node id="vigas_compridas">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.25" />
+            </transformations>
+
+            <descendants>
+                <noderef id="viga_comprida1" />
+                <noderef id="viga_comprida2" />
+            </descendants>
+
+        </node>
+
+        <node id="vigas_curtas">
+        
+            <material id = "null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-0.25" />
+            </transformations>
+
+            <descendants>
+                <noderef id="viga_curta1" />
+                <noderef id="viga_curta2" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_curta1">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="2.25" y="-5" z="3.75" />
+                <rotation axis="y" angle="-90" />
+                <translation x="0.25" y="0" z="0" />
+                <scale sx="1" sy="1" sz="1.125"/>            
+        
+            </transformations>
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_curta2">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="2.25" y="5" z="3.75" />
+                <rotation axis="y" angle="-90" />
+                <translation x="0.25" y="0" z="0" />
+                <scale sx="1" sy="1" sz="1.125"/>            
+        
+            </transformations>
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_comprida1">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="-2.5" y="-4.75" z="3.75" />
+                <rotation axis="x" angle="-90" />
+                <translation x="0" y="-0.25" z="0" />
+                <scale sx="1" sy="1" sz="2.375"/>            
+        
+            </transformations>
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="viga_comprida2">
+        
+            <material id = "null" />
+
+            <transformations>
+                <translation x="2.5" y="-4.75" z="3.75" />
+                <rotation axis="x" angle="-90" />
+                <translation x="0" y="-0.25" z="0" />
+                <scale sx="1" sy="1" sz="2.375"/>            
+        
+            </transformations>
+
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="paralelipipedo" />
+            </descendants>
+
+        </node>
+
+        <node id="crystal_ball">
+         
+            <material id="null" />
+
+            <transformations>
+                <translation x = "0" y = "0" z = "-1"/>
+            </transformations>
+
+            <texture id="default_textureTexture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="crystal_ball_base" />
+                <noderef id="ball" />
+            </descendants>
+        </node>
+
+        <node id="crystal_ball_base">       
+         
+            <material id="null" />
+
+            <texture id="crystal_ball_baseTexture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-4" z="5.5" />
+                <rotation axis="z" angle="180" />
+            </transformations>
+            
+            <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.5" bottomRadius="1" stacks="20" slices="20"/>
+            </descendants>
+        </node>
+
+        <node id="ball">
+         
+            <material id="crystal_ball_material" />
+
+            <texture id="crystal_ballTexture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="-4" z="7" />
+            </transformations>
+            
+            <descendants>
+                <leaf type="sphere" radius="1" slices="20" stacks="20"/>
+            </descendants>
+        </node>
+
+        <node id="cauldron">  
+        
+            <material id="null" />
+
+            <transformations>
+                <translation x="0" y="0" z="4.2" />
+            </transformations>
+
+            <texture id="cauldronTexture">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="corpo" />
+                <noderef id="pernas_caldeirao" />
+                <noderef id="borda" />
+                <noderef id="liquido" />
+                <noderef id="bolhas" />
+            </descendants>
+        </node>
+
+        <node id="bolhas">  
+
+            <material id="neon_green_liquid" />
+
+            <transformations>
+                <translation x="0" y="0" z="7.5" />
+            </transformations>
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+                
+            <descendants>
+                <noderef id="bolha_1" />
+                <noderef id="bolha_2" />
+                <noderef id="bolha_3" />
+            </descendants>
+        </node>
+
+        <node id="bolha_1">  
+
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="1" y="0.6" z="-2" />
+            </transformations>
+                
+            <descendants>
+                <leaf type="sphere" radius="0.4" slices="30" stacks="30"/>
+            </descendants>
+        </node>
+
+        
+        <node id="bolha_2">  
+
+            <material id="null" />
+
+            <texture id="null">~
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="1" y="0" z="0" />
+            </transformations>
+                
+            <descendants>
+                <leaf type="sphere" radius="0.1" slices="30" stacks="30"/>
+            </descendants>
+        </node>
+
+        
+        <node id="bolha_3">  
+
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-0.5" y="0.1" z="-1" />
+            </transformations>
+                
+            <descendants>
+                <leaf type="sphere" radius="0.2" slices="30" stacks="30"/>
+            </descendants>
+        </node>
+
+
+        <node id="liquido">  
+
+            <material id="neon_green_liquid" />
+
+            <texture id="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="4" />
+            </transformations>
+                
+            <descendants>
+                <leaf type="cylinder" height="0.2" topRadius="2.5" bottomRadius="2.5" stacks="30" slices="30"/>
+            </descendants>
+        </node>
+
+
+        <node id="borda">  
+
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="4.2" />
+            </transformations>
+                
+            <descendants>
+                <leaf type="torus" inner="0.4" outer="2.5" slices="60" loops="60" />
+            </descendants>
+        </node>
+
+        
+        <node id="corpo">  
+
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="0.75" />
+                <rotation axis="z" angle="180" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="3.5" topRadius="2.5" bottomRadius="2.5" stacks="30" slices="30"/>
+            </descendants>
+        </node>
+
+        <node id="pernas_caldeirao">  
+
+            <material id="null" />
+
+            <transformations>
+                <scale sx = "0.5" sy = "0.5" sz = "0.5"/>
+            </transformations>
+
+            
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="perna_caldeirao_1" />
+                <noderef id="perna_caldeirao_2" />
+                <noderef id="perna_caldeirao_3" />
+            </descendants>
+        </node>
+        
+        <node id="perna_caldeirao_1">  
+
+            <material id="null" />
+
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="0" />
+            </transformations>
+
+
+            <descendants>
+                <noderef id="perna_caldeirao" />
+            </descendants>
+        </node>
+
+
+        <node id="perna_caldeirao_2">  
+
+            <material id="null" />
+
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="120" />
+            </transformations>
+
+
+            <descendants>
+                <noderef id="perna_caldeirao" />
+            </descendants>
+        </node>
+
+        
+        <node id="perna_caldeirao_3"> 
+
+            <material id="null" />
+
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="240" />
+            </transformations>
+
+
+            <descendants>
+                <noderef id="perna_caldeirao" />
+            </descendants>
+        </node>
+
+
+                
+        <node id="perna_caldeirao">  
+
+            <material id="null" />
+
+            <transformations>
+                <translation x="3" y="3" z="0" />
+            </transformations>
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <descendants>
+                <noderef id="perna_caldeirao_cilindro" />
+                <noderef id="perna_caldeirao_esfera" />
+            </descendants>
+        </node>
+
+
+                        
+        <node id="perna_caldeirao_cilindro">  
+
+            <material id="null" />
+
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="1" />
+            </transformations>
+
+
+            <descendants>
+                <leaf type="cylinder" height="1" topRadius="0.5" bottomRadius="0.5" stacks="20" slices="20"/>
+            </descendants>
+        </node>
+
+
+                        
+        <node id="perna_caldeirao_esfera">  
+
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0" />
+
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="1" />
+            </transformations>
+
+            <descendants>
+                <leaf type="sphere" radius="0.5" slices="20" stacks="20"/>
+            </descendants>
+        </node>
+    </nodes>
+</lsf>
