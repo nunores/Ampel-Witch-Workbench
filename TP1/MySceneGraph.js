@@ -71,7 +71,7 @@ class MySceneGraph {
      */
     onXMLError(message) {
         console.error("XML Loading Error: " + message);
-        //this.loadedOk = false;
+        this.loadedOk = false;
     }
 
     /**
