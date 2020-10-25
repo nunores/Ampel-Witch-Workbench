@@ -42,19 +42,70 @@ class MyComponent extends CGFobject {
         this.textureObject = new CGFtexture(this.scene, this.texturePath);
     }
 
+    // TODO: findChildren()
+
     display(){
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformations);
-        if (this.material != null)
+        var temp_material = null;
+        var temp_texture = null;
+
+        if (this.material == null)
         {
-            if (this.texturePath != "null")
+            temp_material = this.scene.stack_material.pop();
+            this.scene.stack_material.push(temp_material);
+            this.scene.stack_material.push(temp_material);
+        }
+        else
+        {
+            temp_material = this.material;
+            this.scene.stack_material.push(this.material);
+        }
+        
+        if (this.texturePath == "null")
+        {
+            temp_texture = this.scene.stack_texture.pop();
+            this.scene.stack_texture.push(temp_texture);
+            this.scene.stack_texture.push(temp_texture);
+        }
+        else if(this.texturePath == "clear")
+        {
+            this.textureObject = null;
+            temp_texture = null;
+            this.scene.stack_texture.push(this.textureObject);
+        }
+
+        else{
+            temp_texture = this.textureObject;
+            this.scene.stack_texture.push(this.textureObject);
+        }
+
+        temp_material.setTexture(temp_texture);
+        temp_material.setTextureWrap("REPEAT","REPEAT");
+        temp_material.apply();
+        
+        
+        /*if (this.material != null)
+        {
+            if (this.texturePath != "null" && this.texturePath != "clear") ////<--
             {
                 this.material.setTexture(this.textureObject);
+                this.material.setTextureWrap("REPEAT","REPEAT");
+
+            }
+            if (this.texturePath == "null")
+            {
+                if(this.scene.stack.length != 0){
+                    this.material.setTexture(this.scene.stack[this.scene.stack.length - 1].texture);
+                    this.material.setTextureWrap("REPEAT","REPEAT");
+
+                }
+
             }
             this.scene.stack.push(this.material);
         }
 
-        if (this.texturePath != "null" && this.material == null)
+        if (this.texturePath != "null" && this.texturePath != "clear" && this.material == null)
         {
             var new_material = new CGFappearance(this.scene);
             new_material.setTexture(this.textureObject);
@@ -63,43 +114,36 @@ class MyComponent extends CGFobject {
         }
 
         if (this.scene.stack.length != 0)
-            this.scene.stack[this.scene.stack.length - 1].apply();
-
+            this.scene.stack[this.scene.stack.length - 1].apply();*/
+            
         
-        if (typeof this.children[0] === 'string') // If the child is not a leaf - need only to check the first one
+        for (var k = 0; k < this.children.length; k++)
         {
-            for (var i = 0; i < this.children.length; i++)
+            if (typeof this.children[k] === 'string') // Checking if is leaf
             {
                 for (var n = 0; n < this.scene.components.length; n++)
                 {
-                    if (this.scene.components[n].id == this.children[i]) // Find component corresponding to stored string
+                    if (this.scene.components[n].id == this.children[k]) // Find component corresponding to stored string
                     {
                         this.scene.components[n].display();
                         
                     }
                 }
             }
-        }
-        else {
-
-            for (var i = 0; i < this.children.length; i++)
+            else
             {
-                if (this.children[i] instanceof MyRectangle || this.children[i] instanceof MyTriangle)
+                if (this.children[k] instanceof MyRectangle || this.children[k] instanceof MyTriangle)
                 {
-                    this.children[i].updateTexCoords(this.amplification[0], this.amplification[1]);
+                    this.children[k].updateTexCoords(this.amplification[0], this.amplification[1]);
                 }
-                this.children[i].display();
-                
+                this.children[k].display();
             }
-
         }
 
-        if (this.material != null || this.texturePath != "null")
-        {
-            this.scene.stack.pop();
-        }
+        this.scene.stack_texture.pop();
+        this.scene.stack_material.pop();
 
-        this.scene.defaultAppearance.apply();
+        //this.scene.defaultAppearance.apply();
         this.scene.popMatrix();
 
     }

@@ -42,8 +42,6 @@ class MyCylinder extends CGFobject {
 				);
 			}
 
-			
-
 			//this.texCoords.push(n / this.slices, 1 - i / this.stacks);
 
 			z_height += stack_alpha;

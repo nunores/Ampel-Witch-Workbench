@@ -12,12 +12,15 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
 
         this.nodes = [];
+        this.rootId = null;
         this.components = [];
         this.materials = [];
         this.textures = [];
         this.textures["null"] = "null";
         this.textures["clear"] = "clear";
         this.lights = [];
+        this.stack_material = [];
+        this.stack_texture = [];
         this.stack = [];
         this.cameras = [];
         this.currCamera = null;
@@ -129,6 +132,8 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
+
+        
 
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].update();

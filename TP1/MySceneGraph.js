@@ -71,7 +71,7 @@ class MySceneGraph {
      */
     onXMLError(message) {
         console.error("XML Loading Error: " + message);
-        //this.loadedOk = false;
+        this.loadedOk = false;
     }
 
     /**
@@ -243,21 +243,16 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
-
         this.scene.currCamera = viewsNode.attributes[0].value;
-                
-        for (var i = 0; i < viewsNode.children.length; i++)
-        {
+
+        for (var i = 0; i < viewsNode.children.length; i++) {
             var attNames = [];
 
-            for (var n = 0; n < viewsNode.children[i].attributes.length; n++)
-            {
+            for (var n = 0; n < viewsNode.children[i].attributes.length; n++) {
                 attNames.push(viewsNode.children[i].attributes[n].nodeName);
             }
-            
-            if (viewsNode.children[i].nodeName == "perspective")
-            {
+
+            if (viewsNode.children[i].nodeName == "perspective") {
                 var nearIndex = attNames.indexOf("near");
                 var farIndex = attNames.indexOf("far");
                 var angleIndex = attNames.indexOf("angle");
@@ -268,8 +263,7 @@ class MySceneGraph {
 
                 var childrenNames = [];
 
-                for (var j = 0; j < viewsNode.children[i].children.length; j++)
-                {
+                for (var j = 0; j < viewsNode.children[i].children.length; j++) {
                     childrenNames.push(viewsNode.children[i].children[j].nodeName);
                 }
 
@@ -278,8 +272,7 @@ class MySceneGraph {
 
                 var coordinatesFromNames = [];
 
-                for (var j = 0; j < viewsNode.children[i].children[fromIndex].attributes.length; j++)
-                {
+                for (var j = 0; j < viewsNode.children[i].children[fromIndex].attributes.length; j++) {
                     coordinatesFromNames.push(viewsNode.children[i].children[fromIndex].attributes[j].nodeName);
                 }
 
@@ -293,8 +286,7 @@ class MySceneGraph {
 
                 var coordinatesToNames = [];
 
-                for (var j = 0; j < viewsNode.children[i].children[toIndex].attributes.length; j++)
-                {
+                for (var j = 0; j < viewsNode.children[i].children[toIndex].attributes.length; j++) {
                     coordinatesToNames.push(viewsNode.children[i].children[toIndex].attributes[j].nodeName);
                 }
 
@@ -307,12 +299,10 @@ class MySceneGraph {
                 var toZValue = Number(viewsNode.children[i].children[toIndex].attributes[toZIndex].value);
 
 
-                var camera = new CGFcamera(angleValue, nearValue, farValue, vec3.fromValues(fromXValue,fromYValue,fromZValue), vec3.fromValues(toXValue, toYValue, toZValue));
+                var camera = new CGFcamera(angleValue * DEGREE_TO_RAD, nearValue, farValue, vec3.fromValues(fromXValue, fromYValue, fromZValue), vec3.fromValues(toXValue, toYValue, toZValue));
             }
-            else
-            {
-                if (viewsNode.children[i].nodeName == "ortho")
-                {
+            else {
+                if (viewsNode.children[i].nodeName == "ortho") {
                     var nearIndex = attNames.indexOf("near");
                     var farIndex = attNames.indexOf("far");
                     var leftIndex = attNames.indexOf("left");
@@ -329,8 +319,7 @@ class MySceneGraph {
 
                     var childrenNames = [];
 
-                    for (var j = 0; j < viewsNode.children[i].children.length; j++)
-                    {
+                    for (var j = 0; j < viewsNode.children[i].children.length; j++) {
                         childrenNames.push(viewsNode.children[i].children[j].nodeName);
                     }
 
@@ -340,8 +329,7 @@ class MySceneGraph {
 
                     var coordinatesFromNames = [];
 
-                    for (var j = 0; j < viewsNode.children[i].children[fromIndex].attributes.length; j++)
-                    {
+                    for (var j = 0; j < viewsNode.children[i].children[fromIndex].attributes.length; j++) {
                         coordinatesFromNames.push(viewsNode.children[i].children[fromIndex].attributes[j].nodeName);
                     }
 
@@ -355,8 +343,7 @@ class MySceneGraph {
 
                     var coordinatesToNames = [];
 
-                    for (var j = 0; j < viewsNode.children[i].children[toIndex].attributes.length; j++)
-                    {
+                    for (var j = 0; j < viewsNode.children[i].children[toIndex].attributes.length; j++) {
                         coordinatesToNames.push(viewsNode.children[i].children[toIndex].attributes[j].nodeName);
                     }
 
@@ -370,29 +357,33 @@ class MySceneGraph {
 
                     var coordinatesUpNames = [];
 
-                    for (var j = 0; j < viewsNode.children[i].children[upIndex].attributes.length; j++)
-                    {
-                        coordinatesUpNames.push(viewsNode.children[i].children[upIndex].attributes[j].nodeName);
+                    if (upIndex == -1) {
+                        var upXValue = 0;
+                        var upYValue = 1;
+                        var upZValue = 0;
+                    }
+                    else {
+                        for (var j = 0; j < viewsNode.children[i].children[upIndex].attributes.length; j++) {
+                            coordinatesUpNames.push(viewsNode.children[i].children[upIndex].attributes[j].nodeName);
+                        }
+
+                        var upXIndex = coordinatesUpNames.indexOf("x");
+                        var upYIndex = coordinatesUpNames.indexOf("y");
+                        var upZIndex = coordinatesUpNames.indexOf("z");
+
+                        var upXValue = Number(viewsNode.children[i].children[upIndex].attributes[upXIndex].value);
+                        var upYValue = Number(viewsNode.children[i].children[upIndex].attributes[upYIndex].value);
+                        var upZValue = Number(viewsNode.children[i].children[upIndex].attributes[upZIndex].value);
                     }
 
-                    var upXIndex = coordinatesUpNames.indexOf("x");
-                    var upYIndex = coordinatesUpNames.indexOf("y");
-                    var upZIndex = coordinatesUpNames.indexOf("z");
-
-                    var upXValue = Number(viewsNode.children[i].children[upIndex].attributes[upXIndex].value);
-                    var upYValue = Number(viewsNode.children[i].children[upIndex].attributes[upYIndex].value);
-                    var upZValue = Number(viewsNode.children[i].children[upIndex].attributes[upZIndex].value);
-
-
-
                     var camera = new CGFcameraOrtho(leftValue, rightValue, bottomValue, topValue, nearValue, farValue,
-                         vec3.fromValues(fromXValue,fromYValue,fromZValue), vec3.fromValues(toXValue, toYValue, toZValue), vec3.fromValues(upXValue,upYValue,upZValue));
-                    
+                        vec3.fromValues(fromXValue, fromYValue, fromZValue), vec3.fromValues(toXValue, toYValue, toZValue), vec3.fromValues(upXValue, upYValue, upZValue));
+
                 }
             }
-            
+
             this.scene.cameras[viewsNode.children[i].attributes[0].value] = camera;
-            
+
         }
 
         this.scene.camera = this.scene.cameras[this.scene.currCamera];
@@ -525,8 +516,7 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
 
-        for (var i = 0; i < texturesNode.children.length; i++)
-        {
+        for (var i = 0; i < texturesNode.children.length; i++) {
             this.scene.textures[texturesNode.children[i].id] = texturesNode.children[i].attributes[1].value;
         }
 
@@ -565,24 +555,24 @@ class MySceneGraph {
 
             var nodeNames = [];
 
-            for (var j = 0; j < children[i].children.length; j++){
+            for (var j = 0; j < children[i].children.length; j++) {
                 nodeNames.push(children[i].children[j].nodeName);
             }
-            
-            
+
+
             var shininessIndex = nodeNames.indexOf("shininess");
             var specularIndex = nodeNames.indexOf("specular");
             var diffuseIndex = nodeNames.indexOf("diffuse");
             var ambientIndex = nodeNames.indexOf("ambient");
             var emissiveIndex = nodeNames.indexOf("emissive");
-            
+
             var shininessValue = Number(children[i].children[shininessIndex].attributes[0].value);
-            
+
             // Specular Indexes and Values
 
             var nodeNames = [];
 
-            for (var j = 0; j < children[i].children[specularIndex].attributes.length; j++){
+            for (var j = 0; j < children[i].children[specularIndex].attributes.length; j++) {
                 nodeNames.push(children[i].children[specularIndex].attributes[j].nodeName);
             }
 
@@ -590,18 +580,18 @@ class MySceneGraph {
             var specularIndexG = nodeNames.indexOf("g");
             var specularIndexB = nodeNames.indexOf("b");
             var specularIndexA = nodeNames.indexOf("a");
-            
+
             var specularValueR = Number(children[i].children[specularIndex].attributes[specularIndexR].value);
             var specularValueG = Number(children[i].children[specularIndex].attributes[specularIndexG].value);
             var specularValueB = Number(children[i].children[specularIndex].attributes[specularIndexB].value);
             var specularValueA = Number(children[i].children[specularIndex].attributes[specularIndexA].value);
-            
-            
+
+
             // Diffuse Indexes and Values
 
             var nodeNames = [];
 
-            for (var j = 0; j < children[i].children[diffuseIndex].attributes.length; j++){
+            for (var j = 0; j < children[i].children[diffuseIndex].attributes.length; j++) {
                 nodeNames.push(children[i].children[diffuseIndex].attributes[j].nodeName);
             }
 
@@ -609,7 +599,7 @@ class MySceneGraph {
             var diffuseIndexG = nodeNames.indexOf("g");
             var diffuseIndexB = nodeNames.indexOf("b");
             var diffuseIndexA = nodeNames.indexOf("a");
-            
+
             var diffuseValueR = Number(children[i].children[diffuseIndex].attributes[diffuseIndexR].value);
             var diffuseValueG = Number(children[i].children[diffuseIndex].attributes[diffuseIndexG].value);
             var diffuseValueB = Number(children[i].children[diffuseIndex].attributes[diffuseIndexB].value);
@@ -619,10 +609,10 @@ class MySceneGraph {
 
             var nodeNames = [];
 
-            for (var j = 0; j < children[i].children[ambientIndex].attributes.length; j++){
+            for (var j = 0; j < children[i].children[ambientIndex].attributes.length; j++) {
                 nodeNames.push(children[i].children[ambientIndex].attributes[j].nodeName);
             }
-            
+
             var ambientIndexR = nodeNames.indexOf("r");
             var ambientIndexG = nodeNames.indexOf("g");
             var ambientIndexB = nodeNames.indexOf("b");
@@ -638,10 +628,10 @@ class MySceneGraph {
 
             var nodeNames = [];
 
-            for (var j = 0; j < children[i].children[emissiveIndex].attributes.length; j++){
+            for (var j = 0; j < children[i].children[emissiveIndex].attributes.length; j++) {
                 nodeNames.push(children[i].children[emissiveIndex].attributes[j].nodeName);
             }
-            
+
             var emissiveIndexR = nodeNames.indexOf("r");
             var emissiveIndexG = nodeNames.indexOf("g");
             var emissiveIndexB = nodeNames.indexOf("b");
@@ -719,7 +709,7 @@ class MySceneGraph {
             var component = new MyComponent(this.scene, nodeId);
             grandChildren = node.children;
             nodeNames = [];
-        
+
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -731,16 +721,23 @@ class MySceneGraph {
 
             var amplificationsNames = [];
 
-            for (var p = 0; p < node.children[textureIndex].children[0].attributes.length; p++) {
-                amplificationsNames.push(node.children[textureIndex].children[0].attributes[p].nodeName);
+            if (node.children[textureIndex].children.length == 0) {
+
+                var afsValue = 1;
+                var aftValue = 1;
+            }
+            else {
+                for (var p = 0; p < node.children[textureIndex].children[0].attributes.length; p++) {
+                    amplificationsNames.push(node.children[textureIndex].children[0].attributes[p].nodeName);
+                }
+
+                var afsIndex = amplificationsNames.indexOf("afs");
+                var aftIndex = amplificationsNames.indexOf("aft");
+
+                var afsValue = Number(node.children[textureIndex].children[0].attributes[afsIndex].value);
+                var aftValue = Number(node.children[textureIndex].children[0].attributes[aftIndex].value);
             }
 
-            var afsIndex = amplificationsNames.indexOf("afs");
-            var aftIndex = amplificationsNames.indexOf("aft");
-
-            var afsValue = Number(node.children[textureIndex].children[0].attributes[afsIndex].value);
-            var aftValue = Number(node.children[textureIndex].children[0].attributes[aftIndex].value);
-            
             component.setAmplifications(afsValue, aftValue);
 
             // Handling Transformations
@@ -749,7 +746,7 @@ class MySceneGraph {
             var xIndex = null;
             var yIndex = null;
             var zIndex = null;
-            
+
             var axisIndex = null;
             var angleIndex = null;
 
@@ -773,7 +770,7 @@ class MySceneGraph {
             var rotationZValue = null;
 
             var matrix = mat4.create();
-            
+
             if (transformationsIndex >= 0) {
                 for (var i = 0; i < node.children[transformationsIndex].children.length; i++) { // For
 
@@ -849,15 +846,15 @@ class MySceneGraph {
             // Setting Texture
             var texture_key = node.children[textureIndex].attributes[0].value;
 
-            if(texture_key == "clear")
+            if (texture_key == "clear")
                 component.setTexturePath("clear");
             else
                 component.setTexturePath(this.scene.textures[texture_key]);
 
             // Setting Material
-
-            if (node.children[materialIndex].id != "null")
-            {
+            if (component.id == "MesaLateral")
+                var za = 0;
+            if (node.children[materialIndex].id != "null") {
                 component.setMaterial(this.scene.materials[node.children[materialIndex].id]);
             }
             else {
@@ -866,143 +863,142 @@ class MySceneGraph {
 
             // Setting node order and children
 
-            var type = node.children[descendantsIndex].children[0].nodeName;
+            for (var l = 0; l < node.children[descendantsIndex].children.length; l++) {
+                var type = node.children[descendantsIndex].children[l].nodeName;
 
-            if (type == "leaf") {
-                let primitive = node.children[descendantsIndex].children[0].attributes[0].value;
+                if (type == "leaf") {
+                    let primitive = node.children[descendantsIndex].children[l].attributes[0].value;
 
-                if (primitive == "sphere") {
-                    var attributeNames = [];
-                    var attributes = [];
-                    attributes = node.children[descendantsIndex].children[0].attributes;
-                    for (var j = 0; j < attributes.length; j++) {
-                        attributeNames.push(attributes[j].name);
+                    if (primitive == "sphere") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+
+                        let radiusIndex = attributeNames.indexOf("radius");
+                        let slicesIndex = attributeNames.indexOf("slices");
+                        let stacksIndex = attributeNames.indexOf("stacks");
+
+                        var radius = Number(node.children[descendantsIndex].children[l].attributes[radiusIndex].nodeValue);
+                        var slices = Number(node.children[descendantsIndex].children[l].attributes[slicesIndex].nodeValue);
+                        var stacks = Number(node.children[descendantsIndex].children[l].attributes[stacksIndex].nodeValue);
+
+                        component.addChildren(new MySphere(this.scene, radius, slices, stacks));
+
                     }
 
-                    let radiusIndex = attributeNames.indexOf("radius");
-                    let slicesIndex = attributeNames.indexOf("slices");
-                    let stacksIndex = attributeNames.indexOf("stacks");
+                    else if (primitive == "cylinder") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
 
-                    var radius = Number(node.children[descendantsIndex].children[0].attributes[radiusIndex].nodeValue);
-                    var slices = Number(node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue);
-                    var stacks = Number(node.children[descendantsIndex].children[0].attributes[stacksIndex].nodeValue);
+                        let heightIndex = attributeNames.indexOf("height");
+                        let topRadiusIndex = attributeNames.indexOf("topRadius");
+                        let bottomRadiusIndex = attributeNames.indexOf("bottomRadius");
+                        let slicesIndex = attributeNames.indexOf("slices");
+                        let stacksIndex = attributeNames.indexOf("stacks");
 
-                    component.addChildren(new MySphere(this.scene, radius, slices, stacks));
+                        var height = parseFloat(node.children[descendantsIndex].children[l].attributes[heightIndex].nodeValue);
+                        var topRadius = parseFloat(node.children[descendantsIndex].children[l].attributes[topRadiusIndex].nodeValue)
+                        var bottomRadius = parseFloat(node.children[descendantsIndex].children[l].attributes[bottomRadiusIndex].nodeValue);
+                        var slices = Number(node.children[descendantsIndex].children[l].attributes[slicesIndex].nodeValue);
+                        var stacks = Number(node.children[descendantsIndex].children[l].attributes[stacksIndex].nodeValue);
 
-                }
+                        component.addChildren(new MyCylinder(this.scene, slices, stacks, height, bottomRadius, topRadius));
 
-                else if(primitive == "cylinder"){
-                    var attributeNames = [];
-                    var attributes = [];
-                    attributes = node.children[descendantsIndex].children[0].attributes;
-                    for (var j = 0; j < attributes.length; j++) {
-                        attributeNames.push(attributes[j].name);
                     }
 
-                    let heightIndex = attributeNames.indexOf("height");
-                    let topRadiusIndex = attributeNames.indexOf("topRadius");
-                    let bottomRadiusIndex = attributeNames.indexOf("bottomRadius");
-                    let slicesIndex = attributeNames.indexOf("slices");
-                    let stacksIndex = attributeNames.indexOf("stacks");
 
-                    var height = parseFloat(node.children[descendantsIndex].children[0].attributes[heightIndex].nodeValue);
-                    var topRadius = parseFloat(node.children[descendantsIndex].children[0].attributes[topRadiusIndex].nodeValue)
-                    var bottomRadius = parseFloat(node.children[descendantsIndex].children[0].attributes[bottomRadiusIndex].nodeValue);
-                    var slices = Number(node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue);
-                    var stacks = Number(node.children[descendantsIndex].children[0].attributes[stacksIndex].nodeValue);
+                    else if (primitive == "rectangle") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
 
-                    component.addChildren(new MyCylinder(this.scene, slices, stacks, height, bottomRadius, topRadius));
+                        let x1Index = attributeNames.indexOf("x1");
+                        let y1Index = attributeNames.indexOf("y1");
+                        let x2Index = attributeNames.indexOf("x2");
+                        let y2Index = attributeNames.indexOf("y2");
 
-                }
+                        var x1 = Number(node.children[descendantsIndex].children[l].attributes[x1Index].nodeValue);
+                        var y1 = Number(node.children[descendantsIndex].children[l].attributes[y1Index].nodeValue);
+                        var x2 = Number(node.children[descendantsIndex].children[l].attributes[x2Index].nodeValue);
+                        var y2 = Number(node.children[descendantsIndex].children[l].attributes[y2Index].nodeValue);
 
-
-                else if (primitive == "rectangle") {
-                    var attributeNames = [];
-                    var attributes = [];
-                    attributes = node.children[descendantsIndex].children[0].attributes;
-                    for (var j = 0; j < attributes.length; j++) {
-                        attributeNames.push(attributes[j].name);
+                        component.addChildren(new MyRectangle(this.scene, x1, y1, x2, y2));
                     }
 
-                    let x1Index = attributeNames.indexOf("x1");
-                    let y1Index = attributeNames.indexOf("y1");
-                    let x2Index = attributeNames.indexOf("x2");
-                    let y2Index = attributeNames.indexOf("y2");
+                    else if (primitive == "triangle") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
 
-                    var x1 = Number(node.children[descendantsIndex].children[0].attributes[x1Index].nodeValue);
-                    var y1 = Number(node.children[descendantsIndex].children[0].attributes[y1Index].nodeValue);
-                    var x2 = Number(node.children[descendantsIndex].children[0].attributes[x2Index].nodeValue);
-                    var y2 = Number(node.children[descendantsIndex].children[0].attributes[y2Index].nodeValue);
+                        let x1Index = attributeNames.indexOf("x1");
+                        let y1Index = attributeNames.indexOf("y1");
+                        let x2Index = attributeNames.indexOf("x2");
+                        let y2Index = attributeNames.indexOf("y2");
+                        let x3Index = attributeNames.indexOf("x3");
+                        let y3Index = attributeNames.indexOf("y3");
 
-                    component.addChildren(new MyRectangle(this.scene, x1, y1, x2, y2));
-                }
+                        var x1 = Number(node.children[descendantsIndex].children[l].attributes[x1Index].nodeValue);
+                        var y1 = Number(node.children[descendantsIndex].children[l].attributes[y1Index].nodeValue);
+                        var x2 = Number(node.children[descendantsIndex].children[l].attributes[x2Index].nodeValue);
+                        var y2 = Number(node.children[descendantsIndex].children[l].attributes[y2Index].nodeValue);
+                        var x3 = Number(node.children[descendantsIndex].children[l].attributes[x3Index].nodeValue);
+                        var y3 = Number(node.children[descendantsIndex].children[l].attributes[y3Index].nodeValue);
 
-                else if(primitive == "triangle"){
-                    var attributeNames = [];
-                    var attributes = [];
-                    attributes = node.children[descendantsIndex].children[0].attributes;
-                    for (var j = 0; j < attributes.length; j++) {
-                        attributeNames.push(attributes[j].name);
+                        component.addChildren(new MyTriangle(this.scene, x1, y1, 0, x2, y2, 0, x3, y3, 0));
                     }
 
-                    let x1Index = attributeNames.indexOf("x1");
-                    let y1Index = attributeNames.indexOf("y1");
-                    let x2Index = attributeNames.indexOf("x2");
-                    let y2Index = attributeNames.indexOf("y2");
-                    let x3Index = attributeNames.indexOf("x3");
-                    let y3Index = attributeNames.indexOf("y3");
+                    else if (primitive == "torus") {
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
 
-                    var x1 = Number(node.children[descendantsIndex].children[0].attributes[x1Index].nodeValue);
-                    var y1 = Number(node.children[descendantsIndex].children[0].attributes[y1Index].nodeValue);
-                    var x2 = Number(node.children[descendantsIndex].children[0].attributes[x2Index].nodeValue);
-                    var y2 = Number(node.children[descendantsIndex].children[0].attributes[y2Index].nodeValue);
-                    var x3 = Number(node.children[descendantsIndex].children[0].attributes[x3Index].nodeValue);
-                    var y3 = Number(node.children[descendantsIndex].children[0].attributes[y3Index].nodeValue);
+                        let innerIndex = attributeNames.indexOf("inner");
+                        let outerIndex = attributeNames.indexOf("outer");
+                        let slicesIndex = attributeNames.indexOf("slices");
+                        let loopsIndex = attributeNames.indexOf("loops");
 
-                    component.addChildren(new MyTriangle(this.scene, x1, y1, 0, x2, y2, 0, x3, y3, 0));
-                }
+                        var inner = Number(node.children[descendantsIndex].children[l].attributes[innerIndex].nodeValue);
+                        var outer = Number(node.children[descendantsIndex].children[l].attributes[outerIndex].nodeValue);
+                        var slices = Number(node.children[descendantsIndex].children[l].attributes[slicesIndex].nodeValue);
+                        var loops = Number(node.children[descendantsIndex].children[l].attributes[loopsIndex].nodeValue);
 
-                else if(primitive == "torus")
-                {
-                    var attributeNames = [];
-                    var attributes = [];
-                    attributes = node.children[descendantsIndex].children[0].attributes;
-                    for (var j = 0; j < attributes.length; j++) {
-                        attributeNames.push(attributes[j].name);
+                        component.addChildren(new MyTorus(this.scene, inner, outer, slices, loops));
                     }
 
-                    let innerIndex = attributeNames.indexOf("inner");
-                    let outerIndex = attributeNames.indexOf("outer");
-                    let slicesIndex = attributeNames.indexOf("slices");
-                    let loopsIndex = attributeNames.indexOf("loops");
-
-                    var inner = Number(node.children[descendantsIndex].children[0].attributes[innerIndex].nodeValue);
-                    var outer = Number(node.children[descendantsIndex].children[0].attributes[outerIndex].nodeValue);
-                    var slices = Number(node.children[descendantsIndex].children[0].attributes[slicesIndex].nodeValue);
-                    var loops = Number(node.children[descendantsIndex].children[0].attributes[loopsIndex].nodeValue);
-
-                    component.addChildren(new MyTorus(this.scene, inner, outer, slices, loops));
                 }
+                //////////
 
+
+                else {
+
+                    // Adding intermediate nodes
+                    component.addChildren(node.children[descendantsIndex].children[l].id);
+                }
             }
 
-
-            else {
-
-                // Adding intermediate nodes
-                for (var n = 0; n < node.children[descendantsIndex].children.length; n++) // Iterating over descendents
-                {
-                    component.addChildren(node.children[descendantsIndex].children[n].id);
-                }
-            }
 
             // Adicionar componentes
             this.scene.components.push(component);
 
 
         }
-        for (var n = 0; n < this.scene.components.length; n++)
-        {
+        for (var n = 0; n < this.scene.components.length; n++) {
             this.scene.components[n].assignTextures();
         }
 
@@ -1015,7 +1011,7 @@ class MySceneGraph {
         if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false)))
             this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 1'");
 
-        return boolVal || 1;
+        return boolVal || 0;
     }
 
     /**
@@ -1108,7 +1104,16 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+
+        this.scene.stack_texture.pop();
+        this.scene.stack_material.pop();
+        this.scene.stack_material.push(this.scene.defaultAppearance);
+        this.scene.stack_texture.push(null);
         
-        this.scene.components[0].display(); // Display root
+        for (var i = 0; i < this.scene.components.length; i++) {
+            if (this.scene.components[i].id == this.idRoot) {
+                this.scene.components[i].display();
+            }
+        }
     }
 }
