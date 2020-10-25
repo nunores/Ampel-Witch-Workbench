@@ -16,8 +16,11 @@ class XMLscene extends CGFscene {
         this.components = [];
         this.materials = [];
         this.textures = [];
+
+        // Helper values for texture assignment
         this.textures["null"] = "null";
         this.textures["clear"] = "clear";
+
         this.lights = [];
         this.stack_material = [];
         this.stack_texture = [];

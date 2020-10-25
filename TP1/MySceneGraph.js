@@ -252,6 +252,8 @@ class MySceneGraph {
                 attNames.push(viewsNode.children[i].attributes[n].nodeName);
             }
 
+            // Extracting information on perspective, near, far and angle
+
             if (viewsNode.children[i].nodeName == "perspective") {
                 var nearIndex = attNames.indexOf("near");
                 var farIndex = attNames.indexOf("far");
@@ -264,6 +266,8 @@ class MySceneGraph {
                 var farValue = Number(viewsNode.children[i].attributes[farIndex].value);
                 var angleValue = Number(viewsNode.children[i].attributes[angleIndex].value);
 
+                // Extracting information on to and from
+
                 var childrenNames = [];
 
                 for (var j = 0; j < viewsNode.children[i].children.length; j++) {
@@ -275,6 +279,8 @@ class MySceneGraph {
 
                 if (fromIndex == -1 || toIndex == -1)
                     return "Missing children";
+
+                // Extracting information on coordinates of from
 
                 var coordinatesFromNames = [];
 
@@ -292,6 +298,8 @@ class MySceneGraph {
                 var fromXValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromXIndex].value);
                 var fromYValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromYIndex].value);
                 var fromZValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromZIndex].value);
+
+                // Extracting information on coordinates of to
 
                 var coordinatesToNames = [];
 
@@ -313,8 +321,12 @@ class MySceneGraph {
 
                 var camera = new CGFcamera(angleValue * DEGREE_TO_RAD, nearValue, farValue, vec3.fromValues(fromXValue, fromYValue, fromZValue), vec3.fromValues(toXValue, toYValue, toZValue));
             }
+
             else {
                 if (viewsNode.children[i].nodeName == "ortho") {
+
+                    // Extracting information on ortho parameters
+
                     var nearIndex = attNames.indexOf("near");
                     var farIndex = attNames.indexOf("far");
                     var leftIndex = attNames.indexOf("left");
@@ -338,12 +350,16 @@ class MySceneGraph {
                         childrenNames.push(viewsNode.children[i].children[j].nodeName);
                     }
 
+                    // Extracting information on to, from and potentially up
+
                     var fromIndex = childrenNames.indexOf("from");
                     var toIndex = childrenNames.indexOf("to");
                     var upIndex = childrenNames.indexOf("up");
 
                     if (fromIndex == -1 || toIndex == -1)
                         return "Missing children";
+
+                    // Extracting information on coordinates of from
 
                     var coordinatesFromNames = [];
 
@@ -361,6 +377,9 @@ class MySceneGraph {
                     var fromXValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromXIndex].value);
                     var fromYValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromYIndex].value);
                     var fromZValue = Number(viewsNode.children[i].children[fromIndex].attributes[fromZIndex].value);
+
+
+                    // Extracting information on coordinates of to
 
                     var coordinatesToNames = [];
 
@@ -381,12 +400,15 @@ class MySceneGraph {
 
                     var coordinatesUpNames = [];
 
+                    // Setting default values
                     if (upIndex == -1) {
                         var upXValue = 0;
                         var upYValue = 1;
                         var upZValue = 0;
                     }
                     else {
+                        // Extracting information on up values if tag exists
+
                         for (var j = 0; j < viewsNode.children[i].children[upIndex].attributes.length; j++) {
                             coordinatesUpNames.push(viewsNode.children[i].children[upIndex].attributes[j].nodeName);
                         }
@@ -409,6 +431,7 @@ class MySceneGraph {
                 }
             }
 
+            // Adding to list of cameras
             this.scene.cameras[viewsNode.children[i].attributes[0].value] = camera;
 
         }
@@ -562,9 +585,6 @@ class MySceneGraph {
 
         this.materials = [];
 
-        //var grandChildren = [];
-        //var nodeNames = [];
-
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
 
@@ -584,6 +604,8 @@ class MySceneGraph {
 
 
             var nodeNames = [];
+
+            // Extracting information on material parameters
 
             for (var j = 0; j < children[i].children.length; j++) {
                 nodeNames.push(children[i].children[j].nodeName);
@@ -621,7 +643,6 @@ class MySceneGraph {
             var specularValueG = Number(children[i].children[specularIndex].attributes[specularIndexG].value);
             var specularValueB = Number(children[i].children[specularIndex].attributes[specularIndexB].value);
             var specularValueA = Number(children[i].children[specularIndex].attributes[specularIndexA].value);
-
 
             // Diffuse Indexes and Values
 
@@ -664,7 +685,6 @@ class MySceneGraph {
             var ambientValueG = Number(children[i].children[ambientIndex].attributes[ambientIndexG].value);
             var ambientValueB = Number(children[i].children[ambientIndex].attributes[ambientIndexB].value);
             var ambientValueA = Number(children[i].children[ambientIndex].attributes[ambientIndexA].value);
-
 
             // Emissive Indexes and Values
 
@@ -761,6 +781,8 @@ class MySceneGraph {
             grandChildren = node.children;
             nodeNames = [];
 
+            // Extracting information on nodes' tags
+
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -779,6 +801,9 @@ class MySceneGraph {
                 var aftValue = 1;
             }
             else {
+
+                // Extracting afs and aft values
+
                 for (var p = 0; p < node.children[textureIndex].children[0].attributes.length; p++) {
                     amplificationsNames.push(node.children[textureIndex].children[0].attributes[p].nodeName);
                 }
@@ -811,6 +836,8 @@ class MySceneGraph {
             var sxIndex = null;
             var syIndex = null;
             var szIndex = null;
+
+            // Values
 
             var sxValue = null;
             var syValue = null;
@@ -859,6 +886,9 @@ class MySceneGraph {
                         axisIndex = attributeNames.indexOf("axis");
                         angleIndex = attributeNames.indexOf("angle");
 
+                        if (axisIndex == -1 || angleIndex == -1)
+                            return "Missing arguments";
+
                         axisValue = node.children[transformationsIndex].children[i].attributes[axisIndex].value;
                         angleValue = Number(node.children[transformationsIndex].children[i].attributes[angleIndex].value);
                         if (axisValue == "x") {
@@ -890,6 +920,9 @@ class MySceneGraph {
                         syIndex = attributeNames.indexOf("sy");
                         szIndex = attributeNames.indexOf("sz");
 
+                        if (syIndex == -1 || sxIndex == -1 || szIndex == -1)
+                            return "Missing arguments";
+
                         sxValue = Number(node.children[transformationsIndex].children[i].attributes[sxIndex].value);
                         syValue = Number(node.children[transformationsIndex].children[i].attributes[syIndex].value);
                         szValue = Number(node.children[transformationsIndex].children[i].attributes[szIndex].value);
@@ -902,7 +935,15 @@ class MySceneGraph {
             component.setTransformations(matrix);
 
             // Setting Texture
+            if (node.children[textureIndex].attributes.length != 1)
+                return "Missing/Too many arguments";
+
             var texture_key = node.children[textureIndex].attributes[0].value;
+
+            if (typeof texture_key !== 'string')
+            {
+                return "Missing id";
+            }
 
             if (texture_key == "clear")
                 component.setTexturePath("clear");
@@ -910,8 +951,15 @@ class MySceneGraph {
                 component.setTexturePath(this.scene.textures[texture_key]);
 
             // Setting Material
-            if (component.id == "MesaLateral")
-                var za = 0;
+            
+            if (node.children[materialIndex].length != 1)
+                return "Missing/Too many arguments"; 
+                
+            if (typeof node.children[materialIndex].id !== 'string')
+            {
+                return "Missing id";
+            }
+
             if (node.children[materialIndex].id != "null") {
                 component.setMaterial(this.scene.materials[node.children[materialIndex].id]);
             }
@@ -939,6 +987,9 @@ class MySceneGraph {
                         let slicesIndex = attributeNames.indexOf("slices");
                         let stacksIndex = attributeNames.indexOf("stacks");
 
+                        if (radiusIndex == -1 || slicesIndex == -1 || stacksIndex == -1)
+                            return "Missing arguments";
+
                         var radius = Number(node.children[descendantsIndex].children[l].attributes[radiusIndex].nodeValue);
                         var slices = Number(node.children[descendantsIndex].children[l].attributes[slicesIndex].nodeValue);
                         var stacks = Number(node.children[descendantsIndex].children[l].attributes[stacksIndex].nodeValue);
@@ -960,6 +1011,9 @@ class MySceneGraph {
                         let bottomRadiusIndex = attributeNames.indexOf("bottomRadius");
                         let slicesIndex = attributeNames.indexOf("slices");
                         let stacksIndex = attributeNames.indexOf("stacks");
+
+                        if (heightIndex == -1 || topRadiusIndex == -1 || bottomRadiusIndex == -1 || slicesIndex == -1 || stacksIndex == -1)
+                            return "Missing arguments";
 
                         var height = parseFloat(node.children[descendantsIndex].children[l].attributes[heightIndex].nodeValue);
                         var topRadius = parseFloat(node.children[descendantsIndex].children[l].attributes[topRadiusIndex].nodeValue)
@@ -985,6 +1039,9 @@ class MySceneGraph {
                         let x2Index = attributeNames.indexOf("x2");
                         let y2Index = attributeNames.indexOf("y2");
 
+                        if (x1Index == -1 || y1Index == -1 || x2Index == -1 || y2Index == -1)
+                            return "Missing arguments";
+
                         var x1 = Number(node.children[descendantsIndex].children[l].attributes[x1Index].nodeValue);
                         var y1 = Number(node.children[descendantsIndex].children[l].attributes[y1Index].nodeValue);
                         var x2 = Number(node.children[descendantsIndex].children[l].attributes[x2Index].nodeValue);
@@ -1007,6 +1064,9 @@ class MySceneGraph {
                         let y2Index = attributeNames.indexOf("y2");
                         let x3Index = attributeNames.indexOf("x3");
                         let y3Index = attributeNames.indexOf("y3");
+
+                        if (x1Index == -1 || y1Index == -1 || x2Index == -1 || y2Index == -1 || x3Index == -1 || y3Index == -1)
+                            return "Missing arguments";
 
                         var x1 = Number(node.children[descendantsIndex].children[l].attributes[x1Index].nodeValue);
                         var y1 = Number(node.children[descendantsIndex].children[l].attributes[y1Index].nodeValue);
@@ -1031,6 +1091,9 @@ class MySceneGraph {
                         let slicesIndex = attributeNames.indexOf("slices");
                         let loopsIndex = attributeNames.indexOf("loops");
 
+                        if (innerIndex == -1 || outerIndex == -1 || slicesIndex == -1 || loopsIndex == -1)
+                            return "Missing arguments";
+
                         var inner = Number(node.children[descendantsIndex].children[l].attributes[innerIndex].nodeValue);
                         var outer = Number(node.children[descendantsIndex].children[l].attributes[outerIndex].nodeValue);
                         var slices = Number(node.children[descendantsIndex].children[l].attributes[slicesIndex].nodeValue);
@@ -1040,9 +1103,6 @@ class MySceneGraph {
                     }
 
                 }
-                //////////
-
-
                 else {
 
                     // Adding intermediate nodes

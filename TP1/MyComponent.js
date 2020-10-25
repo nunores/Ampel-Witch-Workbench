@@ -51,7 +51,7 @@ class MyComponent extends CGFobject {
         }
     }
 
-    // Sets Materials and Textures appropriately with the help of a stack
+    // Sets Materials and Textures appropriately with the help of stacks
     setMaterialsTextures(){
         var temp_material = null;
         var temp_texture = null;
