@@ -19,7 +19,7 @@
 some vials, among other things.
 -The cauldron is bubbling with a neon green liquid, the crystal ball is blue-ish, the vials contain various alchemical contents and they also have a cork on top. The working bench also contains a pyramid and an cube with glyphs textures.
 
-[scene link](TP1/scenes/demo.xml)
+[Scene Link](TP1/scenes/demo.xml)
 
 ### [TP2 - ...](TP2)
 - (items briefly describing main strong points)

@@ -17,7 +17,7 @@
 some vials, among other things.
 -The cauldron is bubbling with a neon green liquid, the crystal ball is blue-ish, the vials contain various alchemical contents and they also have a cork on top. The working bench also contains a pyramid and an cube with glyphs textures.
 
-[scene link](scenes/demo.xml)
+[Scene Link](scenes/demo.xml)
 ## Issues/Problems
 
 - Torus Texture Coordinates are not working quite as intended.
