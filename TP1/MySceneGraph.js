@@ -854,8 +854,9 @@ class MySceneGraph {
             var matrix = mat4.create();
 
             if (transformationsIndex >= 0) {
-                for (var i = 0; i < node.children[transformationsIndex].children.length; i++) { // For
+                for (var i = 0; i < node.children[transformationsIndex].children.length; i++) { 
 
+                    //Handling translation
                     if (node.children[transformationsIndex].children[i].nodeName == "translation") {
                         var attributeNames = [];
                         var attributes = [];
@@ -876,6 +877,7 @@ class MySceneGraph {
 
                         matrix = mat4.translate(matrix, matrix, [xValue, yValue, zValue]);
                     }
+                    //Handling rotation
                     else if (node.children[transformationsIndex].children[i].nodeName == "rotation") {
                         var attributeNames = [];
                         var attributes = [];
@@ -909,6 +911,7 @@ class MySceneGraph {
 
                         matrix = mat4.rotate(matrix, matrix, angleValue * DEGREE_TO_RAD, [rotationXValue, rotationYValue, rotationZValue]);
                     }
+                    //Handling scale
                     else if (node.children[transformationsIndex].children[i].nodeName == "scale") {
                         var attributeNames = [];
                         var attributes = [];
@@ -952,7 +955,7 @@ class MySceneGraph {
 
             // Setting Material
             
-            if (node.children[materialIndex].length != 1)
+            if (node.children[materialIndex].attributes.length != 1)
                 return "Missing/Too many arguments"; 
                 
             if (typeof node.children[materialIndex].id !== 'string')
@@ -975,6 +978,7 @@ class MySceneGraph {
                 if (type == "leaf") {
                     let primitive = node.children[descendantsIndex].children[l].attributes[0].value;
 
+                    //Handling sphere
                     if (primitive == "sphere") {
                         var attributeNames = [];
                         var attributes = [];
@@ -997,7 +1001,7 @@ class MySceneGraph {
                         component.addChildren(new MySphere(this.scene, radius, slices, stacks));
 
                     }
-
+                    //Handling cylinder
                     else if (primitive == "cylinder") {
                         var attributeNames = [];
                         var attributes = [];
@@ -1024,8 +1028,7 @@ class MySceneGraph {
                         component.addChildren(new MyCylinder(this.scene, slices, stacks, height, bottomRadius, topRadius));
 
                     }
-
-
+                    //Handling rectangle
                     else if (primitive == "rectangle") {
                         var attributeNames = [];
                         var attributes = [];
@@ -1049,7 +1052,7 @@ class MySceneGraph {
 
                         component.addChildren(new MyRectangle(this.scene, x1, y1, x2, y2));
                     }
-
+                    //Handling triangle
                     else if (primitive == "triangle") {
                         var attributeNames = [];
                         var attributes = [];
@@ -1077,7 +1080,7 @@ class MySceneGraph {
 
                         component.addChildren(new MyTriangle(this.scene, x1, y1, 0, x2, y2, 0, x3, y3, 0));
                     }
-
+                    //Handling torus
                     else if (primitive == "torus") {
                         var attributeNames = [];
                         var attributes = [];
@@ -1228,6 +1231,7 @@ class MySceneGraph {
         this.scene.stack_material.push(this.scene.defaultAppearance);
         this.scene.stack_texture.push(null);
         
+        //Looking for root node
         for (var i = 0; i < this.scene.components.length; i++) {
             if (this.scene.components[i].id == this.idRoot) {
                 this.scene.components[i].display();
