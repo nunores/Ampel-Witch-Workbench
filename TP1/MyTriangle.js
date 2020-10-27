@@ -20,38 +20,23 @@ class MyTriangle extends CGFobject {
 
 	initBuffers() {
 		this.vertices = [this.x1, this.y1, this.z1, this.x2, this.y2, this.z2, this.x3, this.y3, this.z3];
-		this.vertices.push(this.x1, this.y1, this.z1, this.x2, this.y2, this.z2, this.x3, this.y3, this.z3);
 
 		this.indices = [0, 1, 2, 2, 1, 0];
 		this.texCoords = [];
 
-		var vx = this.x2 - this.x1;
-		var vy = this.y2 - this.y1;
-		var vz = this.z2 - this.z1;
-
-		var wx = this.x3 - this.x1;
-		var wy = this.y3 - this.y1;
-		var wz = this.z3 - this.z1;
-
-		var normal_x = ((vy * wz) - (wz * wy)) / (Math.sqrt(((vy * wz) - (wz * wy))*((vy * wz) - (wz * wy)) + ((vz * wx) - (vx * wz))*((vz * wx) - (vx * wz)) + ((vx * wy) - (vy * wx))*((vx * wy) - (vy * wx))));
-		var normal_y = ((vz * wx) - (vx * wz)) / (Math.sqrt(((vy * wz) - (wz * wy))*((vy * wz) - (wz * wy)) + ((vz * wx) - (vx * wz))*((vz * wx) - (vx * wz)) + ((vx * wy) - (vy * wx))*((vx * wy) - (vy * wx))));
-		var normal_z = ((vx * wy) - (vy * wx)) / (Math.sqrt(((vy * wz) - (wz * wy))*((vy * wz) - (wz * wy)) + ((vz * wx) - (vx * wz))*((vz * wx) - (vx * wz)) + ((vx * wy) - (vy * wx))*((vx * wy) - (vy * wx))));
-
 		this.normals = [
-			normal_x, normal_y, normal_z,
-			normal_x, normal_y, normal_z,
-			normal_x, normal_y, normal_z
+			0,0,1,
+			0,0,1,
+			0,0,1
 		]
 
-		this.normals.push(-normal_x, -normal_y, -normal_z,
-			-normal_x, -normal_y, -normal_z,
-			-normal_x, -normal_y, -normal_z);
+		// Calculating Distances
 
 		this.distance_a = Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2) + Math.pow(this.z2 - this.z1, 2));
 		this.distance_b = Math.sqrt(Math.pow(this.x3 - this.x2, 2) + Math.pow(this.y3 - this.y2, 2) + Math.pow(this.z3 - this.z2, 2));
 		this.distance_c = Math.sqrt(Math.pow(this.x1 - this.x3, 2) + Math.pow(this.y1 - this.y3, 2) + Math.pow(this.z1 - this.z3, 2));
 
-		this.cos_alpha = (this.distance_a * this.distance_a - this.distance_b * this.distance_b + this.distance_c * this.distance_c) / 2 * this.distance_a * this.distance_c;
+		this.cos_alpha = (this.distance_a * this.distance_a - this.distance_b * this.distance_b + this.distance_c * this.distance_c) / (2 * this.distance_a * this.distance_c);
 		this.sin_alpha = Math.sqrt(1 - this.cos_alpha * this.cos_alpha);
 		
 
@@ -69,7 +54,7 @@ class MyTriangle extends CGFobject {
 		this.texCoords=[
 			0, 0,
 			this.distance_a/length_u, 0,
-			this.distance_b * this.cos_alpha / length_u, this.distance_b * this.sin_alpha / length_v
+			this.distance_c * this.cos_alpha / length_u, this.distance_c * this.sin_alpha / length_v
 		];
 
 		this.updateTexCoordsGLBuffers();

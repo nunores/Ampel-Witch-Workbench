@@ -25,6 +25,7 @@ class MyCylinder extends CGFobject {
 		var slice_alpha = (2 * Math.PI) / this.slices;
 		var z_height = 0;
 
+		// Setting parameters for cylinder side
 		for (var n = 0; n < this.stacks; n++) {
 			for (var i = 0; i < this.slices; i++) {
 				this.vertices.push(
@@ -41,10 +42,6 @@ class MyCylinder extends CGFobject {
 					0
 				);
 			}
-
-			
-
-			//this.texCoords.push(n / this.slices, 1 - i / this.stacks);
 
 			z_height += stack_alpha;
 			this.base_radius += radius_alpha;
@@ -110,7 +107,7 @@ class MyCylinder extends CGFobject {
 			this.normals.push(0, 0, -1);
 		}
 
-		// Cylinder sides
+		// Indices for cylinder sides
 
 		for (var i = 0; i < this.stacks - 1; i++) {
 			for (var n = 0; n < this.slices; n++) {
