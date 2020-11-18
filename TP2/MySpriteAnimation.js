@@ -41,7 +41,7 @@ class MySpriteAnimation extends MySpriteSheet {
         this.scene.stack_material.pop();
         this.scene.stack_texture.pop();
         this.scene.popMatrix();
-        this.scene.setActiveShaderSimple(this.scene.defaultShader);
+        this.scene.setActiveShader(this.scene.defaultShader);
 
     }
 
