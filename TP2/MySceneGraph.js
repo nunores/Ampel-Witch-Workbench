@@ -1344,6 +1344,78 @@ class MySceneGraph {
                         this.scene.spriteAnimations.push(spriteAnimation);
                     }
 
+                    else if(primitive == "plane"){
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+
+                        let npartsUIndex = attributeNames.indexOf("npartsU");
+                        let npartsVIndex = attributeNames.indexOf("npartsV");
+                        let npartsUValue = Number(node.children[descendantsIndex].children[l].attributes[npartsUIndex].nodeValue);
+                        let npartsVValue = Number(node.children[descendantsIndex].children[l].attributes[npartsVIndex].nodeValue);
+
+                            
+                        if (npartsUIndex == -1 || npartsVIndex == -1)
+                            return "Missing arguments";
+
+                        let plane = new Plane(this.scene, npartsUValue, npartsVValue);
+                        
+                        component.addChildren(plane);
+                    }
+
+                    else if(primitive == "patch"){
+
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+
+                        let npointsUIndex = attributeNames.indexOf("npointsU");
+                        let npointsVIndex = attributeNames.indexOf("npointsV");
+                        let npartsUIndex = attributeNames.indexOf("npartsV");
+                        let npartsVIndex = attributeNames.indexOf("npartsV");
+                        let npointsUValue = Number(node.children[descendantsIndex].children[l].attributes[npointsUIndex].nodeValue);
+                        let npointsVValue = Number(node.children[descendantsIndex].children[l].attributes[npointsVIndex].nodeValue);
+                        let npartsUValue = Number(node.children[descendantsIndex].children[l].attributes[npartsUIndex].nodeValue);
+                        let npartsVValue = Number(node.children[descendantsIndex].children[l].attributes[npartsVIndex].nodeValue);
+                            
+                        if (npartsUIndex == -1 || npartsVIndex == -1 || npointsUIndex == -1 || npointsVIndex == -1)
+                            return "Missing arguments";
+
+                        if(npointsUValue*npointsVValue != node.children[descendantsIndex].children[l].children.length)
+                            return "Too many/little controlpoints";
+                            
+                        let array = [];
+                        for (let h = 0; h < node.children[descendantsIndex].children[l].children.length; h++) {
+                            let controlPoint = [];
+                            let attributesNames = [];
+                            let attributes = node.children[descendantsIndex].children[l].children[h].attributes;
+                            for(let m = 0; m < attributes.length; m++)
+                            {
+                                attributesNames.push(attributes[m].name);
+                            }
+                            
+                            let xIndex = attributesNames.indexOf("x");
+                            let yIndex = attributesNames.indexOf("y");
+                            let zIndex = attributesNames.indexOf("z");
+                            let xValue = Number(node.children[descendantsIndex].children[l].children[h].attributes[xIndex].value);
+                            let yValue = Number(node.children[descendantsIndex].children[l].children[h].attributes[yIndex].value);
+                            let zValue = Number(node.children[descendantsIndex].children[l].children[h].attributes[zIndex].value);
+                            controlPoint.push(xValue);
+                            controlPoint.push(yValue);
+                            controlPoint.push(zValue);
+                            array.push(controlPoint);
+                        }                 
+                        
+                        let patch = new Patch(this.scene, npointsUValue, npointsVValue, npartsUValue, npartsVValue, array);
+                        component.addChildren(patch);
+                    }
+
                     
 
                 }
