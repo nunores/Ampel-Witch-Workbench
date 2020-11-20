@@ -1416,6 +1416,36 @@ class MySceneGraph {
                         component.addChildren(patch);
                     }
 
+                    else if (primitive == "defbarrel") {
+                        
+                        var attributeNames = [];
+                        var attributes = [];
+                        attributes = node.children[descendantsIndex].children[l].attributes;
+                        for (var j = 0; j < attributes.length; j++) {
+                            attributeNames.push(attributes[j].name);
+                        }
+
+                        let baseIndex = attributeNames.indexOf("base");
+                        let middleIndex = attributeNames.indexOf("middle");
+                        let heightIndex = attributeNames.indexOf("height");
+                        let slicesIndex = attributeNames.indexOf("slices");
+                        let stacksIndex = attributeNames.indexOf("stacks");
+
+                        let baseValue = Number(node.children[descendantsIndex].children[l].attributes[baseIndex].nodeValue);
+                        let middleValue = Number(node.children[descendantsIndex].children[l].attributes[middleIndex].nodeValue);
+                        let heightValue = Number(node.children[descendantsIndex].children[l].attributes[heightIndex].nodeValue);
+                        let slicesValue = Number(node.children[descendantsIndex].children[l].attributes[slicesIndex].nodeValue);
+                        let stacksValue = Number(node.children[descendantsIndex].children[l].attributes[stacksIndex].nodeValue);
+                            
+                        if (baseIndex == -1 || middleIndex == -1 || heightIndex == -1 || slicesIndex == -1 || stacksIndex == -1)
+                            return "Missing arguments";
+
+
+                        let defBarrel = new DefBarrel(this.scene, baseValue, middleValue, heightValue, slicesValue, stacksValue);
+                        component.addChildren(defBarrel);
+                        
+                    }
+
                     
 
                 }
