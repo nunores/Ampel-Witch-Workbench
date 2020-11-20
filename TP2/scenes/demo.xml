@@ -109,6 +109,32 @@
 
     </materials>
 
+    <animations>
+        <animation id="crystal_ball_animation">
+
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="5">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="180" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+        </animation>
+    </animations>
+
+    <spritesheets>
+        <spritesheet id = "spritesheetId" path = "./scenes/images/spriteanim.jpg" sizeM = "6" sizeN = "4" />
+    </spritesheets>
+
     <nodes>
         <node id="root">            <!-- defines one intermediate node; may be repeated as necessary -->
             <!-- next two lines are mandatory -->
@@ -130,6 +156,8 @@
                 <noderef id="crystal_ball" />
                 <noderef id="pyramid" />
                 <noderef id="cube" />
+                <noderef id="text" />
+                <noderef id="spriteanim" />
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!-- identifier of another node, before or later defined in the file. -->
@@ -138,6 +166,40 @@
                 <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
             </descendants>
 
+        </node>
+
+        <node id="spriteanim">
+            <material id ="null" />
+            <texture id ="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+            
+            <transformations>
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="11" y="13" z="0"/>
+            </transformations>
+            
+            <descendants>
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "23" duration = "23" />
+            </descendants>
+        </node>
+
+        <node id="text">
+            <material id ="null" />
+            <texture id ="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+            
+            <transformations>
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="-11" y="13" z="0"/>
+            </transformations>
+            
+            <descendants>
+                <leaf type="spritetext" text="Melhor Banca da Bruxa!" />
+            </descendants>
         </node>
 
         <node id="cube">
@@ -981,6 +1043,8 @@
 
         <node id="crystal_ball">
          
+            <animationref id = "crystal_ball_animation" />
+            
             <material id="null" />
 
             <transformations>
