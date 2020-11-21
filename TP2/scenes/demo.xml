@@ -9,8 +9,8 @@
     <views default="defaultCamera">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
-            <to x="0" y="0" z="5" />
+            <from x="15" y="20" z="0" />
+            <to x="0" y="10" z="0" />
         </perspective>
 
         <ortho id="ortho1" near="20" far="100" left="-20" right="20" top="20" bottom="-20">
@@ -129,10 +129,136 @@
             </keyframe>
 
         </animation>
+
+        <animation id="ball_animation">
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="90" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="2">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="180" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="4">
+                <translation x="0" y="0" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="270" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="6">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="360" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="8">
+                <translation x="0" y="0" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="450" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="10">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="540" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="12">
+                <translation x="0" y="0" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="630" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="14">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="720" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="16">
+                <translation x="0" y="0" z="0.5" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="810" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+            <keyframe instant="18">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="900" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+			</keyframe>
+		</animation>
+        <animation id="bubbles_animation">
+
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="18">
+                <translation x="0" y="0" z="7" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="19">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+        </animation>
+
+        <animation id="bubble_animation">
+
+            <keyframe instant="0">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="18">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0" sy="0" sz="0" />
+            </keyframe>
+            <keyframe instant="19">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+
+        </animation>
     </animations>
 
     <spritesheets>
-        <spritesheet id = "spritesheetId" path = "./scenes/images/spriteanim.jpg" sizeM = "6" sizeN = "4" />
+        <spritesheet id = "spritesheetId" path = "./scenes/images/smoke.jpg" sizeM = "4" sizeN = "6" />
     </spritesheets>
 
     <nodes>
@@ -157,10 +283,12 @@
                 <noderef id="pyramid" />
                 <noderef id="cube" />
                 <noderef id="text" />
-                <noderef id="spriteanim" />
-                <noderef id="plane" />
-                <noderef id="patch" />
-                <noderef id="defbarrel" />
+                <noderef id="spriteanim1" />
+                <noderef id="spriteanim2" />
+                <noderef id="spriteanim3" />
+                <!-- <noderef id="plane" />
+                <noderef id="patch" /> -->
+                <!-- <noderef id="defbarrel" /> -->
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
                 <!-- identifier of another node, before or later defined in the file. -->
@@ -171,7 +299,7 @@
 
         </node>
 
-        <node id="defbarrel">
+<!--         <node id="defbarrel">
             <material id ="null" />
             <texture id ="tableTexture">
                 <amplification afs="1.0" aft="1.0" />
@@ -183,9 +311,9 @@
             <descendants>
                 <leaf type="defbarrel" base="0.2" middle="0.4" height="2" slices="20" stacks="20" />
             </descendants>
-        </node>
+        </node> -->
 
-        <node id="patch">
+        <!-- <node id="patch">
             <material id ="null" />
             <texture id ="tableTexture">
                 <amplification afs="1.0" aft="1.0" />
@@ -221,9 +349,9 @@
             <descendants>
                 <leaf type="plane" npartsU="4" npartsV="4"/>
             </descendants>
-        </node>
+        </node> -->
 
-        <node id="spriteanim">
+        <node id="spriteanim1">
             <material id ="null" />
             <texture id ="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -232,11 +360,43 @@
             <transformations>
                 <rotation axis="x" angle="90"/>
                 <rotation axis="y" angle="90"/>
-                <translation x="11" y="13" z="0"/>
+                <translation x="0" y="8" z="-5"/>
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "23" duration = "23" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "18" />
+            </descendants>
+        </node>
+        <node id="spriteanim2">
+            <material id ="null" />
+            <texture id ="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+            
+            <transformations>
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="1.5" y="8" z="-5"/>
+            </transformations>
+            
+            <descendants>
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "18" />
+            </descendants>
+        </node>
+        <node id="spriteanim3">
+            <material id ="null" />
+            <texture id ="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+            
+            <transformations>
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="-1.5" y="8" z="-5"/>
+            </transformations>
+            
+            <descendants>
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "18" />
             </descendants>
         </node>
 
@@ -249,7 +409,7 @@
             <transformations>
                 <rotation axis="x" angle="90"/>
                 <rotation axis="y" angle="90"/>
-                <translation x="-11" y="13" z="0"/>
+                <translation x="-11" y="13" z="-3"/>
             </transformations>
             
             <descendants>
@@ -291,7 +451,9 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                <leaf type="plane" npartsU="4" npartsV="4"/>
+                <!-- <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" /> -->
+
             </descendants>
         </node>
 
@@ -306,7 +468,8 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+				<leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+
             </descendants>
         </node>
 
@@ -325,6 +488,7 @@
 
             <descendants>
                 <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+
             </descendants>
         </node>
 
@@ -342,7 +506,8 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+				<leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+
             </descendants>
         </node>
 
@@ -361,7 +526,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            	<leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
             </descendants>
         </node>
 
@@ -381,6 +546,7 @@
 
             <descendants>
                 <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+
             </descendants>
         </node>
 
@@ -870,6 +1036,7 @@
 
             <descendants>
                 <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
+
             </descendants>
         
         </node>
@@ -888,6 +1055,7 @@
 
             <descendants>
                 <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
+
             </descendants>
         
         </node>
@@ -908,6 +1076,7 @@
 
             <descendants>
                 <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+
             </descendants>
         
         </node>
@@ -926,7 +1095,9 @@
             </transformations>
 
             <descendants>
+			    <!-- <leaf type="plane" npartsU="5" npartsV="5"/> -->
                 <leaf type="rectangle" x1="0" y1="-4" x2="0.5" y2="0" />
+
             </descendants>
         
         </node>
@@ -945,7 +1116,9 @@
             </transformations>
 
             <descendants>
+			    <!-- <leaf type="plane" npartsU="5" npartsV="5"/> -->
                 <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
+
             </descendants>
         
         </node>
@@ -964,7 +1137,9 @@
             </transformations>
 
             <descendants>
+			    <!-- <leaf type="plane" npartsU="5" npartsV="5"/> -->
                 <leaf type="rectangle" x1="0" y1="0" x2="-4" y2="0.5" />
+
             </descendants>
         
         </node> 
@@ -1098,7 +1273,7 @@
 
         <node id="crystal_ball">
          
-            <animationref id = "crystal_ball_animation" />
+            
             
             <material id="null" />
 
@@ -1135,6 +1310,8 @@
         </node>
 
         <node id="ball">
+
+            <animationref id = "ball_animation" />
          
             <material id="crystal_ball_material" />
 
@@ -1174,6 +1351,8 @@
 
         <node id="bolhas">  
 
+            <animationref id = "bubbles_animation" />
+            
             <material id="neon_green_liquid" />
 
             <transformations>
@@ -1193,6 +1372,8 @@
 
         <node id="bolha_1">  
 
+            <animationref id = "bubble_animation" />
+
             <material id="null" />
 
             <texture id="null">
@@ -1211,6 +1392,8 @@
         
         <node id="bolha_2">  
 
+            <animationref id = "bubble_animation" />
+
             <material id="null" />
 
             <texture id="null">~
@@ -1228,6 +1411,8 @@
 
         
         <node id="bolha_3">  
+
+            <animationref id = "bubble_animation" />
 
             <material id="null" />
 
@@ -1258,7 +1443,7 @@
             </transformations>
                 
             <descendants>
-                <leaf type="cylinder" height="0.4" topRadius="2.5" bottomRadius="2.5" stacks="30" slices="30"/>
+                <leaf type="cylinder" height="0.4" topRadius="2.5" bottomRadius="2.5" stacks="100" slices="30"/>
             </descendants>
         </node>
 
@@ -1295,7 +1480,7 @@
             </transformations>
 
             <descendants>
-                <leaf type="cylinder" height="3.5" topRadius="2.5" bottomRadius="2.5" stacks="30" slices="30"/>
+                <leaf type="defbarrel" base="2.5" middle="3" height="3.5" slices="30" stacks="30"/>
             </descendants>
         </node>
 
