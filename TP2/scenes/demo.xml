@@ -76,6 +76,7 @@
         <texture id="corkTexture" path="./scenes/images/cork.jpg" />
         <texture id="crystal_ball_baseTexture" path="./scenes/images/crystal_ball_base.jpg" />
         <texture id="pyramidTexture" path="./scenes/images/pyramid.jpg" />
+        <texture id="papyrusTexture" path="./scenes/images/papyrus.jpg" />
 
     </textures>
 
@@ -286,8 +287,8 @@
                 <noderef id="spriteanim1" />
                 <noderef id="spriteanim2" />
                 <noderef id="spriteanim3" />
-                <!-- <noderef id="plane" />
-                <noderef id="patch" /> -->
+                <!-- <noderef id="plane" /> -->
+                <noderef id="patch" />
                 <!-- <noderef id="defbarrel" /> -->
                 <!-- "ss" is the identifier of a node or of leaf; -->
                 <!-- may be repeated as necessary. It can refer an -->
@@ -313,30 +314,47 @@
             </descendants>
         </node> -->
 
-        <!-- <node id="patch">
+        <node id="patch">
             <material id ="null" />
-            <texture id ="tableTexture">
+            <texture id ="papyrusTexture">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
             
             <transformations>
-                <translation x="0" y="0" z="-5"/>
+                <translation x="2" y="-3" z="4.6"/>
+                <scale sx="0.3" sy="0.3" sz="0.3" />
             </transformations>
             
             <descendants>
-                <leaf type="patch" npointsU = "3" npointsV="2" npartsU="20" npartsV="20">
-                    <controlpoint x="-1.5" y="-1.5" z="0"/>
+                <leaf type="patch" npointsU = "3" npointsV="4" npartsU="20" npartsV="20">
+<!--                     <controlpoint x="-1.5" y="-1.5" z="0"/>
                     <controlpoint x="-1.5" y="1.5" z="0" />
                     <controlpoint x="0" y="-1.5" z="3" />
                     <controlpoint x="0" y="1.5" z="3" />
                     <controlpoint x="1.5" y="-1.5" z="0" />
-                    <controlpoint x="1.5" y="1.5" z="0" />
+                    <controlpoint x="1.5" y="1.5" z="0" /> -->
+
+
+                    <controlpoint x="-2" y="-2" z="1"/>
+                    <controlpoint x="-2" y="-1" z="-2" />
+                    <controlpoint x="-2" y="1" z="3" />
+                    <controlpoint x="-2" y="2" z="-1" />
+                    
+                    <controlpoint x="0" y="-2" z="0"/>
+                    <controlpoint x="0" y="-1" z="-1" />
+                    <controlpoint x="0" y="1" z="1.5" />
+                    <controlpoint x="0" y="2" z="0" />
+
+                    <controlpoint x="2" y="-2" z="-1"/>
+                    <controlpoint x="2" y="-1" z="2" />
+                    <controlpoint x="2" y="1" z="-3" />
+                    <controlpoint x="2" y="2" z="1" />
                 </leaf>
             
             </descendants>
         </node>
 
-        <node id="plane">
+        <!-- <node id="plane">
             <material id ="null" />
             <texture id ="tableTexture">
                 <amplification afs="1.0" aft="1.0" />
@@ -1055,7 +1073,6 @@
 
             <descendants>
                 <leaf type="rectangle" x1="-0.25" y1="-0.25" x2="0.25" y2="0.25" />
-
             </descendants>
         
         </node>
