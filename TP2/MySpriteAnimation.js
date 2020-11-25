@@ -15,6 +15,11 @@ class MySpriteAnimation extends MySpriteSheet {
 
 
     update(deltaTime) {
+        if(this.currP == this.endCell)
+        {
+            this.currTime = 0;
+            this.currP = this.startCell;
+        }
         if (this.currP != this.endCell) {
             this.currTime += deltaTime;
             if (this.currTime >= this.iterationDuration) {

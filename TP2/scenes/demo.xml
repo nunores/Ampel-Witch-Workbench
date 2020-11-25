@@ -131,70 +131,70 @@
         </animation>
 
         <animation id="ball_animation">
-            <keyframe instant="0">
+            <keyframe instant="4">
                 <translation x="0" y="0" z="0.5" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="90" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="2">
+            <keyframe instant="6">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="180" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="4">
+            <keyframe instant="8">
                 <translation x="0" y="0" z="0.5" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="270" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="6">
+            <keyframe instant="10">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="360" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="8">
+            <keyframe instant="12">
                 <translation x="0" y="0" z="0.5" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="450" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="10">
+            <keyframe instant="14">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="540" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="12">
+            <keyframe instant="16">
                 <translation x="0" y="0" z="0.5" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="630" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="14">
+            <keyframe instant="18">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="720" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="16">
+            <keyframe instant="20">
                 <translation x="0" y="0" z="0.5" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="810" />
                 <scale sx="1.0" sy="1.0" sz="1.0" />
 			</keyframe>
-            <keyframe instant="18">
+            <keyframe instant="22">
                 <translation x="0" y="0" z="0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
@@ -364,7 +364,7 @@
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "18" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "100" />
             </descendants>
         </node>
         <node id="spriteanim2">
@@ -380,7 +380,7 @@
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "18" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "100" />
             </descendants>
         </node>
         <node id="spriteanim3">
@@ -396,7 +396,7 @@
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "18" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "100" />
             </descendants>
         </node>
 
