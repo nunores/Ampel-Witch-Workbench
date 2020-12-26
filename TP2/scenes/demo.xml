@@ -382,7 +382,7 @@
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "100" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "200" />
             </descendants>
         </node>
         <node id="spriteanim2">
@@ -398,7 +398,7 @@
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "100" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "200" />
             </descendants>
         </node>
         <node id="spriteanim3">
@@ -414,7 +414,7 @@
             </transformations>
             
             <descendants>
-                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "100" />
+                <leaf type="spriteanim" ssid = "spritesheetId" startCell = "0" endCell = "20" duration = "200" />
             </descendants>
         </node>
 

@@ -8,7 +8,6 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var NODES_INDEX = 6;
-
 /**
  * MySceneGraph class, representing the scene graph.
  */
@@ -32,6 +31,8 @@ class MySceneGraph {
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
+
+        this.scene.tiles = new MyTiles(this.scene);
 
         // File reading 
         this.reader = new CGFXMLreader();
@@ -1564,6 +1565,8 @@ class MySceneGraph {
         return color;
     }
 
+    
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
@@ -1574,11 +1577,11 @@ class MySceneGraph {
         this.scene.stack_material.push(this.scene.defaultAppearance);
         this.scene.stack_texture.push(null);
 
-        let tiles = new MyTiles(this.scene);
-        tiles.display();
+        this.scene.tiles.display();
 
-        let board = new MyBoard(this.scene);
-        board.display();
+        //let board = new MyBoard(this.scene);
+        //board.display();
+
 
         //Looking for root node
         /*for (var i = 0; i < this.scene.components.length; i++) {

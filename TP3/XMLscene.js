@@ -20,6 +20,10 @@ class XMLscene extends CGFscene {
         this.spritesheets = [];
         this.spriteAnimations = [];
 
+
+
+        this.tiles = null;
+
         // Helper values for texture assignment
         this.textures["null"] = "null";
         this.textures["clear"] = "clear";
@@ -146,6 +150,7 @@ class XMLscene extends CGFscene {
         this.previous = time;
 
     }
+    
 
     /**
      * Displays the scene.
