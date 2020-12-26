@@ -32,7 +32,6 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        this.scene.tiles = new MyTiles(this.scene);
 
         // File reading 
         this.reader = new CGFXMLreader();
@@ -1577,7 +1576,7 @@ class MySceneGraph {
         this.scene.stack_material.push(this.scene.defaultAppearance);
         this.scene.stack_texture.push(null);
 
-        this.scene.tiles.display();
+        this.scene.gameOrchestrator.display();
 
         //let board = new MyBoard(this.scene);
         //board.display();

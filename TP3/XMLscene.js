@@ -21,8 +21,7 @@ class XMLscene extends CGFscene {
         this.spriteAnimations = [];
 
 
-
-        this.tiles = null;
+        this.gameOrchestrator = null;
 
         // Helper values for texture assignment
         this.textures["null"] = "null";
@@ -46,25 +45,29 @@ class XMLscene extends CGFscene {
     init(application) {
         super.init(application);
 
+        
         this.sceneInited = false;
 
         this.initCameras();
-
+        
         this.enableTextures(true);
-
+        
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-
+        
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
         this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
         this.loadingProgress=0;
-
+        
         this.defaultAppearance=new CGFappearance(this);
-
+        
+        this.setPickEnabled(true);
+        this.gameOrchestrator = new MyGameOrchestrator(this);
+        
     }
 
     /**

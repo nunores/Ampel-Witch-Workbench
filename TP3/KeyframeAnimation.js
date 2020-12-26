@@ -30,6 +30,7 @@ class KeyframeAnimation extends Animation {
         }
         this.interval = this.instants[0];
 
+        console.log(keyFrames);
     }
 
     update(deltaTime){
