@@ -104,20 +104,17 @@ class KeyframeAnimation extends Animation {
             if (this.currTime > this.keyFrames[this.keyFrameIndex][0])
             {
                 
-                if (this.keyFrameIndex == 0)
-                {
-                    this.currTransX = this.keyFrames[0][1][0];
-                    this.currTransY = this.keyFrames[0][1][1];
-                    this.currTransZ = this.keyFrames[0][1][2];
+                this.currTransX = this.keyFrames[this.keyFrameIndex][1][0];
+                this.currTransY = this.keyFrames[this.keyFrameIndex][1][1];
+                this.currTransZ = this.keyFrames[this.keyFrameIndex][1][2];
 
-                    this.currRotX = this.keyFrames[0][2][0];
-                    this.currRotY = this.keyFrames[0][2][1];
-                    this.currRotZ = this.keyFrames[0][2][2];
+                this.currRotX = this.keyFrames[this.keyFrameIndex][2][0];
+                this.currRotY = this.keyFrames[this.keyFrameIndex][2][1];
+                this.currRotZ = this.keyFrames[this.keyFrameIndex][2][2];
 
-                    this.currScaleX = this.keyFrames[0][3][0];
-                    this.currScaleY = this.keyFrames[0][3][1];
-                    this.currScaleZ = this.keyFrames[0][3][2];
-                }
+                this.currScaleX = this.keyFrames[this.keyFrameIndex][3][0];
+                this.currScaleY = this.keyFrames[this.keyFrameIndex][3][1];
+                this.currScaleZ = this.keyFrames[this.keyFrameIndex][3][2];
                 this.keyFrameIndex++;
             }
         }
