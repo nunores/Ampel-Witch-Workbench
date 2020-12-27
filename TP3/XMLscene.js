@@ -21,7 +21,9 @@ class XMLscene extends CGFscene {
         this.spriteAnimations = [];
 
 
+        /*TP3*/
         this.gameOrchestrator = null;
+        /**/
 
         // Helper values for texture assignment
         this.textures["null"] = "null";
@@ -67,6 +69,7 @@ class XMLscene extends CGFscene {
         
         this.setPickEnabled(true);
         this.gameOrchestrator = new MyGameOrchestrator(this);
+
         
     }
 
@@ -74,7 +77,6 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
     /**
@@ -148,7 +150,6 @@ class XMLscene extends CGFscene {
         for (const spriteAnimation in this.spriteAnimations){
             this.spriteAnimations[spriteAnimation].update(this.deltaTime);
         }
-        
 
         this.previous = time;
 

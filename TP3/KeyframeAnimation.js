@@ -29,8 +29,6 @@ class KeyframeAnimation extends Animation {
             this.instants.push(keyFrames[i][0]);
         }
         this.interval = this.instants[0];
-
-        console.log(keyFrames);
     }
 
     update(deltaTime){
@@ -105,6 +103,7 @@ class KeyframeAnimation extends Animation {
 
             if (this.currTime > this.keyFrames[this.keyFrameIndex][0])
             {
+                
                 if (this.keyFrameIndex == 0)
                 {
                     this.currTransX = this.keyFrames[0][1][0];

@@ -5,10 +5,11 @@ class MyTiles extends CGFobject {
         this.firstY = 0;
         this.tiles = [];
         this.yellowPieces = [];
-        this.initBuffers();
+        this.yellowPiecesPlaced = [];
+        this.createBoard();
     }
     
-    initBuffers(){
+    createBoard(){
         let index = 0;
         for (let i = 1; i < 12; i++) {
             for(let n = 0; n < i; n++)
@@ -24,7 +25,9 @@ class MyTiles extends CGFobject {
         }        
 
         for(let i = 0; i < 10; i++){
-            this.yellowPieces.push(new MyPiece(this.scene));
+            const piece = new MyPiece(this.scene);
+            this.yellowPieces.push(piece);
+            this.scene.components.push(piece);
         }
     }
 
@@ -36,10 +39,11 @@ class MyTiles extends CGFobject {
 					if (obj) {
                         var customId = this.scene.pickResults[i][1];
                         if(this.yellowPieces.length != 0){
-                            this.yellowPieces.pop();
+                            //let animation = new KeyframeAnimation([[0, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)], [2, vec3.fromValues(10, 10, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)]], this.scene);
+                            
+                            //this.scene.yellowPieces[1].setAnimation(animation);
                             //this.scene.pickResults[i][0].setPiece(new MyPiece(this.scene));
                             this.scene.gameOrchestrator.pickTile(this.scene.pickResults[i][0]);
-                            console.log(this.scene.pickResults[i][0]);
                             console.log("Picked object: " + obj + ", with pick id " + customId);	
                         }					
 					}
@@ -49,16 +53,17 @@ class MyTiles extends CGFobject {
 		}
     }
     
-    addPiece(piece, tile){
-        this.tiles.find(tile).addPiece(piece);
+    setPiece(piece, tile){
+        tile.setPiece(piece);
+        piece.setTile(tile);
     }
 
     removePiece(tile){
-        this.tiles.find(tile).unsetPiece();
+        tile.unsetPiece();
     }
 
     getPiece(tile){
-        return this.tiles.find(tile).getPiece();
+        return tile.getPiece();
     }
 
     getTile(piece){
@@ -89,8 +94,10 @@ class MyTiles extends CGFobject {
         this.scene.multMatrix(matrix);      
         matrix1 = mat4.translate(matrix1, matrix1, [0, 0, 0.2]);
         for(let i = 0; i < this.yellowPieces.length; i++){
-            this.yellowPieces[i].display();
-            this.scene.multMatrix(matrix1);
+            if(this.yellowPieces[i].tile === null){
+                this.yellowPieces[i].display();
+                this.scene.multMatrix(matrix1);
+            }
         }
         this.scene.popMatrix();
     }

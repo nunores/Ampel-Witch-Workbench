@@ -1,7 +1,7 @@
 class MyGameOrchestrator extends CGFobject {
 	constructor(scene) {
         super(scene);
-        this.gameboard = new MyTiles(this.scene);
+        this.gameBoard = new MyTiles(this.scene);
 
 
         /*
@@ -15,12 +15,14 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     display(){
-        this.gameboard.display();
+        this.gameBoard.display();
     }
 
     pickTile(tile){
-        tile.setPiece(new MyPiece(this.scene));
-        tile.piece.setAnimation(new KeyframeAnimation([[0, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)], [2, vec3.fromValues(tile.firstX - 6, tile.firstY - 11, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)]], this.scene));
+        let yellowPieceToMove = this.gameBoard.yellowPieces.pop();
+        let gameMove = new MyGameMove(this.scene, yellowPieceToMove, null, tile, this.gameBoard);
+        this.gameBoard.yellowPiecesPlaced.push(yellowPieceToMove);
+        gameMove.animate();
     }
 
 /*     update(time) {

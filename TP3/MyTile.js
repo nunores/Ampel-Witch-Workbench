@@ -1,7 +1,6 @@
 class MyTile extends CGFobject {
 	constructor(scene, firstX, firstY) {
         super(scene);
-        // this.initBuffers();
         this.cylinder = new MyCylinder(this.scene, 40, 40, 0.01, 0.2, 0.2);
         this.plane = new Plane(this.scene, 10, 10);
 
@@ -14,11 +13,6 @@ class MyTile extends CGFobject {
 
         this.material = new CGFappearance(this.scene);
     }
-/*     
-    initBuffers(){
-
-        
-    } */
 
     setPiece(piece){
         this.piece = piece;
