@@ -1,12 +1,13 @@
 class MyPiece extends MyComponent {
-	constructor(scene) {
+	constructor(scene, type) {
         super(scene, "id");
         this.tile = null;
-        this.type = null;   
+        this.type = type;   
         super.addChildren(new MyCylinder(this.scene, 40, 40, 0.2, 0.3, 0.3));
         super.setAmplifications(1, 1);
         super.setTransformations(mat4.create());
-        this.material = new CGFappearance(this.scene);
+
+        this.setMaterial(type);
     }
 
     setTile(tile){
@@ -33,4 +34,27 @@ class MyPiece extends MyComponent {
         return this.type;
     }
 
+    getMaterial(){
+        return this.material;
+    }
+
+    setMaterial(type){
+        if(type === 'yellow'){
+            this.material = new CGFappearance(this.scene);
+            this.material.setDiffuse(100, 92, 0, 1);
+            //this.material.setAmbient(100, 92, 0, 1);
+        }
+        else if (type === 'red'){
+            this.material = new CGFappearance(this.scene);
+            this.material.setDiffuse(255, 0, 0, 1);
+            //this.material.setAmbient(220, 20, 60, 1);
+
+        }
+        else if (type === 'green'){
+            this.material = new CGFappearance(this.scene);
+            this.material.setDiffuse(0, 128, 0, 1);
+            //this.material.setAmbient(0, 128, 0, 1);
+
+        }
+    }
 }
