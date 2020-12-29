@@ -1,6 +1,5 @@
 class MyPrologInterface{
-	constructor(scene) {
-        super(scene);
+	constructor() {
     }
 
     

@@ -9,5 +9,13 @@ class MyGameSequence{
         this.gameMoves.push(gameMove);
     }
 
+    undo(){
+        this.gameMoves[this.gameMoves.length - 1].undo();
+        this.gameMoves.pop(); 
+    }
+
+    reset(){
+        
+    }
 
 }
