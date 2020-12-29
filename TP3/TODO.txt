@@ -1,0 +1,10 @@
+Fazer interface e depois liga la
+Fazer game sequence e animator
+Fazer scenes
+Meter gamestates
+Fazer camaras
+Ligar as scenes com a interface
+Fazer marcadores
+Melhorar aspeto?
+Mensagens para user quando algo estiver errado
+Implementar prolog
