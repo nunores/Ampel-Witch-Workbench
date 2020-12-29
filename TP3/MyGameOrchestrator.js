@@ -6,10 +6,10 @@ class MyGameOrchestrator extends CGFobject {
         this.gameBoard = new MyTiles(this.scene);
         this.prolog = new MyConnection(8081);
         this.tilePicked = null;
+        this.gameSequence = new MyGameSequence(this.scene, []);
 
         /*
         
-        this.gameSequence = new MyGameSequence(…);
         this.animator = new MyAnimator(…);
         this.theme = new MyScenegraph(…);
         */
@@ -63,6 +63,7 @@ class MyGameOrchestrator extends CGFobject {
                         var customId = results[i][1];
 
                         // Selecting a tile with a piece
+                        
                         if (results[i][0].piece != null || this.gameBoard.firstTile != null) {
                             //this.scene.gameOrchestrator.pickTile(this.scene.pickResults[i][0], null);
                             // To be moved
@@ -79,6 +80,7 @@ class MyGameOrchestrator extends CGFobject {
                         }
                         // Placing a new piece
                         else {
+                            // Time to place yellows
                             if (this.currentState === this.gameStates.yellowPlacement) {
                                 if (this.gameBoard.yellowPieces.length != 0) {
                                     this.tilePicked = results[i][0];
@@ -92,12 +94,16 @@ class MyGameOrchestrator extends CGFobject {
                                 }
                             }
                         }
-                        console.log(results[i][0]);
+                        //console.log(results[i][0]);
                     }
                 }
                 results.splice(0, results.length);
             }
         }
+    }
+
+    undo(){
+        this.gameSequence.undo();
     }
 
 

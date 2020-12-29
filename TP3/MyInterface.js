@@ -68,4 +68,16 @@ class MyInterface extends CGFinterface {
         this.setActiveCamera(this.scene.cameras[this.scene.currCamera]); 
     }
 
+    addOptionsGUI(){
+        const optionsFolder = this.gui.addFolder('Options');
+
+        optionsFolder.open();
+
+        /*TODO: Add functionality to this*/
+        optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Undo");
+        optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Replay");
+        optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Play | Pause");
+
+    }
+
 }

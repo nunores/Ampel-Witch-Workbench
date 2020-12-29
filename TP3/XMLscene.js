@@ -128,6 +128,7 @@ class XMLscene extends CGFscene {
 
         this.interface.addLightsGUI();
         this.interface.addCamerasGUI();
+        this.interface.addOptionsGUI();
 
         this.setUpdatePeriod(100);
 

@@ -1,6 +1,6 @@
 class MyGameSequence{
 	constructor(scene, gameMoves) {
-        super(scene);
+        this.scene = scene;
         this.gameMoves = gameMoves;
     }
 
