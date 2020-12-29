@@ -9,13 +9,15 @@ class MyGameMove{
 
     animate(){
         //const pieceType = this.piece.getType();
-        if(this.origin === null)
+        if(this.origin === null){
             this.setupAnimation('yellow', 'toBoard');
-        else if(this.destination === null)
+        }
+        else if(this.destination === null){
             this.setupAnimation('yellow', 'toStack');
-        else
+        }
+        else {
             this.setupAnimation('yellow', 'onBoard');
-
+        }
     }
 
     setupAnimation(pieceType, direction){

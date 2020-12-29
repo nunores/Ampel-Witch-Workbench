@@ -122,3 +122,9 @@ parse_input(forbiddenYellow(Line, Column), Checker):-
 		Checker is 1);
 		Checker is 0
 	).
+
+parse_input(possibleMovement(GameState, Line, Column, New_Line, New_Column), Checker):-
+	((possibleMovement(GameState, Line, Column, New_Line, New_Column),
+		Checker is 1);
+		Checker is 0
+	).

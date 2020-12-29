@@ -2,7 +2,7 @@ class MyPiece extends MyComponent {
 	constructor(scene, type) {
         super(scene, "id");
         this.tile = null;
-        this.type = type;   
+        this.type = type; // yellow, red, green, redCylinder, greenCylinder   
         super.addChildren(new MyCylinder(this.scene, 40, 40, 0.2, 0.3, 0.3));
         super.setAmplifications(1, 1);
         super.setTransformations(mat4.create());

@@ -1,7 +1,7 @@
 class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
-        this.gameStates = Object.freeze({ "yellowPlacement": 1, "moveRedPiece": 2, "moveGreenPiece": 3, "placeRedPiece": 4, "placeGreenPiece": 5, "gameOver": 6 })
+        this.gameStates = Object.freeze({"yellowPlacement": 0, "moveRedPiece": 1, "moveGreenPiece": 2, "placeRedPiece": 3, "placeGreenPiece": 4, "gameOver": 5})
         this.currentState = this.gameStates.yellowPlacement;
         this.currentPlayer = 1;
 
@@ -17,6 +17,10 @@ class MyGameOrchestrator extends CGFobject {
         */
     }
 
+    getState(){
+        return this.currentState;
+    }
+
     display() {
         this.gameBoard.display();
     }
@@ -26,6 +30,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     pickTile(origin, destination) {
+        //if(this.currentState === this.gameStates.yellowPlacement) 
         this.move(origin, destination, 'yellow');
     }
 
@@ -61,17 +66,18 @@ class MyGameOrchestrator extends CGFobject {
             if (results != null && results.length > 0) {
                 for (var i = 0; i < results.length; i++) {
                     var obj = results[i][0];
+                    this.tilePicked = results[i][0];
                     if (obj) {
                         // Player 1's turn
                         if (this.currentPlayer === 1) {
                             if (this.currentState === this.gameStates.yellowPlacement) {
                                 // Pieces left on stack
                                 if (this.gameBoard.yellowPieces.length != 0) {
-                                    this.tilePicked = results[i][0];
                                     // Verify valid yellow placed
                                     this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function (data) {
                                         if (data.target.response === '0') {
                                             this.pickTile(null, this.tilePicked);
+                                            //console.log(this.gameBoard.convertToPrologGameState());
                                         }
                                         else console.log("Invalid yellow piece placement"); // TODO: Print message to user
                                     }.bind(this));
@@ -83,15 +89,40 @@ class MyGameOrchestrator extends CGFobject {
                                 }
                             }
                             if (this.currentState === this.gameStates.moveRedPiece) {
-                                /*request*/
-                                this.currentState = this.gameStates.moveGreenPiece;
-                                console.log(this.currentState);
-                                break;
+                                if(results[i][0].piece != null || this.gameBoard.firstTile != null)
+                                {
+                                    // To be moved
+                                    if (this.gameBoard.firstTile != null) {
+
+                                        if (results[i][0].piece == null) {
+                                            // Verify can move there
+
+                                            //this.tilePicked.setPiece(null);
+                                            this.prolog.getPrologRequest('possibleMovement(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.gameBoard.firstTile.getLine() + ',' + this.gameBoard.firstTile.getColumn() + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ')', function (data) {
+                                                if (data.target.response === '1'){
+                                                    this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
+                                                    this.gameBoard.firstTile = null;
+                                                }
+                                            }.bind(this));
+                                            break;
+                                            
+                                        }
+                                        else
+                                        {
+                                            this.gameBoard.firstTile = null;
+                                        }
+                                    }
+                                    // Selecting the first tile
+                                    else {
+                                        this.gameBoard.firstTile = results[i][0];
+                                    }
+                                }
                             }
                             if (this.currentState === this.gameStates.moveGreenPiece) {
                                 /*request*/
                                 console.log(this.currentState);
                                 this.currentPlayer = 2;
+                                break;
                             }
                         }
 

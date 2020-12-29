@@ -15,6 +15,12 @@ class MyTiles extends CGFobject {
         this.greenPieces = [];
         this.greenPiecesPlaced = [];
 
+        this.startingYellows = 0;
+
+        this.player1Points = 0;
+        this.player2Points = 0;
+
+
         this.createBoard();
 
         this.materialBoard = new CGFappearance(this.scene);
@@ -106,6 +112,10 @@ class MyTiles extends CGFobject {
         }
         
         return null;
+    }
+
+    getFirstTile(){
+        return this.firstTile;
     }
 
     movePiece(piece, startingTile, endingTile){
@@ -212,5 +222,45 @@ class MyTiles extends CGFobject {
         this.materialBoard.setAmbient(0, 0, 0.1, 1);
         this.materialBoard.setEmission(0, 0, 0.1, 1);
         this.materialBoard.apply();
+    }
+
+
+    convertToPrologGameState(){
+        let gameState = [];
+        let arrayIndex = 0;
+        for (let i = 0; i < 11; i++) {
+            let tempArray = [];
+
+            for (let index = 0; index < i + 1; index++) {
+                if(this.tiles[arrayIndex].piece === null)
+                {
+                    tempArray.push('x');
+                }
+                else if (this.tiles[arrayIndex].piece.getType() === 'yellow'){
+                    tempArray.push('y');
+                }
+                else if (this.tiles[arrayIndex].piece.getType() === 'red'){
+                    tempArray.push('r');
+                }
+                else if (this.tiles[arrayIndex].piece.getType() === 'green'){
+                    tempArray.push('g');
+                }
+                else if (this.tiles[arrayIndex].piece.getType() === 'redCylinder'){
+                    tempArray.push('rc');
+                }
+                else if (this.tiles[arrayIndex].piece.getType() === 'greenCylinder'){
+                    tempArray.push('gc');
+                }
+                arrayIndex++;
+            }
+
+            gameState.push(tempArray);
+
+        }
+
+        // Peças vermelhas, peças verdes, peças amarelas player1, peças amarelas player2, peças amarelas no começo
+        gameState.push([this.redPieces.length, this.greenPieces.length, this.player1Points, this.player2Points, this.startingYellows, this.scene.gameOrchestrator.getState() === 0 ? 0 : 1]);
+
+        return gameState;
     }
 }
