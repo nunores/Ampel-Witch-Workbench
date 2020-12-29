@@ -60,60 +60,20 @@ class MyTiles extends CGFobject {
 
     createTiles(){
         let index = 0;
-        for (let i = 1; i < 12; i++) {
-            for(let n = 0; n < i; n++)
+        for (let i = 0; i < 11; i++) {
+            for(let n = 0; n < (i+1); n++)
             {
-                let tile = new MyTile(this.scene, this.firstX, this.firstY);
+                let tile = new MyTile(this.scene, this.firstX, this.firstY, i, n);
                 this.tiles[index] = tile;
                 index++;
                 this.firstX -= 1.1;
             }
-            this.firstX = 0.51*i;
+            this.firstX = 0.51*(i+1);
             this.firstY += 1.1;
 
         }    
     }
 
-/*     logPicking() {
-		if (this.scene.pickMode == false) {
-			if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
-				for (var i = 0; i < this.scene.pickResults.length; i++) {
-					var obj = this.scene.pickResults[i][0];
-					if (obj) {
-                        var customId = this.scene.pickResults[i][1];
-
-                        // Selecting a tile with a piece
-                        if(this.scene.pickResults[i][0].piece != null || this.firstTile != null)
-                        {
-                            //this.scene.gameOrchestrator.pickTile(this.scene.pickResults[i][0], null);
-                            // To be moved
-                            if(this.firstTile != null)
-                            {
-                                if(this.scene.pickResults[i][0].piece == null){
-                                    this.scene.gameOrchestrator.pickTile(this.firstTile, this.scene.pickResults[i][0]);
-                                    this.firstTile = null;
-                                }
-                            }
-                            // Selecting the first tile
-                            else
-                            {
-                                this.firstTile = this.scene.pickResults[i][0];
-                            }
-                        }
-                        // Placing a new piece
-                        else
-                        {
-                            if(this.yellowPieces.length != 0){
-                                this.scene.gameOrchestrator.pickTile(null, this.scene.pickResults[i][0]);
-                                console.log("Picked object: " + obj + ", with pick id " + customId);	
-                            }					
-                        }
-					}
-				}
-				this.scene.pickResults.splice(0, this.scene.pickResults.length);
-			}
-		}
-    } */
     
     setPiece(piece, tile){
         tile.setPiece(piece);
@@ -128,6 +88,16 @@ class MyTiles extends CGFobject {
     getPiece(tile){
         return tile.getPiece();
     }
+
+    /*
+    getTile(line, column){
+        for (const tile in this.tiles) {
+            if (tile.getLine() === line && tile.getColumn() === column)
+                return tile;
+    }
+    
+    
+    */
 
     getTile(piece){
         for (const tile in this.tiles) {

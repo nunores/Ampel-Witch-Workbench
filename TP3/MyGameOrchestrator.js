@@ -2,14 +2,14 @@ class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
         this.gameBoard = new MyTiles(this.scene);
+        this.prolog = new MyConnection(8081);
+        this.tilePicked = null;
 
         /*
         
         this.gameSequence = new MyGameSequence(…);
         this.animator = new MyAnimator(…);
-        this.gameboard = new MyGameboard(…);
         this.theme = new MyScenegraph(…);
-        this.prolog = new MyPrologInterface(…);
         */
     }
 
@@ -82,9 +82,16 @@ class MyGameOrchestrator extends CGFobject {
                         else
                         {
                             if(this.gameBoard.yellowPieces.length != 0){
-                                this.pickTile(null, results[i][0]);
-                            }					
+                                this.tilePicked = results[i][0];
+                                this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function(data){
+                                    if(data.target.response === '0'){
+                                        this.pickTile(null, this.tilePicked);
+                                    }
+                                }.bind(this));
+                                
+                            }				
                         }
+                        console.log(results[i][0]);
 					}
 				}
 				results.splice(0, results.length);

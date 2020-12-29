@@ -1,12 +1,12 @@
 class MyTile extends CGFobject {
-	constructor(scene, firstX, firstY) {
+	constructor(scene, firstX, firstY, line, column) {
         super(scene);
         this.plane = new Plane(this.scene, 20, 20);
 
         this.firstX = firstX;
         this.firstY = firstY;
 
-        this.board = null;
+        //this.board = null;
 
         this.piece = null;
 
@@ -16,6 +16,9 @@ class MyTile extends CGFobject {
         this.material.setTexture(this.textureObject);
         this.material.setDiffuse(189, 154, 122, 1);
         this.material.setAmbient(0, 0, 0, 1);
+
+        this.line = line;
+        this.column = column;
 
     }
 
@@ -31,6 +34,13 @@ class MyTile extends CGFobject {
         return this.piece;
     }
 
+    getLine(){
+        return this.line;
+    }
+
+    getColumn(){
+        return this.column;
+    }
 
 	display(){
         let matrix = mat4.create();
