@@ -238,9 +238,14 @@ class MyGameOrchestrator extends CGFobject {
                             if (this.currentState === this.gameStates.placeRedPiece) {
                                 // Pieces left on stack
                                 if (this.gameBoard.redPieces.length != 0) {
-                                    this.pickTile(null, this.tilePicked);
-                                    this.currentPlayer = 2;
-                                    this.currentState = this.gameStates.moveGreenPiece;
+                                    this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data) {
+                                        if (data.target.response === '1') {                                       
+                                            this.pickTile(null, this.tilePicked);
+                                            this.currentPlayer = 2;
+                                            this.currentState = this.gameStates.moveGreenPiece;
+                                        }
+                                    }.bind(this));
+                                    break;   
                                 }
                                 else {
                                     this.currentPlayer = 2;
@@ -354,9 +359,14 @@ class MyGameOrchestrator extends CGFobject {
                             if (this.currentState === this.gameStates.placeGreenPiece) {
                                 // Pieces left on stack
                                 if (this.gameBoard.greenPieces.length != 0) {
-                                    this.pickTile(null, this.tilePicked);
-                                    this.currentPlayer = 1;
-                                    this.currentState = this.gameStates.moveRedPiece;
+                                    this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'g' + ')', function (data) {
+                                        if (data.target.response === '1') {                                       
+                                            this.pickTile(null, this.tilePicked);
+                                            this.currentPlayer = 1;
+                                            this.currentState = this.gameStates.moveRedPiece;
+                                        }
+                                    }.bind(this));
+                                    break;
                                 }
                                 else {
                                     this.currentPlayer = 1;

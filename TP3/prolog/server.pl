@@ -133,3 +133,10 @@ parse_input(nextState(GameState), Checker):-
 	(redPiecesOnBoard(GameState), Checker = 'moveRed');
 	(\+redPiecesOnBoard(GameState), greenPiecesOnBoard(GameState), Checker = 'moveGreen');
 	(\+redPiecesOnBoard(GameState), \+greenPiecesOnBoard(GameState), Checker = 'placeRed').
+
+parse_input(doesntMakeSemaphore(GameState, Line, Column, Piece), Checker):-
+	(doesntMakeSemaphore(GameState, Line, Column, Piece),
+		Checker = 1;
+		Checker = 0	
+	).
+

@@ -1394,3 +1394,37 @@ greenPiecesOnBoard(GameState):-
 
 redPiecesOnBoard(GameState):-
     getPiece(GameState, _Line, _Column, r).
+
+
+
+%%%%%%%%%%%%%%%%%LAIG%%%%%%%%%%%%%%%
+
+doesntMakeSemaphore(GameState, Line, Column, g):-
+    hasYellowsAdjacent(GameState, Line, Column, YellowsAdjacent),
+    iterateYellowsAdjacent(GameState, Line, Column, YellowsAdjacent, g, UnpreparedPiecesToRemove),
+    exclude(emptyList, UnpreparedPiecesToRemove, DuplicatedPiecesToRemove),
+    remove_dups(DuplicatedPiecesToRemove, PiecesToRemoveTemp), !,
+    PiecesToRemoveTemp == [].
+
+    
+doesntMakeSemaphore(GameState, Line, Column, gc):-
+    hasYellowsAdjacent(GameState, Line, Column, YellowsAdjacent),
+    iterateYellowsAdjacent(GameState, Line, Column, YellowsAdjacent, g, UnpreparedPiecesToRemove),
+    exclude(emptyList, UnpreparedPiecesToRemove, DuplicatedPiecesToRemove),
+    remove_dups(DuplicatedPiecesToRemove, PiecesToRemoveTemp), !,
+    PiecesToRemoveTemp == [].
+
+
+doesntMakeSemaphore(GameState, Line, Column, r):-
+    hasYellowsAdjacent(GameState, Line, Column, YellowsAdjacent),
+    iterateYellowsAdjacent(GameState, Line, Column, YellowsAdjacent, r, UnpreparedPiecesToRemove),
+    exclude(emptyList, UnpreparedPiecesToRemove, DuplicatedPiecesToRemove),
+    remove_dups(DuplicatedPiecesToRemove, PiecesToRemoveTemp), !,
+    PiecesToRemoveTemp == [].
+
+doesntMakeSemaphore(GameState, Line, Column, rc):-
+    hasYellowsAdjacent(GameState, Line, Column, YellowsAdjacent),
+    iterateYellowsAdjacent(GameState, Line, Column, YellowsAdjacent, r, UnpreparedPiecesToRemove),
+    exclude(emptyList, UnpreparedPiecesToRemove, DuplicatedPiecesToRemove),
+    remove_dups(DuplicatedPiecesToRemove, PiecesToRemoveTemp), !,
+    PiecesToRemoveTemp == [].
