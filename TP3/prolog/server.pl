@@ -140,3 +140,7 @@ parse_input(doesntMakeSemaphore(GameState, Line, Column, Piece), Checker):-
 		Checker = 0	
 	).
 
+parse_input(makesSemaphore(GameState, Line, Column, Piece), PiecesToRemove):-
+	makesSemaphore(GameState, Line, Column, Piece, PiecesToRemove).
+
+

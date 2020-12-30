@@ -1,7 +1,7 @@
 class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
-        this.gameStates = Object.freeze({ "yellowPlacement": 0, "moveRedPiece": 1, "moveGreenPiece": 2, "placeRedPiece": 3, "placeGreenPiece": 4, "gameOver": 5 })
+        this.gameStates = Object.freeze({ "yellowPlacement": 0, "moveRedPiece": 1, "moveGreenPiece": 2, "placeRedPiece": 3, "placeGreenPiece": 4, "gameOver": 5})
         this.currentState = this.gameStates.yellowPlacement;
         this.currentPlayer = 1;
 
@@ -135,28 +135,32 @@ class MyGameOrchestrator extends CGFobject {
                                 // Pieces left on stack
                                 if (this.gameBoard.yellowPieces.length != 0) {
                                     // Verify valid yellow placed
-                                    this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function (data) {
-                                        if (data.target.response === '0') {
-                                            this.pickTile(null, this.tilePicked);
+                                    if(this.tilePicked.piece == null)
+                                    {
+                                        this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function (data) {
+                                            if (data.target.response === '0') {
+                                                this.pickTile(null, this.tilePicked);
+                                                this.gameBoard.startingYellows++;
 
-                                            if (this.gameBoard.yellowPieces.length == 0) {
-                                                this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
-                                                    if (data.target.response === 'moveRed') {
-                                                        this.currentState = this.gameStates.moveRedPiece;
-                                                    }
-                                                    else if (data.target.response === 'moveGreen') {
-                                                        this.currentState = this.gameStates.moveGreenPiece;
-                                                    }
-                                                    else if (data.target.response === 'placeRed') {
-                                                        this.currentState = this.gameStates.placeRedPiece;
-                                                    }
-                                                }.bind(this));
+                                                if (this.gameBoard.yellowPieces.length == 0) {
+                                                    this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
+                                                        if (data.target.response === 'moveRed') {
+                                                            this.currentState = this.gameStates.moveRedPiece;
+                                                        }
+                                                        else if (data.target.response === 'moveGreen') {
+                                                            this.currentState = this.gameStates.moveGreenPiece;
+                                                        }
+                                                        else if (data.target.response === 'placeRed') {
+                                                            this.currentState = this.gameStates.placeRedPiece;
+                                                        }
+                                                    }.bind(this));
+                                                }
                                             }
-                                        }
-                                        else console.log("Invalid yellow piece placement"); // TODO: Print message to user
-                                    }.bind(this));
-                                    //this.currentPlayer = 2;
-                                    break;
+                                            else console.log("Invalid yellow piece placement"); // TODO: Print message to user
+                                        }.bind(this));
+                                        //this.currentPlayer = 2;
+                                        break;
+                                    }
                                 }
                             }
                             if (this.currentState === this.gameStates.moveRedPiece) {
@@ -170,9 +174,12 @@ class MyGameOrchestrator extends CGFobject {
 
                                                 this.prolog.getPrologRequest('possibleMovement(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.gameBoard.firstTile.getLine() + ',' + this.gameBoard.firstTile.getColumn() + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ')', function (data) {
                                                     if (data.target.response === '1') {
-                                                        this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
-                                                        this.gameBoard.firstTile = null;
-                                                        this.currentState = this.gameStates.moveGreenPiece;
+                                                        this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data1) {
+                                                            this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
+                                                            this.gameBoard.firstTile = null;
+                                                            this.currentState = this.gameStates.moveGreenPiece;
+                                                            this.removePieces(JSON.parse(data1.target.response));                                                                                                                        
+                                                        }.bind(this));
                                                     }
                                                     else
                                                     {
@@ -188,7 +195,10 @@ class MyGameOrchestrator extends CGFobject {
                                         }
                                         // Selecting the first tile
                                         else {
-                                            this.gameBoard.firstTile = results[i][0];
+                                            if(results[i][0].piece.getType() == 'red')
+                                                this.gameBoard.firstTile = results[i][0];
+                                            else
+                                                this.gameBoard.firstTile = null;
                                         }
                                     }
                                 }
@@ -198,10 +208,6 @@ class MyGameOrchestrator extends CGFobject {
                             }
                             if (this.currentState === this.gameStates.moveGreenPiece) {
                                 if (this.gameBoard.greenPiecesPlaced != 0) {
-                                    console.log("Welelel");
-                                    console.log(results[i][0].piece);
-                                    console.log(this.gameBoard.firstTile);
-
                                     if (results[i][0].piece != null || this.gameBoard.firstTile != null) {
                                         // To be moved
                                         if (this.gameBoard.firstTile != null) {
@@ -209,9 +215,12 @@ class MyGameOrchestrator extends CGFobject {
                                                 // Verify can move there
                                                 this.prolog.getPrologRequest('possibleMovement(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.gameBoard.firstTile.getLine() + ',' + this.gameBoard.firstTile.getColumn() + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ')', function (data) {
                                                     if (data.target.response === '1') {                                       
-                                                        this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
-                                                        this.gameBoard.firstTile = null;
-                                                        this.currentState = this.gameStates.placeRedPiece;
+                                                        this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'g' + ')', function (data1) {
+                                                            this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
+                                                            this.gameBoard.firstTile = null;
+                                                            this.currentState = this.gameStates.moveGreenPiece;
+                                                            this.removePieces(JSON.parse(data1.target.response));                                                                                                                        
+                                                        }.bind(this));
                                                     }
                                                     else
                                                     {
@@ -227,7 +236,10 @@ class MyGameOrchestrator extends CGFobject {
                                         }
                                         else
                                         {
-                                            this.gameBoard.firstTile = results[i][0];
+                                            if(results[i][0].piece.getType() == 'green')
+                                                this.gameBoard.firstTile = results[i][0];
+                                            else
+                                                this.gameBoard.firstTile = null;
                                         }
                                     }
                                 }
@@ -238,14 +250,17 @@ class MyGameOrchestrator extends CGFobject {
                             if (this.currentState === this.gameStates.placeRedPiece) {
                                 // Pieces left on stack
                                 if (this.gameBoard.redPieces.length != 0) {
-                                    this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data) {
-                                        if (data.target.response === '1') {                                       
-                                            this.pickTile(null, this.tilePicked);
-                                            this.currentPlayer = 2;
-                                            this.currentState = this.gameStates.moveGreenPiece;
-                                        }
-                                    }.bind(this));
-                                    break;   
+                                    if(this.tilePicked.piece == null)
+                                    {
+                                        this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data) {
+                                            if (data.target.response === '1') {                                       
+                                                this.pickTile(null, this.tilePicked);
+                                                this.currentPlayer = 2;
+                                                this.currentState = this.gameStates.moveGreenPiece;
+                                            }
+                                        }.bind(this));
+                                        break;   
+                                    }
                                 }
                                 else {
                                     this.currentPlayer = 2;
@@ -293,9 +308,12 @@ class MyGameOrchestrator extends CGFobject {
 
                                                 this.prolog.getPrologRequest('possibleMovement(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.gameBoard.firstTile.getLine() + ',' + this.gameBoard.firstTile.getColumn() + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ')', function (data) {
                                                     if (data.target.response === '1') {
-                                                        this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
-                                                        this.gameBoard.firstTile = null;
-                                                        this.currentState = this.gameStates.moveRedPiece;
+                                                        this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'g' + ')', function (data1) {
+                                                            this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
+                                                            this.gameBoard.firstTile = null;
+                                                            this.currentState = this.gameStates.moveGreenPiece;
+                                                            this.removePieces(JSON.parse(data1.target.response));                                                                                                                        
+                                                        }.bind(this));
                                                     }
                                                     else
                                                     {
@@ -311,7 +329,10 @@ class MyGameOrchestrator extends CGFobject {
                                         }
                                         else
                                         {
-                                            this.gameBoard.firstTile = results[i][0];
+                                            if(results[i][0].piece.getType() == 'green')
+                                                this.gameBoard.firstTile = results[i][0];
+                                            else
+                                                this.gameBoard.firstTile = null;
                                         }
                                     }
                                 }
@@ -329,9 +350,12 @@ class MyGameOrchestrator extends CGFobject {
                                                 // Verify can move there
                                                 this.prolog.getPrologRequest('possibleMovement(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.gameBoard.firstTile.getLine() + ',' + this.gameBoard.firstTile.getColumn() + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ')', function (data) {
                                                     if (data.target.response === '1') {
-                                                        this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
-                                                        this.gameBoard.firstTile = null;
-                                                        this.currentState = this.gameStates.placeGreenPiece;
+                                                        this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data1) {
+                                                            this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
+                                                            this.gameBoard.firstTile = null;
+                                                            this.currentState = this.gameStates.moveGreenPiece;
+                                                            this.removePieces(JSON.parse(data1.target.response));                                                                                                                        
+                                                        }.bind(this));
                                                     }
                                                     else
                                                     {
@@ -348,7 +372,10 @@ class MyGameOrchestrator extends CGFobject {
                                         }
                                         // Selecting the first tile
                                         else {
-                                            this.gameBoard.firstTile = results[i][0];
+                                            if(results[i][0].piece.getType() == 'red')
+                                                this.gameBoard.firstTile = results[i][0];
+                                            else
+                                                this.gameBoard.firstTile = null;
                                         }
                                     }
                                 }
@@ -359,14 +386,17 @@ class MyGameOrchestrator extends CGFobject {
                             if (this.currentState === this.gameStates.placeGreenPiece) {
                                 // Pieces left on stack
                                 if (this.gameBoard.greenPieces.length != 0) {
-                                    this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'g' + ')', function (data) {
-                                        if (data.target.response === '1') {                                       
-                                            this.pickTile(null, this.tilePicked);
-                                            this.currentPlayer = 1;
-                                            this.currentState = this.gameStates.moveRedPiece;
-                                        }
-                                    }.bind(this));
-                                    break;
+                                    if(this.tilePicked.piece == null)
+                                    {
+                                        this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'g' + ')', function (data) {
+                                            if (data.target.response === '1') {                                       
+                                                this.pickTile(null, this.tilePicked);
+                                                this.currentPlayer = 1;
+                                                this.currentState = this.gameStates.moveRedPiece;
+                                            }
+                                        }.bind(this));
+                                        break;
+                                    }
                                 }
                                 else {
                                     this.currentPlayer = 1;
@@ -380,6 +410,21 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
     }
+
+    removePieces(piecesToRemove){
+        for (const pieceToRemove of piecesToRemove) {
+            for(let i = 0; i < this.gameBoard.tiles.length; i++)
+            {
+                console.log(this.gameBoard.tiles[i]);
+                if((this.gameBoard.tiles[i].getLine() === pieceToRemove[0]) && this.gameBoard.tiles[i].getColumn() === pieceToRemove[1])
+                {
+                    this.move(this.gameBoard.tiles[i], null, this.gameBoard.tiles[i].getPiece().getType());
+                    break;
+                }
+            }
+        }
+    }
+
 
     undo() {
         this.gameSequence.undo();
