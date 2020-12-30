@@ -128,3 +128,8 @@ parse_input(possibleMovement(GameState, Line, Column, New_Line, New_Column), Che
 		Checker is 1);
 		Checker is 0
 	).
+
+parse_input(nextState(GameState), Checker):-
+	(redPiecesOnBoard(GameState), Checker = 'moveRed');
+	(\+redPiecesOnBoard(GameState), greenPiecesOnBoard(GameState), Checker = 'moveGreen');
+	(\+redPiecesOnBoard(GameState), \+greenPiecesOnBoard(GameState), Checker = 'placeRed').

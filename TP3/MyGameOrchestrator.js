@@ -30,8 +30,10 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     pickTile(origin, destination) {
-        //if(this.currentState === this.gameStates.yellowPlacement) 
-        this.move(origin, destination, 'yellow');
+        if(this.currentState === this.gameStates.yellowPlacement) 
+            this.move(origin, destination, 'yellow');
+        if(this.currentState === this.gameStates.placeRedPiece)
+            this.move(origin, destination, 'red');
     }
 
     move(origin, destination, pieceType) {
@@ -48,6 +50,30 @@ class MyGameOrchestrator extends CGFobject {
                 for (let index = 0; index < this.gameBoard.yellowPiecesPlaced.length; index++) {
                     if (this.gameBoard.yellowPiecesPlaced[index].getTile() == origin) {
                         this.gameBoard.yellowPiecesPlaced.splice(index);
+                        break;
+                    }
+                }
+                gameMove.animate();
+            }
+            else {
+                let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, destination, this.gameBoard);
+                gameMove.animate();
+            }
+        }
+
+        else if (pieceType === 'red') {
+            if (origin === null && destination !== null) {
+                let redPieceToMove = this.gameBoard.redPieces.pop();
+                let gameMove = new MyGameMove(this.scene, redPieceToMove, null, destination, this.gameBoard);
+                this.gameBoard.redPiecesPlaced.push(redPieceToMove);
+                gameMove.animate();
+            }
+            else if (origin !== null && destination === null) {
+                this.gameBoard.redPieces.push(origin.getPiece());
+                let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
+                for (let index = 0; index < this.gameBoard.redPiecesPlaced.length; index++) {
+                    if (this.gameBoard.redPiecesPlaced[index].getTile() == origin) {
+                        this.gameBoard.redPiecesPlaced.splice(index);
                         break;
                     }
                 }
@@ -77,15 +103,26 @@ class MyGameOrchestrator extends CGFobject {
                                     this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function (data) {
                                         if (data.target.response === '0') {
                                             this.pickTile(null, this.tilePicked);
-                                            //console.log(this.gameBoard.convertToPrologGameState());
+                                            
+                                            if(this.gameBoard.yellowPieces.length == 0) {
+                                                this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
+                                                    if (data.target.response === 'moveRed'){
+                                                        this.currentState = this.gameStates.moveRedPiece;
+                                                    }
+                                                    else if(data.target.response === 'moveGreen'){
+                                                        this.currentState = this.gameStates.moveGreenPiece;
+                                                    }
+                                                    else if(data.target.response === 'placeRed')
+                                                    {
+                                                        this.currentState = this.gameStates.placeRedPiece;
+                                                    }
+                                                }.bind(this));
+                                            }
                                         }
                                         else console.log("Invalid yellow piece placement"); // TODO: Print message to user
                                     }.bind(this));
                                     //this.currentPlayer = 2;
                                     break;
-                                }
-                                else {
-                                    this.currentState = this.gameStates.moveRedPiece;
                                 }
                             }
                             if (this.currentState === this.gameStates.moveRedPiece) {
@@ -124,6 +161,14 @@ class MyGameOrchestrator extends CGFobject {
                                 this.currentPlayer = 2;
                                 break;
                             }
+                            if (this.currentState === this.gameStates.placeRedPiece){
+                                // Pieces left on stack
+                                if (this.gameBoard.redPieces.length != 0) {
+                                    this.pickTile(null, this.tilePicked);
+                                    break;
+                                }
+                            }
+
                         }
 
 
