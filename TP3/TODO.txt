@@ -7,4 +7,7 @@ Ligar as scenes com a interface
 Fazer marcadores
 Melhorar aspeto?
 Mensagens para user quando algo estiver errado
+Documentar
+Meter cilindros pequenos
+Corrigir meter peças amarelas
 Implementar prolog
