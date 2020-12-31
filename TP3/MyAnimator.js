@@ -1,6 +1,6 @@
 class MyAnimator{
 	constructor(scene, orchestrator, gameSequence) {
-        super(scene);
+        this.scene = scene;
         this.orchestrator = orchestrator;
         this.gameSequence = gameSequence;
         this.currentMove = 0;

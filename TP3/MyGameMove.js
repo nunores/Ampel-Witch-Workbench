@@ -1,7 +1,7 @@
 class MyGameMove{
 	constructor(scene, piece, origin, destination, gameBoard) {        
-        this.piece = piece;
         this.scene = scene;
+        this.piece = piece;
         this.origin = origin;
         this.destination = destination;
         this.gameBoard = gameBoard;
@@ -124,23 +124,14 @@ class MyGameMove{
     }
 
     undo(){
-        if(this.origin === null)
-            this.undoAux('yellow', 'toBoard');
-        else if(this.destination === null)
-            this.undoAux('yellow', 'toStack');
-        else
-            this.undoAux('yellow', 'onBoard');
+        const tempOrigin = this.origin;
+        const tempDestination = this.destination;
+        
+        this.origin = tempDestination;
+        this.destination = tempOrigin;
+        this.scene.gameOrchestrator.unMove(this.origin, this.destination, this.piece.getType());
     }
 
-    undoAux(pieceType, direction){
-        if(pieceType === 'yellow'){
-            if(direction === 'toBoard')
-                this.gameBoard.removePiece(this.piece, this.destination);  
-            else if (direction === 'toStack')     
-                this.gameBoard.setPiece(this.piece, this.origin);       
-            else if(direction === 'onBoard')
-                this.gameBoard.unMovePiece(piece, this.origin, this.destination);
-        }
-    }
+
 
 }

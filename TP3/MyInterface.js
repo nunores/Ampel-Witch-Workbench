@@ -75,6 +75,8 @@ class MyInterface extends CGFinterface {
 
         /*TODO: Add functionality to this*/
         optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Undo");
+        optionsFolder.add(this.scene.gameOrchestrator, "reset").name("Reset");
+
         optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Replay");
         optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Play | Pause");
 

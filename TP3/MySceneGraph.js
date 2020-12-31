@@ -1571,16 +1571,17 @@ class MySceneGraph {
      */
     displayScene() {
 
+        
+        
         this.scene.stack_texture.pop();
         this.scene.stack_material.pop();
         this.scene.stack_material.push(this.scene.defaultAppearance);
         this.scene.stack_texture.push(null);
 
+
+        
+        //this.scene.components[50].display();
         this.scene.gameOrchestrator.display();
-
-        //let board = new MyBoard(this.scene);
-        //board.display();
-
 
         //Looking for root node
         /*for (var i = 0; i < this.scene.components.length; i++) {

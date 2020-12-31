@@ -1,21 +1,25 @@
-class MyGameSequence{
-	constructor(scene, gameMoves) {
+class MyGameSequence {
+    constructor(scene, gameMoves) {
         this.scene = scene;
         this.gameMoves = gameMoves;
     }
 
 
-    addGameMove(gameMove){
+    addGameMove(gameMove) {
         this.gameMoves.push(gameMove);
     }
 
-    undo(){
-        this.gameMoves[this.gameMoves.length - 1].undo();
-        this.gameMoves.pop(); 
+    undo() {
+        if (this.gameMoves.length > 0) {
+            this.gameMoves[this.gameMoves.length - 1].undo();
+            this.gameMoves.pop();
+        }
     }
 
-    reset(){
-        
+    reset() {
+        while (this.gameMoves.length) {
+            this.undo();
+        }
     }
 
 }
