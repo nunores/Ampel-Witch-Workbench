@@ -13,6 +13,8 @@ class MyGameOrchestrator extends CGFobject {
         this.gameSequence = new MyGameSequence(this.scene, []);
         
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
+
+        this.replayMode = false;
     }
 
     getState() {
@@ -46,6 +48,8 @@ class MyGameOrchestrator extends CGFobject {
             if (origin === null && destination !== null) {
                 let yellowPieceToMove = this.gameBoard.yellowPieces.pop();
                 let gameMove = new MyGameMove(this.scene, yellowPieceToMove, null, destination, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 this.gameBoard.yellowPiecesPlaced.push(yellowPieceToMove);
                 gameMove.animate();
@@ -53,6 +57,8 @@ class MyGameOrchestrator extends CGFobject {
             else if (origin !== null && destination === null) {
                 this.gameBoard.yellowPieces.push(origin.getPiece());
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 for (let index = 0; index < this.gameBoard.yellowPiecesPlaced.length; index++) {
                     if (this.gameBoard.yellowPiecesPlaced[index].getTile() == origin) {
@@ -64,6 +70,8 @@ class MyGameOrchestrator extends CGFobject {
             }
             else {
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, destination, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 gameMove.animate();
             }
@@ -73,6 +81,8 @@ class MyGameOrchestrator extends CGFobject {
             if (origin === null && destination !== null) {
                 let redPieceToMove = this.gameBoard.redPieces.pop();
                 let gameMove = new MyGameMove(this.scene, redPieceToMove, null, destination, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 this.gameBoard.redPiecesPlaced.push(redPieceToMove);
                 gameMove.animate();
@@ -80,6 +90,8 @@ class MyGameOrchestrator extends CGFobject {
             else if (origin !== null && destination === null) {
                 this.gameBoard.redPieces.push(origin.getPiece());
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 for (let index = 0; index < this.gameBoard.redPiecesPlaced.length; index++) {
                     if (this.gameBoard.redPiecesPlaced[index].getTile() == origin) {
@@ -91,6 +103,8 @@ class MyGameOrchestrator extends CGFobject {
             }
             else {
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, destination, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 gameMove.animate();
             }
@@ -100,6 +114,8 @@ class MyGameOrchestrator extends CGFobject {
             if (origin === null && destination !== null) {
                 let greenPieceToMove = this.gameBoard.greenPieces.pop();
                 let gameMove = new MyGameMove(this.scene, greenPieceToMove, null, destination, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 this.gameBoard.greenPiecesPlaced.push(greenPieceToMove);
                 gameMove.animate();
@@ -107,6 +123,8 @@ class MyGameOrchestrator extends CGFobject {
             else if (origin !== null && destination === null) {
                 this.gameBoard.greenPieces.push(origin.getPiece());
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 for (let index = 0; index < this.gameBoard.greenPiecesPlaced.length; index++) {
                     if (this.gameBoard.greenPiecesPlaced[index].getTile() == origin) {
@@ -118,6 +136,8 @@ class MyGameOrchestrator extends CGFobject {
             }
             else {
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, destination, this.gameBoard);
+                gameMove.setState(this.currentState);
+                gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
                 gameMove.animate();
             }
@@ -125,7 +145,7 @@ class MyGameOrchestrator extends CGFobject {
 
     }
 
-    unMove(origin, destination, pieceType) {
+    unMove(origin, destination, pieceType, state, player) {
         if (pieceType === 'yellow') {
             if (origin === null && destination !== null) {
                 let yellowPieceToMove = this.gameBoard.yellowPieces.pop();
@@ -135,6 +155,7 @@ class MyGameOrchestrator extends CGFobject {
             }
             else if (origin !== null && destination === null) {
                 this.gameBoard.yellowPieces.push(origin.getPiece());
+                this.gameBoard.yellowPiecesPlaced.pop();
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
                 for (let index = 0; index < this.gameBoard.yellowPiecesPlaced.length; index++) {
                     if (this.gameBoard.yellowPiecesPlaced[index].getTile() == origin) {
@@ -159,6 +180,7 @@ class MyGameOrchestrator extends CGFobject {
             }
             else if (origin !== null && destination === null) {
                 this.gameBoard.redPieces.push(origin.getPiece());
+                this.gameBoard.redPiecesPlaced.pop();
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
                 for (let index = 0; index < this.gameBoard.redPiecesPlaced.length; index++) {
                     if (this.gameBoard.redPiecesPlaced[index].getTile() == origin) {
@@ -183,6 +205,7 @@ class MyGameOrchestrator extends CGFobject {
             }
             else if (origin !== null && destination === null) {
                 this.gameBoard.greenPieces.push(origin.getPiece());
+                this.gameBoard.greenPiecesPlaced.pop();
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard);
                 for (let index = 0; index < this.gameBoard.greenPiecesPlaced.length; index++) {
                     if (this.gameBoard.greenPiecesPlaced[index].getTile() == origin) {
@@ -197,7 +220,8 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.animate();
             }
         }
-
+        this.currentState = state;
+        this.currentPlayer = player;
     }
 
     managePick(mode, results) {
@@ -207,6 +231,10 @@ class MyGameOrchestrator extends CGFobject {
                     var obj = results[i][0];
                     this.tilePicked = results[i][0];
                     if (obj) {
+                        console.log(this.gameBoard.yellowPieces);
+                        console.log(this.gameSequence);
+                        console.log(this.gameBoard.greenPiecesPlaced);
+                        console.log(this.gameBoard.redPiecesPlaced);
                         console.log("State: " + this.currentState);
                         console.log("Player: " + this.currentPlayer);
                         console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
@@ -401,7 +429,7 @@ class MyGameOrchestrator extends CGFobject {
                                                             this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'g' + ')', function (data1) {
                                                                 this.pickTile(this.gameBoard.getFirstTile(), this.tilePicked);
                                                                 this.gameBoard.firstTile = null;
-                                                                this.currentState = this.gameStates.moveGreenPiece;
+                                                                this.currentState = this.gameStates.moveRedPiece;
                                                                 this.removePieces(JSON.parse(data1.target.response));
                                                                 this.gameBoard.player2Points += Math.floor(JSON.parse(data1.target.response).length / 2);  
                                                                 if(this.gameBoard.player2Points >= 5)
@@ -531,16 +559,13 @@ class MyGameOrchestrator extends CGFobject {
         this.animator.reset();
     }
 
-
-    /*     update(time) {
-            this.animator.update(time);
-        }
- 
-        display() {
-            this.theme.display();
-            this.gameboard.display();
-            this.animator.display();
+    replay(){
+        const moves = Array.from(this.gameSequence.getMoves());
+        this.animator.reset();
+        this.gameSequence = new MyGameSequence(this.scene, moves);
+        this.animator = new MyAnimator(this.scene, this, this.gameSequence);
+        this.replayMode = true;
         
-        } */
+    }
 
 }

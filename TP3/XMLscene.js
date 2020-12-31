@@ -152,6 +152,11 @@ class XMLscene extends CGFscene {
             this.spriteAnimations[spriteAnimation].update(this.deltaTime);
         }
 
+        if(this.gameOrchestrator.replayMode)
+        {
+            this.gameOrchestrator.animator.update(this.deltaTime);
+        }
+
         this.previous = time;
 
     }

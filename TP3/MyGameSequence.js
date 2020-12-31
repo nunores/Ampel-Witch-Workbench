@@ -9,6 +9,10 @@ class MyGameSequence {
         this.gameMoves.push(gameMove);
     }
 
+    getMoves(){
+        return this.gameMoves;
+    }
+
     undo() {
         if (this.gameMoves.length > 0) {
             this.gameMoves[this.gameMoves.length - 1].undo();

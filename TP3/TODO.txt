@@ -1,14 +1,17 @@
-Fazer interface e depois liga la
-Fazer game sequence e animator
-Fazer scenes
+Replay a fazer semáforos merda-se
+
 Fazer camaras
-Ligar as scenes com a interface
 Fazer marcadores
-Melhorar aspeto?
-Mensagens para user quando algo estiver errado
+Fazer timer
+Implementar bots
 Documentar
-Meter cilindros pequenos?
-Corrigir meter peças amarelas
-Passar textures para XML
 Apagar ficheiros inuteis (imagens, etc)
-Implementar prolog
+Apagar prints
+
+Mensagens para user quando algo estiver errado?
+Corrigir meter peças amarelas - a meter várias de uma vez só?
+Fazer menu?
+Meter cilindros pequenos?
+
+Fazer scenes e luz com knowledge
+Fazer README e o PDF com as instruções

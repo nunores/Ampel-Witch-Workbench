@@ -5,6 +5,18 @@ class MyGameMove{
         this.origin = origin;
         this.destination = destination;
         this.gameBoard = gameBoard;
+        this.state = null;
+        this.player = null;
+    }
+
+    setState(state)
+    {
+        this.state = state;
+    }
+
+    setPlayer(player)
+    {
+        this.player = player;
     }
 
     animate(){
@@ -19,6 +31,8 @@ class MyGameMove{
         else {
             this.setupAnimation(pieceType, 'onBoard');
         }
+
+        
     }
 
     setupAnimation(pieceType, direction){
@@ -124,12 +138,8 @@ class MyGameMove{
     }
 
     undo(){
-        const tempOrigin = this.origin;
-        const tempDestination = this.destination;
+        this.scene.gameOrchestrator.unMove(this.destination, this.origin, this.piece.getType(), this.state, this.player);
         
-        this.origin = tempDestination;
-        this.destination = tempOrigin;
-        this.scene.gameOrchestrator.unMove(this.origin, this.destination, this.piece.getType());
     }
 
 
