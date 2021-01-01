@@ -41,7 +41,7 @@ class MyTiles extends CGFobject {
     }
 
     createYellowPieces(){
-        for(let i = 0; i < 2; i++){
+        for(let i = 0; i < 10; i++){
             const piece = new MyPiece(this.scene, 'yellow');
             this.yellowPieces.push(piece);
             this.scene.components.push(piece);

@@ -68,6 +68,10 @@ class MyInterface extends CGFinterface {
         this.setActiveCamera(this.scene.cameras[this.scene.currCamera]); 
     }
 
+    changeBot(){
+        this.scene.gameOrchestrator.botOption = this.scene.gameOrchestrator.botOptions[botOption];
+    }
+
     addOptionsGUI(){
         const optionsFolder = this.gui.addFolder('Options');
 
@@ -76,7 +80,10 @@ class MyInterface extends CGFinterface {
         optionsFolder.add(this.scene.gameOrchestrator, "undo").name("Undo");
         optionsFolder.add(this.scene.gameOrchestrator, "reset").name("Reset");
         optionsFolder.add(this.scene.gameOrchestrator, "replay").name("Replay");
+    }
 
+    addBotOptions(){
+        this.gui.add(this.scene.gameOrchestrator, 'botOption', Object.keys(this.scene.gameOrchestrator.botOptions)).name('Players').onChange(this.changeBot.bind(this));
     }
 
 }

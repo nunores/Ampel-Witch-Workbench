@@ -1,17 +1,14 @@
-Replay a fazer semáforos merda-se
-
 Fazer camaras
 Fazer marcadores
 Fazer timer
 Implementar bots
-Documentar
-Apagar ficheiros inuteis (imagens, etc)
-Apagar prints
+
 
 Mensagens para user quando algo estiver errado?
 Corrigir meter peças amarelas - a meter várias de uma vez só?
-Fazer menu?
-Meter cilindros pequenos?
 
+Documentar
+Apagar ficheiros inuteis (imagens, etc)
+Apagar prints
 Fazer scenes e luz com knowledge
 Fazer README e o PDF com as instruções

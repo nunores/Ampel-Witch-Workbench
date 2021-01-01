@@ -15,6 +15,18 @@ class MyGameOrchestrator extends CGFobject {
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
 
         this.replayMode = false;
+  
+        const botOptions = {
+            pvp : "pvp",
+            pve: "pve",
+            eve: "eve"
+        };
+        
+        //this.botOption = botOptions[0];
+        this.botPlayer2 = false;
+        this.botvbot = true;
+
+        this.nextPlayer = false;
     }
 
     getState() {
@@ -239,7 +251,11 @@ class MyGameOrchestrator extends CGFobject {
                         // Player 1's turn
                         if(this.currentState !== this.gameStates.gameOver)
                         {
-                            if (this.currentPlayer === 1) {
+                            if(this.botvbot)
+                            {
+                                this.botvbotPlayPlayer1();
+                            }
+                            else if (this.currentPlayer === 1) {
                                 if (this.currentState === this.gameStates.yellowPlacement) {
                                     // Pieces left on stack
                                     if (this.gameBoard.yellowPieces.length != 0) {
@@ -250,6 +266,8 @@ class MyGameOrchestrator extends CGFobject {
                                                 if (data.target.response === '0') {
                                                     this.pickTile(null, this.tilePicked);
                                                     this.gameBoard.startingYellows++;
+                                                    if(this.botPlayer2)
+                                                        this.botPlayer2PlayYellow();
 
                                                     if (this.gameBoard.yellowPieces.length == 0) {
                                                         this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
@@ -370,18 +388,37 @@ class MyGameOrchestrator extends CGFobject {
                                             this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data) {
                                                 if (data.target.response === '1') {                                       
                                                     this.pickTile(null, this.tilePicked);
-                                                    this.currentPlayer = 2;
-                                                    this.currentState = this.gameStates.moveGreenPiece;
+                                                    if(!this.botPlayer2)
+                                                    {
+                                                        this.currentPlayer = 2;
+                                                        this.currentState = this.gameStates.moveGreenPiece;
+                                                    }
+                                                    else
+                                                    {
+                                                        this.currentPlayer = 1;
+                                                        this.currentState = this.gameStates.moveRedPiece;
+                                                        this.botPlayer2Play();
+                                                    }
                                                 }
                                             }.bind(this));
                                             break;   
                                         }
                                     }
                                     else {
-                                        this.currentPlayer = 2;
-                                        this.currentState = this.gameStates.moveGreenPiece;
+                                        if(!this.botPlayer2)
+                                        {
+                                            this.currentPlayer = 2;
+                                            this.currentState = this.gameStates.moveGreenPiece;
+                                        }
+                                        else
+                                        {
+                                            this.currentPlayer = 1;
+                                            this.currentState = this.gameStates.moveRedPiece;
+                                            this.botPlayer2Play();
+                                        }
                                     }
                                 }
+
                             }
                             else if (this.currentPlayer === 2) {
                                 if (this.currentState === this.gameStates.yellowPlacement) {
@@ -531,6 +568,271 @@ class MyGameOrchestrator extends CGFobject {
                 results.splice(0, results.length);
             }
         }
+    }
+
+    botvbotPlayPlayer1()
+    {
+        this.nextPlayer = false;
+        if (this.currentState === this.gameStates.yellowPlacement)
+        {
+            this.prolog.getPrologRequest('choose_move(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + '2' + ')', function (data) {
+                const move = JSON.parse(data.target.response);
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === move[0]) && (this.gameBoard.tiles[i].getColumn() === move[1]))
+                    {
+                        this.move(null, this.gameBoard.tiles[i], 'yellow', 1);
+                        this.nextPlayer = true;
+                        break;
+                    }
+                
+                }
+                if(this.gameBoard.yellowPieces.length == 0)
+                    this.currentState = this.gameStates.moveRedPiece;
+                this.botvbotPlayPlayer1();
+            }.bind(this));
+        }
+        else
+        {
+            this.prolog.getPrologRequest('choose_move(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + '2' + ')', function (data) {
+                let move = JSON.parse(data.target.response);
+    
+                let greenOrigin = move[1];
+                let greenDestination = move[2];
+                let redOrigin = move[3];
+                let redDestination = move[4];
+                let greenPlacement = move[5];
+    
+                let undoChecker = 0;
+                
+                let greenOriginTile = null;
+                let greenDestinationTile = null;
+                let redOriginTile = null;
+                let redDestinationTile = null;
+    
+                if(greenOrigin.length !== 0)
+                {
+                    for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                    {
+                        if((this.gameBoard.tiles[i].getLine() === greenOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === greenOrigin[1]))
+                        {
+                            greenOriginTile = this.gameBoard.tiles[i];
+                            break;
+                        }
+                    }
+                    for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                    {
+                        if((this.gameBoard.tiles[i].getLine() === greenDestination[0]) && (this.gameBoard.tiles[i].getColumn() === greenDestination[1]))
+                        {
+                            greenDestinationTile = this.gameBoard.tiles[i];
+                            break;
+                        }
+                    }
+                    this.move(greenOriginTile, greenDestinationTile, 'red', 0);
+                    undoChecker++;
+                }
+                if(redOrigin.length !== 0)
+                {
+                    for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                    {
+                        if((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1]))
+                        {
+                            redOriginTile = this.gameBoard.tiles[i];
+                            break;
+                        }
+                    }
+                    for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                    {
+                        if((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1]))
+                        {
+                            redDestinationTile = this.gameBoard.tiles[i];
+                            break;
+                        }
+                    }
+                    this.move(redOriginTile, redDestinationTile, 'green', 0);
+                    undoChecker++;
+                }
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1]))
+                    {
+                        this.move(null, this.gameBoard.tiles[i], 'red', undoChecker);
+                        break;
+                    }
+                }
+                this.nextPlayer = true;
+                this.currentPlayer = 1;
+                this.currentState = this.gameStates.moveRedPiece;
+                this.botvbotPlayPlayer2();
+            }.bind(this));
+        }
+    }
+
+    botvbotPlayPlayer2()
+    {
+        this.nextPlayer = false;
+        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+        this.prolog.getPrologRequest('choose_move_hard(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + '1' + ')', function (data) {
+            let move = JSON.parse(data.target.response);
+
+            let greenOrigin = move[2];
+            let greenDestination = move[3];
+            let redOrigin = move[4];
+            let redDestination = move[5];
+            let greenPlacement = move[6];
+
+            let undoChecker = 0;
+            
+            let greenOriginTile = null;
+            let greenDestinationTile = null;
+            let redOriginTile = null;
+            let redDestinationTile = null;
+
+            if(greenOrigin.length !== 0)
+            {
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === greenOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === greenOrigin[1]))
+                    {
+                        greenOriginTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === greenDestination[0]) && (this.gameBoard.tiles[i].getColumn() === greenDestination[1]))
+                    {
+                        greenDestinationTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                this.move(greenOriginTile, greenDestinationTile, 'green', 0);
+                undoChecker++;
+            }
+            if(redOrigin.length !== 0)
+            {
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1]))
+                    {
+                        redOriginTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1]))
+                    {
+                        redDestinationTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                this.move(redOriginTile, redDestinationTile, 'red', 0);
+                undoChecker++;
+            }
+            for(let i = 0; i < this.gameBoard.tiles.length; i++)
+            {
+                if((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1]))
+                {
+                    this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
+                    break;
+                }
+            }
+            this.nextPlayer = true;
+            this.currentPlayer = 1;
+            this.currentState = this.gameStates.moveRedPiece;
+            this.botvbotPlayPlayer1();
+        }.bind(this));
+    }
+
+    botPlayer2PlayYellow(){
+        this.prolog.getPrologRequest('choose_move(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + '2' + ')', function (data) {
+            const move = JSON.parse(data.target.response);
+            for(let i = 0; i < this.gameBoard.tiles.length; i++)
+            {
+                if((this.gameBoard.tiles[i].getLine() === move[0]) && (this.gameBoard.tiles[i].getColumn() === move[1]))
+                {
+                    this.move(null, this.gameBoard.tiles[i], 'yellow', 1);
+                    break;
+                }
+            
+            }
+            if(this.gameBoard.yellowPieces.length == 0)
+                this.currentState = this.gameStates.moveRedPiece;
+        
+        }.bind(this));
+    }
+
+    botPlayer2Play(){
+        this.prolog.getPrologRequest('choose_move(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ','  + '2' + ')', function (data) {
+            let move = JSON.parse(data.target.response);
+
+            let greenOrigin = move[1];
+            let greenDestination = move[2];
+            let redOrigin = move[3];
+            let redDestination = move[4];
+            let greenPlacement = move[5];
+
+            let undoChecker = 0;
+            
+            let greenOriginTile = null;
+            let greenDestinationTile = null;
+            let redOriginTile = null;
+            let redDestinationTile = null;
+
+            if(greenOrigin.length !== 0)
+            {
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === greenOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === greenOrigin[1]))
+                    {
+                        greenOriginTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === greenDestination[0]) && (this.gameBoard.tiles[i].getColumn() === greenDestination[1]))
+                    {
+                        greenDestinationTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                this.move(greenOriginTile, greenDestinationTile, 'green', 0);
+                undoChecker++;
+            }
+            if(redOrigin.length !== 0)
+            {
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1]))
+                    {
+                        redOriginTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                for(let i = 0; i < this.gameBoard.tiles.length; i++)
+                {
+                    if((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1]))
+                    {
+                        redDestinationTile = this.gameBoard.tiles[i];
+                        break;
+                    }
+                }
+                this.move(redOriginTile, redDestinationTile, 'red', 0);
+                undoChecker++;
+            }
+            for(let i = 0; i < this.gameBoard.tiles.length; i++)
+            {
+                if((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1]))
+                {
+                    this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
+                    break;
+                }
+            }
+            this.currentPlayer = 1;
+            this.currentState = this.gameStates.moveRedPiece;
+        }.bind(this));
     }
 
     removePieces(piecesToRemove){

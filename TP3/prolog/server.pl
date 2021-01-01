@@ -1,6 +1,8 @@
 :-use_module(library(sockets)).
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
+:-use_module(library(random)).
+
 
 :-include('display.pl').
 :-include('mechanics.pl').
@@ -142,5 +144,11 @@ parse_input(doesntMakeSemaphore(GameState, Line, Column, Piece), Checker):-
 
 parse_input(makesSemaphore(GameState, Line, Column, Piece), PiecesToRemove):-
 	makesSemaphore(GameState, Line, Column, Piece, PiecesToRemove).
+
+parse_input(choose_move(GameState, Player), Move):-
+	choose_move(GameState, Player, easy, Move).
+
+parse_input(choose_move_hard(GameState, Player), Move):-
+	choose_move(GameState, Player, hard, Move).
 
 
