@@ -15,8 +15,20 @@ class MyGameSequence {
 
     undo() {
         if (this.gameMoves.length > 0) {
-            this.gameMoves[this.gameMoves.length - 1].undo();
-            this.gameMoves.pop();
+            if(this.gameMoves[this.gameMoves.length - 1].semaphoreChecker === 0)
+            {
+                this.gameMoves[this.gameMoves.length - 1].undo();
+                this.gameMoves.pop();
+            }
+            else
+            {
+                let tempSize = this.gameMoves[this.gameMoves.length - 1].semaphoreChecker + 1;
+                for(let i = 0; i < tempSize; i++)
+                {
+                    this.gameMoves[this.gameMoves.length - 1].undo();
+                    this.gameMoves.pop();
+                }
+            }
         }
     }
 

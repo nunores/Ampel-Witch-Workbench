@@ -1,10 +1,11 @@
 class MyGameMove{
-	constructor(scene, piece, origin, destination, gameBoard) {        
+	constructor(scene, piece, origin, destination, gameBoard, semaphoreChecker) {        
         this.scene = scene;
         this.piece = piece;
         this.origin = origin;
         this.destination = destination;
         this.gameBoard = gameBoard;
+        this.semaphoreChecker = semaphoreChecker;
         this.state = null;
         this.player = null;
     }
@@ -43,6 +44,8 @@ class MyGameMove{
                 const keyframe3 = [4, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)];
                 const animation = new KeyframeAnimation([keyframe1, keyframe2, keyframe3], this.scene);
         
+                this.gameBoard.yellowPiecesPlaced.push(this.piece);
+                this.gameBoard.yellowPieces.pop();
                 this.gameBoard.setPiece(this.piece, this.destination);
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
@@ -53,6 +56,12 @@ class MyGameMove{
                 const keyframe3 = [4, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)];        
                 const animation = new KeyframeAnimation([keyframe1, keyframe2, keyframe3], this.scene);
         
+                this.gameBoard.yellowPieces.push(this.piece);
+                for(var i = 0; i < this.gameBoard.yellowPiecesPlaced.length; i++)
+                {
+                    if(this.gameBoard.yellowPiecesPlaced[i] === this.piece)
+                        this.gameBoard.yellowPiecesPlaced.splice(i, 1);
+                }
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
                 this.gameBoard.removePiece(this.piece, this.origin);
@@ -76,6 +85,8 @@ class MyGameMove{
                 const keyframe3 = [4, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)];
                 const animation = new KeyframeAnimation([keyframe1, keyframe2, keyframe3], this.scene);
         
+                this.gameBoard.redPiecesPlaced.push(this.piece);
+                this.gameBoard.redPieces.pop();
                 this.gameBoard.setPiece(this.piece, this.destination);
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
@@ -86,6 +97,12 @@ class MyGameMove{
                 const keyframe3 = [4, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)];        
                 const animation = new KeyframeAnimation([keyframe1, keyframe2, keyframe3], this.scene);
         
+                this.gameBoard.redPieces.push(this.piece);
+                for(var i = 0; i < this.gameBoard.redPiecesPlaced.length; i++)
+                {
+                    if(this.gameBoard.redPiecesPlaced[i] === this.piece)
+                        this.gameBoard.redPiecesPlaced.splice(i, 1);
+                }
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
                 this.gameBoard.removePiece(this.piece, this.origin);
@@ -110,6 +127,8 @@ class MyGameMove{
                 const keyframe3 = [4, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)];
                 const animation = new KeyframeAnimation([keyframe1, keyframe2, keyframe3], this.scene);
         
+                this.gameBoard.greenPiecesPlaced.push(this.piece);
+                this.gameBoard.greenPieces.pop();
                 this.gameBoard.setPiece(this.piece, this.destination);
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
@@ -120,6 +139,12 @@ class MyGameMove{
                 const keyframe3 = [4, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0), vec3.fromValues(1, 1, 1)];        
                 const animation = new KeyframeAnimation([keyframe1, keyframe2, keyframe3], this.scene);
         
+                this.gameBoard.greenPieces.push(this.piece);
+                for(var i = 0; i < this.gameBoard.greenPiecesPlaced.length; i++)
+                {
+                    if(this.gameBoard.greenPiecesPlaced[i] === this.piece)
+                        this.gameBoard.greenPiecesPlaced.splice(i, 1);
+                }
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
                 this.gameBoard.removePiece(this.piece, this.origin);
@@ -139,7 +164,6 @@ class MyGameMove{
 
     undo(){
         this.scene.gameOrchestrator.unMove(this.destination, this.origin, this.piece.getType(), this.state, this.player);
-        
     }
 
 
