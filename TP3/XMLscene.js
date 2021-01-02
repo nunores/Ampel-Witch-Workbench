@@ -136,8 +136,9 @@ class XMLscene extends CGFscene {
 
     update(time){ // Time in milliseconds
         if(this.firstTime){
-            this.previous = 0;
+            this.previous = time - 1;
             this.deltaTime = 0;
+            this.countOneSecond = 0;
             this.firstTime = false;
         }
 
@@ -156,6 +157,26 @@ class XMLscene extends CGFscene {
         {
             this.gameOrchestrator.animator.update(this.deltaTime);
         }
+
+        this.countOneSecond += this.deltaTime;
+
+        if(this.countOneSecond > 1){
+            this.gameOrchestrator.decreaseTime();
+            this.countOneSecond = 0;
+        }
+
+        this.gameOrchestrator.gameBoard.timer.changeText("Time: " + this.gameOrchestrator.time);
+
+        if(this.gameOrchestrator.time === 0){
+            this.gameOrchestrator.currentState = this.gameOrchestrator.gameStates.gameOver;
+
+            /*
+                if(this.gameOrchestrator.currentPlayer === 1) winner é 2
+                else winner é 1
+            */
+        }
+
+        console.log(this.gameOrchestrator.currentState);
 
         this.previous = time;
 

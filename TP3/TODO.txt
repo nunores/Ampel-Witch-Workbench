@@ -2,6 +2,7 @@ Fazer camaras
 Fazer marcadores
 Fazer timer
 Implementar bots
+Tratar gameover
 
 
 Mensagens para user quando algo estiver errado?

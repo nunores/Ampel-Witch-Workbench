@@ -24,9 +24,12 @@ class MyGameOrchestrator extends CGFobject {
         
         //this.botOption = botOptions[0];
         this.botPlayer2 = false;
-        this.botvbot = true;
+        this.botvbot = false;
 
         this.nextPlayer = false;
+
+        this.timeNumber = 10; 
+        this.time = this.timeNumber;
     }
 
     getState() {
@@ -52,6 +55,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     move(origin, destination, pieceType, semaphoreChecker) {
+        this.resetTime();
         if (pieceType === 'yellow') {
             if (origin === null && destination !== null) {
                 let yellowPieceToMove = this.gameBoard.yellowPieces[this.gameBoard.yellowPieces.length - 1];
@@ -874,6 +878,15 @@ class MyGameOrchestrator extends CGFobject {
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.replayMode = true;
         
+    }
+
+    decreaseTime(){
+        if(this.time > 0)
+            this.time--;
+    }
+
+    resetTime(){
+        this.time = this.timeNumber;
     }
 
 }

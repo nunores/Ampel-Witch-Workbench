@@ -153,7 +153,7 @@ class MyTiles extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(-4, 1, 0);
+        this.scene.translate(-4, 1, 3);
         this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, 1);
 
         this.timer.display();
