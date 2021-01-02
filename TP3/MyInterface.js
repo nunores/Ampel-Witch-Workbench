@@ -36,7 +36,7 @@ class MyInterface extends CGFinterface {
         this.activeKeys={};
     }
 
-    // processsMouseMove() {}
+    //processMouseMove() {}
 
     processKeyDown(event) {
         this.activeKeys[event.code]=true;
@@ -60,18 +60,17 @@ class MyInterface extends CGFinterface {
         }
     }
 
-    // Adds cameras to the GUI in a dropdown menu
-    addCamerasGUI(){
-        //this.gui.add(this.scene, 'currCamera', Object.keys(this.scene.cameras)).name('View Points').onChange(this.updateView.bind(this));
+    addSettings(){
+        let group = this.gui.addFolder("Settings");
+        group.open();
+
+        group.add(this.scene.gameOrchestrator, "gameMode", [ "Player vs Player", "Player vs Bot", "Bot vs Bot" ] ).name("Game Mode");
+        group.add(this.scene.gameOrchestrator, "difficultyLevel", [ "Easy", "Hard" ] ).name("Difficulty");
     }
 
     updateView(){
         this.scene.camera = this.scene.cameras[this.scene.currCamera];
         this.setActiveCamera(this.scene.cameras[this.scene.currCamera]); 
-    }
-
-    changeBot(){
-        this.scene.gameOrchestrator.botOption = this.scene.gameOrchestrator.botOptions[botOption];
     }
 
     addOptionsGUI(){

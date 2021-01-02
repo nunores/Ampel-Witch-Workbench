@@ -38,6 +38,7 @@ class XMLscene extends CGFscene {
 
         this.firstTime = true;
 
+
     }
 
     /**
@@ -69,7 +70,6 @@ class XMLscene extends CGFscene {
         
         this.setPickEnabled(true);
         this.gameOrchestrator = new MyGameOrchestrator(this);
-
         
     }
 
@@ -127,8 +127,8 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.interface.addLightsGUI();
-        this.interface.addCamerasGUI();
         this.interface.addOptionsGUI();
+        this.interface.addSettings();
 
         this.setUpdatePeriod(100);
 
@@ -158,28 +158,37 @@ class XMLscene extends CGFscene {
             this.gameOrchestrator.animator.update(this.deltaTime);
         }
 
-        this.countOneSecond += this.deltaTime;
+        this.handleTimer();
 
-        if(this.countOneSecond > 1){
-            this.gameOrchestrator.decreaseTime();
-            this.countOneSecond = 0;
-        }
-
-        this.gameOrchestrator.gameBoard.timer.changeText("Time: " + this.gameOrchestrator.time);
-
-        if(this.gameOrchestrator.time === 0){
-            this.gameOrchestrator.currentState = this.gameOrchestrator.gameStates.gameOver;
-
-            /*
-                if(this.gameOrchestrator.currentPlayer === 1) winner é 2
-                else winner é 1
-            */
-        }
-
-        console.log(this.gameOrchestrator.currentState);
 
         this.previous = time;
 
+    }
+
+    handleTimer(){
+
+        if(this.gameOrchestrator.gameMode === "Bot vs Bot" || this.gameOrchestrator.gameMode === "Player vs Bot" || this.gameOrchestrator.replayMode == true)
+            this.gameOrchestrator.gameBoard.timer.changeText("Time: ---");
+
+        else {
+            this.gameOrchestrator.gameBoard.timer.changeText("Time: " + this.gameOrchestrator.time);
+            this.countOneSecond += this.deltaTime;
+
+            if(this.countOneSecond > 1){
+                this.gameOrchestrator.decreaseTime();
+                this.countOneSecond = 0;
+            }
+    
+            if(this.gameOrchestrator.time === 0){
+                this.gameOrchestrator.currentState = this.gameOrchestrator.gameStates.gameOver;
+    
+                /*
+                    if(this.gameOrchestrator.currentPlayer === 1) winner é 2
+                    else winner é 1
+                */
+            }
+
+        }
     }
     
 
