@@ -7,7 +7,7 @@ var ILLUMINATION_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
-var NODES_INDEX = 6;
+var NODES_INDEX = 8;
 /**
  * MySceneGraph class, representing the scene graph.
  */
@@ -1584,10 +1584,10 @@ class MySceneGraph {
         this.scene.gameOrchestrator.display();
 
         //Looking for root node
-        /*for (var i = 0; i < this.scene.components.length; i++) {
+        for (var i = 0; i < this.scene.components.length; i++) {
             if (this.scene.components[i].id == this.idRoot) {
                 this.scene.components[i].display();
             }
-        }*/
+        }
     }
 }

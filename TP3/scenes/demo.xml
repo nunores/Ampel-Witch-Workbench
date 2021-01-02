@@ -68,7 +68,7 @@
 
         <light id="light2">
             <enable value="1" />
-            <position x="-10" y="0" z="0" w="1.0" />
+            <position x="-10" y="0" z="-10" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />  
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
@@ -79,7 +79,12 @@
 
 
     <textures>
-
+        <texture id="wallTexture" path="./scenes/images/wallTexture.jpg" />
+        <texture id="floorTexture" path="./scenes/images/floorTexture.jpg" />
+        <texture id="stoolTexture" path="./scenes/images/stoolTexture.jpg" />
+        <texture id="tableTexture" path="./scenes/images/tableTexture.jpg" />
+        <texture id="paintingTexture" path="./scenes/images/paintingTexture.jpg" />
+        <texture id="doorTexture" path="./scenes/images/doorTexture.jpg" />
     </textures>
 
 
@@ -104,21 +109,424 @@
     </spritesheets>
 
     <nodes>
-<!--         <node id="text">
+        <node id="root">
             <material id ="null" />
             <texture id ="clear">
                 <amplification afs="1.0" aft="1.0" />
             </texture>
             
             <transformations>
-                <rotation axis="x" angle="90"/>
-                <rotation axis="y" angle="90"/>
-                <translation x="-11" y="13" z="-3"/>
+                
             </transformations>
             
             <descendants>
-                <leaf type="spritetext" text="Melhor Banca da Bruxa!" />
+                <noderef id="table"/>
+                <noderef id="stool1"/>
+                <noderef id="stool2"/>
+                <noderef id="room"/>
+                <noderef id="painting"/>
+                <noderef id="door"/>
             </descendants>
-        </node> -->
+        </node>
+
+        <node id="door">
+            <material id="null"/>
+            <texture id="doorTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <rotation axis="z" angle="180"/>
+                <translation x="0" y="59" z="10"/>
+                <scale sx="30" sy="10" sz="40"/>
+                <rotation axis="x" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="painting">
+            <material id="null"/>
+            <texture id="paintingTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="59" z="15"/>
+                <scale sx="30" sy="10" sz="20"/>
+                <rotation axis="x" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="room">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="floor"/>
+                <noderef id="ceiling"/>
+                <noderef id="parede1"/>
+                <noderef id="parede2"/>
+                <noderef id="parede3"/>
+                <noderef id="parede4"/>
+            </descendants>
+        </node>
+
+        <node id="floor">
+            <material id="null"/>
+            <texture id="floorTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="60" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="ceiling">
+            <material id="null"/>
+            <texture id="floorTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="0" z="25"/>
+                <rotation axis="x" angle="180"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="60" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede1">
+            <material id="null"/>
+            <texture id="wallTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede2">
+            <material id="null"/>
+            <texture id="wallTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <rotation axis="z" angle="180"/>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede3">
+            <material id="null"/>
+            <texture id="wallTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="-30" z="0"/>
+                <rotation axis="z" angle="90"/>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="60" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede4">
+            <material id="null"/>
+            <texture id="wallTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="70" z="0"/>
+                <rotation axis="z" angle="90"/>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="-90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="60" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="stool1">
+            <material id="null"/>
+            <texture id="stoolTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <scale sx="6" sy="6" sz="2"/>
+                <translation x="0" y="-2" z="-4"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="stool2">
+            <material id="null"/>
+            <texture id="stoolTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="10" z="0"/>
+                <rotation axis="z" angle="180"/>
+                <scale sx="6" sy="6" sz="2"/>
+                <translation x="0" y="-2" z="-4"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="table">
+            <material id="null"/>
+            <texture id="tableTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+
+            </transformations>
+
+            <descendants>
+                <noderef id="tampo"/>
+                <noderef id="perna1"/>
+                <noderef id="perna2"/>
+                <noderef id="perna3"/>
+                <noderef id="perna4"/>
+            </descendants>
+        </node>
+
+        <node id="perna1">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="-7.5" y="12.5" z="-5"/>
+                <scale sx="2" sy="2" sz="5"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="perna2">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="-7.5" y="-1.5" z="-5"/>
+                <scale sx="2" sy="2" sz="5"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="perna3">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="6.5" y="-1.5" z="-5"/>
+                <scale sx="2" sy="2" sz="5"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="perna4">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="6.5" y="12.5" z="-5"/>
+                <scale sx="2" sy="2" sz="5"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="tampo">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="-0.5" y="5.5" z="-3"/>
+                <scale sx="20" sy="20" sz="2"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="paralelipipedo">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="quadrado_baixo"/>
+                <noderef id="quadrado_cima"/>
+                <noderef id="lado1"/>
+                <noderef id="lado2"/>
+                <noderef id="lado3"/>
+                <noderef id="lado4"/>
+            </descendants>
+        </node> 
+
+        <node id="quadrado_cima">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="quadrado_baixo">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0" z="-1"/>
+                <rotation axis="y" angle="180"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="lado1">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="0.5" y="0" z="-0.5"/>
+                <rotation axis="y" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="lado2">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="90"/>
+                <translation x="0.5" y="0" z="-0.5"/>
+                <rotation axis="y" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="lado3">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="180"/>
+                <translation x="0.5" y="0" z="-0.5"/>
+                <rotation axis="y" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="lado4">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+
+            <transformations>
+                <rotation axis="z" angle="270"/>
+                <translation x="0.5" y="0" z="-0.5"/>
+                <rotation axis="y" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        
+
     </nodes>
 </lsf>

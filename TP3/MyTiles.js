@@ -20,6 +20,7 @@ class MyTiles extends CGFobject {
         this.player1Points = 0;
         this.player2Points = 0;
 
+        this.markerSetup();
 
         this.createBoard();
 
@@ -28,6 +29,33 @@ class MyTiles extends CGFobject {
         this.materialBoard.setTexture(this.textureBoard);
 
         this.firstTile = null;
+
+    }
+
+    markerSetup(){
+        this.player1Marker = new MySpriteText(this.scene, "Player 1 Points: " + this.player1Points.toString());
+        
+        this.marker1Component = new MyComponent(this.scene, 'player1marker');
+        this.marker1Component.addChildren(this.player1Marker);
+        this.marker1Component.setAmplifications(1, 1);
+
+        let matrix = mat4.create();
+        mat4.translate(matrix, matrix, [-8, -1, 0]);
+        mat4.rotate(matrix, matrix, 90 * DEGREE_TO_RAD, [0, 0, 1]);
+
+        this.marker1Component.setTransformations(matrix);
+
+        this.player2Marker = new MySpriteText(this.scene, "Player 2 Points: " + this.player2Points.toString());
+        
+        this.marker2Component = new MyComponent(this.scene, 'player2marker');
+        this.marker2Component.addChildren(this.player2Marker);
+        this.marker2Component.setAmplifications(1, 1);
+
+        matrix = mat4.create();
+        mat4.translate(matrix, matrix, [-6, -1, 0]);
+        mat4.rotate(matrix, matrix, 90 * DEGREE_TO_RAD, [0, 0, 1]);
+        
+        this.marker2Component.setTransformations(matrix);
 
     }
     
@@ -95,15 +123,6 @@ class MyTiles extends CGFobject {
         return tile.getPiece();
     }
 
-    /*
-    getTile(line, column){
-        for (const tile in this.tiles) {
-            if (tile.getLine() === line && tile.getColumn() === column)
-                return tile;
-    }
-    
-    
-    */
 
     getTile(piece){
         for (const tile in this.tiles) {
@@ -135,7 +154,10 @@ class MyTiles extends CGFobject {
         let matrix2 = mat4.create();
         let matrix3 = mat4.create();
 
+        this.scene.pushMatrix();
+        this.scene.translate(-0.4, 5.5, -0.5);
         this.displayBoard();
+        this.scene.popMatrix();
 
         // Picking setup
         
@@ -145,7 +167,7 @@ class MyTiles extends CGFobject {
             this.scene.registerForPick(i + 1, this.tiles[i]);
             this.tiles[i].display();
         }
-        //this.scene.clearPickRegistration();
+        this.scene.clearPickRegistration();
 
         // Display
 
@@ -202,18 +224,54 @@ class MyTiles extends CGFobject {
     displayBoard(){
         this.materialBoard.apply();
         let plane = new Plane(this.scene, 10, 10);
-        let matrix = mat4.create();
-
-        matrix = mat4.translate(matrix, matrix, [-0.4, 5.5, -0.5]);
-        matrix = mat4.scale(matrix, matrix, [15, 15, 1]);
 
         this.setMaterialBoard();
 
         this.scene.pushMatrix();
-        this.scene.multMatrix(matrix);
-
+        this.scene.scale(15, 15, 1);
         plane.display();
+        this.scene.popMatrix();
 
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0, -3);
+        this.scene.rotate(Math.PI, 1, 0, 0);
+        this.scene.scale(15, 15, 1);
+        plane.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(0, -7.5, -1.5);
+        this.scene.scale(1, 1, 0.2);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.scale(15, 15, 1);
+        plane.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/2, 0, 0, 1);
+        this.scene.translate(0, -7.5, -1.5);
+        this.scene.scale(1, 1, 0.2);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.scale(15, 15, 1);
+        plane.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI, 0, 0, 1);
+        this.scene.translate(0, -7.5, -1.5);
+        this.scene.scale(1, 1, 0.2);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.scale(15, 15, 1);
+        plane.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI/2, 0, 0, 1);
+        this.scene.translate(0, -7.5, -1.5);
+        this.scene.scale(1, 1, 0.2);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.scale(15, 15, 1);
+        plane.display();
         this.scene.popMatrix();
     }
 
