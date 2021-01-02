@@ -19,7 +19,10 @@ class MyTiles extends CGFobject {
 
         this.player1Points = 0;
         this.player2Points = 0;
+        
+        this.markerSetup();
 
+        this.timerSetup();
 
         this.createBoard();
 
@@ -30,14 +33,22 @@ class MyTiles extends CGFobject {
         this.firstTile = null;
 
     }
+
+    markerSetup(){
+        this.player1Marker = new MySpriteText(this.scene, "Player 1 Points: " + this.player1Points.toString());
+        this.player2Marker = new MySpriteText(this.scene, "Player 2 Points: " + this.player2Points.toString());
+    }
+
+    timerSetup(){
+        this.timer = new MySpriteText(this.scene, "Time: " + this.player1Points.toString());
+    }
+    
     
     createBoard(){     
         this.createTiles(); 
         this.createYellowPieces();
         this.createGreenPieces();
         this.createRedPieces();
-
-
     }
 
     createYellowPieces(){
@@ -95,15 +106,6 @@ class MyTiles extends CGFobject {
         return tile.getPiece();
     }
 
-    /*
-    getTile(line, column){
-        for (const tile in this.tiles) {
-            if (tile.getLine() === line && tile.getColumn() === column)
-                return tile;
-    }
-    
-    
-    */
 
     getTile(piece){
         for (const tile in this.tiles) {
@@ -130,6 +132,35 @@ class MyTiles extends CGFobject {
 
 
 	display(){
+
+        this.scene.pushMatrix();
+
+        this.scene.translate(-8, 1, 0);
+        this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, 1);
+
+        this.player1Marker.display();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+
+        this.scene.translate(-6, 1, 0);
+        this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, 1);
+
+        this.player2Marker.display();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+
+        this.scene.translate(-4, 1, 0);
+        this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, 1);
+
+        this.timer.display();
+
+        this.scene.popMatrix();
+
+
         let matrix = mat4.create();
         let matrix1 = mat4.create();
         let matrix2 = mat4.create();
@@ -137,15 +168,10 @@ class MyTiles extends CGFobject {
 
         this.displayBoard();
 
-        // Picking setup
-        
-        //this.logPicking();
-
 		for(let i = 0; i < this.tiles.length; i++){
             this.scene.registerForPick(i + 1, this.tiles[i]);
             this.tiles[i].display();
         }
-        //this.scene.clearPickRegistration();
 
         // Display
 
@@ -258,7 +284,6 @@ class MyTiles extends CGFobject {
 
         }
 
-        // Peças vermelhas, peças verdes, peças amarelas player1, peças amarelas player2, peças amarelas no começo
         gameState.push([this.redPieces.length, this.greenPieces.length, this.player1Points, this.player2Points, this.startingYellows, this.scene.gameOrchestrator.getState() === 0 ? 0 : 1]);
 
         return gameState;

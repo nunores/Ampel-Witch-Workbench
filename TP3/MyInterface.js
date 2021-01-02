@@ -36,6 +36,8 @@ class MyInterface extends CGFinterface {
         this.activeKeys={};
     }
 
+    // processsMouseMove() {}
+
     processKeyDown(event) {
         this.activeKeys[event.code]=true;
     };
@@ -60,7 +62,7 @@ class MyInterface extends CGFinterface {
 
     // Adds cameras to the GUI in a dropdown menu
     addCamerasGUI(){
-        this.gui.add(this.scene, 'currCamera', Object.keys(this.scene.cameras)).name('View Points').onChange(this.updateView.bind(this));
+        //this.gui.add(this.scene, 'currCamera', Object.keys(this.scene.cameras)).name('View Points').onChange(this.updateView.bind(this));
     }
 
     updateView(){
