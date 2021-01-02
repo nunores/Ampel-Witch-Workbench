@@ -1,7 +1,12 @@
 Fazer camaras
-Fazer marcadores
-Fazer timer
 Implementar bots
+
+Tratar gameover
+
+Replay - só faz em gameover no botvsbot
+
+
+Mudar o estado no reset - ver se é preciso 
 
 
 Mensagens para user quando algo estiver errado?

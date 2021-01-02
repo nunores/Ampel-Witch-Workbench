@@ -159,6 +159,7 @@ class MyGameMove{
                 this.scene.animations.push(animation);
                 this.piece.setAnimation(animation);
             }
+
         }
     }
 

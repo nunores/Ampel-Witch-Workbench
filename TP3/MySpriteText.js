@@ -5,6 +5,10 @@ class MySpriteText extends MySpriteSheet {
         this.shadertext = text;
     }
 
+    changeText(text){
+        this.shadertext = text;
+    }
+
     display(){
         
         this.scene.pushMatrix();
