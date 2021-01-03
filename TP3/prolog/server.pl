@@ -2,7 +2,7 @@
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
 :-use_module(library(random)).
-
+:-use_module(library(system)).
 
 :-include('display.pl').
 :-include('mechanics.pl').
@@ -151,4 +151,5 @@ parse_input(choose_move(GameState, Player), Move):-
 parse_input(choose_move_hard(GameState, Player), Move):-
 	choose_move(GameState, Player, hard, Move).
 
-
+parse_input(sleep(Seconds), result):-
+	sleep(Seconds).

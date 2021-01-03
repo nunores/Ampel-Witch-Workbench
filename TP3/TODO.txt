@@ -1,18 +1,8 @@
-Fazer camaras
-Implementar bots
-
-Tratar gameover
-
-Mudar o estado no reset - ver se é preciso 
-
-Fazer camara fixed
-
-
-Mensagens para user quando algo estiver errado?
-Corrigir meter peças amarelas - a meter várias de uma vez só?
+Segunda cena - pensar nos temas e dar titulos
+Rodar camara no undo e replay
+Fazer checkbox com camara a poder mexer
 
 Documentar
 Apagar ficheiros inuteis (imagens, etc)
 Apagar prints
-Fazer scenes e luz com knowledge
 Fazer README e o PDF com as instruções

@@ -1,144 +1,107 @@
-/**
-* MyCylinder
-* @constructor
-*/
-
 class MyCylinder extends CGFobject {
-	constructor(scene, slices, stacks, height, base_radius, top_radius) {
-		super(scene);
-		this.slices = slices;
-		this.stacks = stacks;
-		this.height = height;
-		this.base_radius = base_radius;
-		this.top_radius = top_radius;
 
-		this.initBuffers();
-	}
-	initBuffers() {
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-		this.texCoords = [];
+  constructor(scene, slices, stacks, height, bottomRadius, topRadius) {
+    
+    // height, topRadius, bottomRadius, slices, stacks
+    //slices, stacks, height, base_radius, top_radius
+    super(scene);
+    this.slices = slices;
+    this.stacks = stacks;
+    this.topRadius = topRadius;
+    this.bottomRadius = bottomRadius;
+    this.height = height;
 
-		var stack_alpha = this.height / this.stacks;
-		var radius_alpha = (this.top_radius - this.base_radius) / this.stacks;
-		var slice_alpha = (2 * Math.PI) / this.slices;
-		var z_height = 0;
+    this.initBuffers();
+  }
 
-		// Setting parameters for cylinder side
-		for (var n = 0; n < this.stacks; n++) {
-			for (var i = 0; i < this.slices; i++) {
-				this.vertices.push(
-					Math.cos(i * slice_alpha) * this.base_radius,
-					Math.sin(i * slice_alpha) * this.base_radius,
-					z_height
-				);
+  /**
+   * @method initBuffers
+   * Initializes the cylinder buffers
+   */
+  initBuffers() {
+    this.initAngle = (2 * Math.PI) / this.slices; //ANGLE INCREMENT 
+    this.stackHeight = this.height / this.stacks; //HEIGHT INCREMENT
+    this.stackRadiusStep = (this.topRadius - this.bottomRadius) / this.stacks; //RADIUS INCREMENT BETWEEN STACKS
+    this.currentRadius = this.bottomRadius; //DRAWING RADIUS
+    this.angle = 0; //ANGLE
 
-				this.texCoords.push(i*1/this.slices, 1 - (n*1/this.stacks));
+    this.vertices = [];
+    this.indices = [];
+    this.normals = [];
+    this.texCoords = [];
 
-				this.normals.push(
-					Math.cos(i * slice_alpha),
-					Math.sin(i * slice_alpha),
-					0
-				);
-			}
+    this.initLateral();
+    this.initBottomTop();
 
-			z_height += stack_alpha;
-			this.base_radius += radius_alpha;
+    this.primitiveType = this.scene.gl.TRIANGLES;
+    this.initGLBuffers();
+  }
 
-		}
+  initLateral() {
 
-		this.vertices.push(0, 0, 0);
-		this.vertices.push(0, 0, this.height - stack_alpha);
+    for (var i = 0; i <= this.stacks; i++) {
+      for (var j = 0; j <= this.slices; j++) {
 
-		this.normals.push(0, 0, -1);
-		this.normals.push(0, 0, 1);
+        //Vertices
+        this.vertices.push(
+          -Math.sin(this.angle) * this.currentRadius,
+          Math.cos(this.angle) * this.currentRadius,
+          i * this.stackHeight
+        );
 
-		
+        //Normals
+        this.normals.push(
+          -Math.sin(this.angle) * this.currentRadius,
+          Math.cos(this.angle) * this.currentRadius,
+          0
+        );
+
+        //TexCoords
+        this.texCoords.push(j / this.slices, 1 - i / this.stacks);
+
+        this.angle += this.initAngle;
+      }
+      this.angle = 0; //RESET
+      this.currentRadius += this.stackRadiusStep;
+    }
 
 
-		// Bottom circle
+    for (var i = 0; i < this.stacks; i++) {
+      for (var j = 0; j < this.slices; j++) {
 
-		for (var i = 0; i < this.stacks; i++)
-		{
-			if (i == this.stacks - 1)
-			{
-				this.indices.push(i, 0, this.vertices.length / 3 - 2);
-				this.indices.push((this.vertices.length / 3) -2, 0, i); // Reverse Order
+        var ind = (i * (this.slices + 1)) + j;
 
-			}
-			else{
-				this.indices.push(i , i + 1, this.vertices.length / 3 - 2);
-				this.indices.push(this.vertices.length / 3 - 2, i + 1, i); // Reverse Order
+        this.indices.push(ind, ind + 1, ind + this.slices + 2);
+        this.indices.push(ind, ind + this.slices + 2, ind + this.slices + 1);
 
-			}
-		}
+      }
+    }
 
-		// Top circle
+  }
 
-		for (var i = 0; i < this.stacks; i++) {
-			if (i == this.stacks - 1) {
-				this.indices.push(this.vertices.length / 3 - 1, (this.vertices.length / 3) - 1 - this.stacks - 1 + i, (this.vertices.length / 3) - 1 - this.stacks - 1);
-				// Reverse Order
-				this.indices.push((this.vertices.length / 3) - 1 - this.stacks - 1, (this.vertices.length / 3) - 1 - this.stacks - 1 + i, this.vertices.length / 3 - 1);
-			}
-			else {
-				this.indices.push(this.vertices.length / 3 - 1, (this.vertices.length / 3) - 1 - this.stacks - 1 + i, (this.vertices.length / 3) - 1 - this.stacks + i);
-				// Reverse Order
-				this.indices.push((this.vertices.length / 3) - 1 - this.stacks + i, (this.vertices.length / 3) - 1 - this.stacks - 1 + i, this.vertices.length / 3 - 1);
-			}
-		}
-		
+  initBottomTop() {
 
-		var temp_length = this.vertices.length;
+    const index = this.vertices.length / 3;
+    let currentAngle = 0;
 
-		// Normals for top circles
+    for (let i = 0; i <= this.slices; i++) {
+      this.vertices.push(
+        Math.cos(currentAngle) * this.bottomRadius,
+        Math.sin(currentAngle) * this.bottomRadius,
+        0,
+        Math.cos(currentAngle) * this.topRadius,
+        Math.sin(currentAngle) * this.topRadius,
+        this.height
+      );
 
-		for (var i = 0; i < this.slices * 3; i += 3)
-		{
-			this.vertices.push(this.vertices[temp_length - 6 - this.slices*3 + i], this.vertices[temp_length - 6 - this.slices*3 + i + 1], this.vertices[temp_length - 6 - this.slices*3 + i + 2]);
-			this.normals.push(0, 0, 1);
-		}
+      if (i > 1) this.indices.push(index + i * 2, index + i * 2 - 2, index, index + 1, index + i * 2 - 1, index + 2 * i + 1);
 
-		// Normals for bottom circle
-		for (var i = 0; i < this.slices * 3; i += 3)
-		{
-			this.vertices.push(this.vertices[i], this.vertices[i+1], this.vertices[i+2]);
-			this.normals.push(0, 0, -1);
-		}
+      this.normals.push(0, 0, -1, 0, 0, 1);
 
-		// Indices for cylinder sides
+      this.texCoords.push((Math.cos(currentAngle) + 1) / 2, (Math.sin(currentAngle) + 1) / 2, (Math.cos(currentAngle) + 1) / 2, (Math.sin(currentAngle) + 1) / 2);
 
-		for (var i = 0; i < this.stacks - 1; i++) {
-			for (var n = 0; n < this.slices; n++) {
-				if (n == this.slices - 1) {
-					this.indices.push(
-						n + this.slices * i, n + this.slices * i - this.slices + 1, n + this.slices * i + this.slices,
-						n + this.slices * i + this.slices, n + this.slices * i + 1, n + this.slices * i - this.slices + 1
-					)
+      currentAngle += this.initAngle;
+    }
 
-					// Reverse Order
-					this.indices.push(
-						n + this.slices * i + this.slices, n + this.slices * i - this.slices + 1, n + this.slices * i,
-						n + this.slices * i - this.slices + 1, n + this.slices * i + 1, n + this.slices * i + this.slices
-					)
-				}
-				else {
-					this.indices.push(
-						n + (i * (this.slices)), n + (i * (this.slices)) + 1, n + (i * (this.slices)) + this.slices,
-						n + (i * (this.slices)) + 1, n + (i * (this.slices)) + this.slices, n + (i * (this.slices)) + this.slices + 1
-					);
-
-					// Reverse Order
-					this.indices.push(
-						n + (i * (this.slices)) + this.slices, n + (i * (this.slices)) + 1, n + (i * (this.slices)),
-						n + (i * (this.slices)) + this.slices + 1, n + (i * (this.slices)) + this.slices, n + (i * (this.slices)) + 1
-					)
-				}
-			}
-		}
-
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
-	}
+  }
 }

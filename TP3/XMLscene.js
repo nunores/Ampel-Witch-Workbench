@@ -41,6 +41,8 @@ class XMLscene extends CGFscene {
         this.cameraActive = false;
         this.cameraRotationAngle = 180 * DEGREE_TO_RAD;
 
+        this.selectedScene = "root";
+
 
     }
 
@@ -132,6 +134,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGUI();
         this.interface.addOptionsGUI();
         this.interface.addSettings();
+        this.interface.addScenesGUI();
 
         this.setUpdatePeriod(100);
 
@@ -164,7 +167,7 @@ class XMLscene extends CGFscene {
 
         if (this.cameraActive) {
             this.cameraRotation();
-        }
+        };
 
         this.previous = time;
 
@@ -181,13 +184,13 @@ class XMLscene extends CGFscene {
 
     setCamera(){
 
-        if(this.gameOrchestrator.currentPlayer == 1){
+        if(this.gameOrchestrator.currentPlayer == 2){
             this.camera.setPosition(vec3.fromValues(0, 20, -20))
-            this.camera.setTarget(vec3.fromValues(0, 0, -3))
+            this.camera.setTarget(vec3.fromValues(0, 0, -5))
         }
         else{
             this.camera.setPosition(vec3.fromValues(0, 20, 10))
-            this.camera.setTarget(vec3.fromValues(0, 0, -8))
+            this.camera.setTarget(vec3.fromValues(0, 0, -5))
         }
     }
 
@@ -195,6 +198,7 @@ class XMLscene extends CGFscene {
         this.cameraActive = true;
         this.cameraRotationAngle = 180*DEGREE_TO_RAD;
     }
+
 
     handleTimer() {
 
@@ -255,7 +259,7 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            this.graph.displayScene(this.selectedScene);
 
 
         }

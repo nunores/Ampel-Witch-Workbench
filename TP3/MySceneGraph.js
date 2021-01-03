@@ -1569,9 +1569,8 @@ class MySceneGraph {
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
-    displayScene() {
+    displayScene(selectedScene) {
 
-        
         
         this.scene.stack_texture.pop();
         this.scene.stack_material.pop();
@@ -1586,7 +1585,7 @@ class MySceneGraph {
 
         //Looking for root node
         for (var i = 0; i < this.scene.components.length; i++) {
-            if (this.scene.components[i].id == this.idRoot) {
+            if (this.scene.components[i].id == selectedScene) {
                 this.scene.components[i].display();
             }
         }

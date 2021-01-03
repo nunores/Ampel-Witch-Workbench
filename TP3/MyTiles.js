@@ -24,6 +24,8 @@ class MyTiles extends CGFobject {
 
         this.timerSetup();
 
+        this.gameOverSetup();
+
         this.createBoard();
 
         this.materialBoard = new CGFappearance(this.scene);
@@ -42,7 +44,10 @@ class MyTiles extends CGFobject {
     timerSetup(){
         this.timer = new MySpriteText(this.scene, "Time: " + this.player1Points.toString());
     }
-    
+
+    gameOverSetup(){
+        this.gameOverMarker = new MySpriteText(this.scene, "Game Over");
+    }
     
     createBoard(){     
         this.createTiles(); 
@@ -135,6 +140,10 @@ class MyTiles extends CGFobject {
 
         this.scene.pushMatrix();
 
+        this.scene.translate(-5, -4.5, -2.9);
+
+        this.scene.pushMatrix();
+
         this.scene.translate(-8, 1, 0);
         this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, 1);
 
@@ -153,10 +162,23 @@ class MyTiles extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(-4, 1, 3);
+        this.scene.translate(-4, 5, 0);
         this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, 1);
 
         this.timer.display();
+
+        this.scene.popMatrix();
+
+        if(this.scene.gameOrchestrator.currentState === this.scene.gameOrchestrator.gameStates.gameOver){
+            this.scene.pushMatrix();
+
+            this.scene.translate(15, 15, 0);
+            this.scene.rotate(90 * DEGREE_TO_RAD, 0, 0, -1);
+    
+            this.gameOverMarker.display();
+    
+            this.scene.popMatrix();
+        }
 
         this.scene.popMatrix();
 

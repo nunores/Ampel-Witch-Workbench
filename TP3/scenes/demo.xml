@@ -10,7 +10,7 @@
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
             <from x="0" y="20" z="10" />
-            <to x="0" y="0" z="-8" />
+            <to x="0" y="0" z="-5" />
         </perspective>
 
     </views>
@@ -22,59 +22,42 @@
 
 
     <lights>
+
         <light id="light1">
             <enable value="1" />
-            <position x="0" y="20" z="0" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />  
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
-        </light>
-
-        <light id="crystal_ball_light">
-            <enable value="1" />
-            <position x="0" y="15" z="8" w="1.0" />
+            <position x="0" y="20" z="9" w="1.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </light>
-        <light id="crystal_ball_light1">
-            <enable value="1" />
-            <position x="0" y="-5" z="8" w="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="1" g="1" b="1" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-        </light>
-        <light id="crystal_ball_light2">
-            <enable value="1" />
-            <position x="0" y="7" z="8" w="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="1" g="1" b="1" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-        </light>
-        <light id="crystal_ball_light3">
-            <enable value="1" />
-            <position x="10" y="7" z="8" w="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="1" g="1" b="1" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-        </light>
-        <light id="crystal_ball_light4">
-            <enable value="1" />
-            <position x="-10" y="7" z="8" w="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="1" g="1" b="1" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-        </light>
-
-
         <light id="light2">
             <enable value="1" />
-            <position x="-10" y="0" z="-10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />  
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
+            <position x="0" y="20" z="-21" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </light>
-
+        <light id="light3">
+            <enable value="1" />
+            <position x="0" y="20" z="2" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </light>
+        <light id="light4">
+            <enable value="1" />
+            <position x="20" y="20" z="2" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </light>
+        <light id="light5">
+            <enable value="1" />
+            <position x="-20" y="20" z="2" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </light>
 
     </lights>
 
@@ -86,6 +69,8 @@
         <texture id="tableTexture" path="./scenes/images/tableTexture.jpg" />
         <texture id="paintingTexture" path="./scenes/images/paintingTexture.jpg" />
         <texture id="doorTexture" path="./scenes/images/doorTexture.jpg" />
+        <texture id="doorTexture_2" path="./scenes/images/doorTexture_2.jpg" />
+        <texture id="wallTexture_2" path="./scenes/images/wallTexture_2.jpg" />
     </textures>
 
 
@@ -130,6 +115,26 @@
             </descendants>
         </node>
 
+        <node id="root2">
+            <material id ="null" />
+            <texture id ="clear">
+                <amplification afs="1.0" aft="1.0" />
+            </texture>
+            
+            <transformations>
+                
+            </transformations>
+            
+            <descendants>
+                <noderef id="table_2"/>
+                <noderef id="stool1_2"/>
+                <noderef id="stool2_2"/>
+                <noderef id="room_2"/>
+                <noderef id="painting_2"/>
+                <noderef id="door_2"/>
+            </descendants>
+        </node>
+
         <node id="door">
             <material id="null"/>
             <texture id="doorTexture">
@@ -147,7 +152,40 @@
             </descendants>
         </node>
 
+        <node id="door_2">
+            <material id="null"/>
+            <texture id="doorTexture_2">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <rotation axis="z" angle="180"/>
+                <translation x="0" y="59" z="10"/>
+                <scale sx="30" sy="10" sz="40"/>
+                <rotation axis="x" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
         <node id="painting">
+            <material id="null"/>
+            <texture id="paintingTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="59" z="15"/>
+                <scale sx="30" sy="10" sz="20"/>
+                <rotation axis="x" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="painting_2">
             <material id="null"/>
             <texture id="paintingTexture">
                 <amplification afs="1.0" aft="1.0"/>
@@ -181,6 +219,24 @@
             </descendants>
         </node>
 
+        <node id="room_2">
+            <material id="null"/>
+            <texture id="null">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+            </transformations>
+
+            <descendants>
+                <noderef id="floor_2"/>
+                <noderef id="ceiling_2"/>
+                <noderef id="parede1_2"/>
+                <noderef id="parede2_2"/>
+                <noderef id="parede3_2"/>
+                <noderef id="parede4_2"/>
+            </descendants>
+        </node>
+
         <node id="floor">
             <material id="null"/>
             <texture id="floorTexture">
@@ -197,6 +253,38 @@
         </node>
 
         <node id="ceiling">
+            <material id="null"/>
+            <texture id="floorTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="0" z="25"/>
+                <rotation axis="x" angle="180"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="60" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="floor_2">
+            <material id="null"/>
+            <texture id="floorTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="60" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="ceiling_2">
             <material id="null"/>
             <texture id="floorTexture">
                 <amplification afs="1.0" aft="1.0"/>
@@ -286,7 +374,95 @@
             </descendants>
         </node>
 
+        <node id="parede1_2">
+            <material id="null"/>
+            <texture id="wallTexture_2">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede2_2">
+            <material id="null"/>
+            <texture id="wallTexture_2">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <rotation axis="z" angle="180"/>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="120" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede3_2">
+            <material id="null"/>
+            <texture id="wallTexture_2">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="-30" z="0"/>
+                <rotation axis="z" angle="90"/>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="60" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
+        <node id="parede4_2">
+            <material id="null"/>
+            <texture id="wallTexture_2">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="70" z="0"/>
+                <rotation axis="z" angle="90"/>
+                <translation x="-20" y="0" z="12.5"/>
+                <rotation axis="y" angle="-90"/>
+                <translation x="0" y="0" z="-10"/>
+                <scale sx="45" sy="60" sz="30"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+
         <node id="stool1">
+            <material id="null"/>
+            <texture id="stoolTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <scale sx="6" sy="6" sz="2"/>
+                <translation x="0" y="-2" z="-4"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
+        <node id="stool1_2">
             <material id="null"/>
             <texture id="stoolTexture">
                 <amplification afs="1.0" aft="1.0"/>
@@ -318,7 +494,42 @@
             </descendants>
         </node>
 
+        <node id="stool2_2">
+            <material id="null"/>
+            <texture id="stoolTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+                <translation x="0" y="10" z="0"/>
+                <rotation axis="z" angle="180"/>
+                <scale sx="6" sy="6" sz="2"/>
+                <translation x="0" y="-2" z="-4"/>
+            </transformations>
+
+            <descendants>
+                <noderef id="paralelipipedo"/>
+            </descendants>
+        </node>
+
         <node id="table">
+            <material id="null"/>
+            <texture id="tableTexture">
+                <amplification afs="1.0" aft="1.0"/>
+            </texture>
+            <transformations>
+
+            </transformations>
+
+            <descendants>
+                <noderef id="tampo"/>
+                <noderef id="perna1"/>
+                <noderef id="perna2"/>
+                <noderef id="perna3"/>
+                <noderef id="perna4"/>
+            </descendants>
+        </node>
+
+        <node id="table_2">
             <material id="null"/>
             <texture id="tableTexture">
                 <amplification afs="1.0" aft="1.0"/>
@@ -403,7 +614,7 @@
             </texture>
             <transformations>
                 <translation x="-0.5" y="5.5" z="-3"/>
-                <scale sx="20" sy="20" sz="2"/>
+                <scale sx="30" sy="20" sz="2"/>
             </transformations>
 
             <descendants>

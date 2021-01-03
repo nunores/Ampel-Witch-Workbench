@@ -4,7 +4,7 @@ class MyGameOrchestrator extends CGFobject {
         this.gameStates = Object.freeze({ "yellowPlacement": 0, "moveRedPiece": 1, "moveGreenPiece": 2, "placeRedPiece": 3, "placeGreenPiece": 4, "gameOver": 5 })
         this.currentState = this.gameStates.yellowPlacement;
         this.currentPlayer = 1;
-
+        
         this.gameBoard = new MyTiles(this.scene);
         this.prolog = new MyConnection(8081);
         this.tilePicked = null;
@@ -21,7 +21,7 @@ class MyGameOrchestrator extends CGFobject {
 
         this.nextPlayer = false;
 
-        this.timeNumber = 30;
+        this.timeNumber = 10;
         this.time = this.timeNumber;
     }
 
@@ -260,8 +260,15 @@ class MyGameOrchestrator extends CGFobject {
                                                 if (data.target.response === '0') {
                                                     this.pickTile(null, this.tilePicked);
                                                     this.gameBoard.startingYellows++;
-                                                    if (this.gameMode === "Player vs Bot")
-                                                        this.botPlayer2PlayYellow();
+                                                    if (this.currentPlayer == 1)
+                                                        this.currentPlayer = 2;
+                                                    else
+                                                        this.currentPlayer = 1;
+                                                    if (this.gameMode === "Player vs Bot") {
+                                                        this.prolog.getPrologRequest('sleep(4)', function (data) {
+                                                            this.botPlayer2PlayYellow();
+                                                        }.bind(this));
+                                                    }
 
                                                     if (this.gameBoard.yellowPieces.length == 0) {
                                                         this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
@@ -380,7 +387,7 @@ class MyGameOrchestrator extends CGFobject {
                                             this.prolog.getPrologRequest('doesntMakeSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + this.tilePicked.getLine() + ',' + this.tilePicked.getColumn() + ',' + 'r' + ')', function (data) {
                                                 if (data.target.response === '1') {
                                                     this.pickTile(null, this.tilePicked);
-                                                    if (!this.botPlayer2) {
+                                                    if (this.gameMode !== "Player vs Bot") {
                                                         this.currentPlayer = 2;
                                                         this.currentState = this.gameStates.moveGreenPiece;
                                                     }
@@ -395,7 +402,7 @@ class MyGameOrchestrator extends CGFobject {
                                         }
                                     }
                                     else {
-                                        if (!this.gameMode === "Player vs Bot") {
+                                        if (this.gameMode !== "Player vs Bot") {
                                             this.currentPlayer = 2;
                                             this.currentState = this.gameStates.moveGreenPiece;
                                         }
@@ -409,34 +416,50 @@ class MyGameOrchestrator extends CGFobject {
 
                             }
                             else if (this.currentPlayer === 2) {
-                                if (this.currentState === this.gameStates.yellowPlacement) {
+                                if (this.gameMode === "Bot vs Bot") {
+                                    this.botvbotPlayPlayer1();
+                                }
+                                else if (this.currentState === this.gameStates.yellowPlacement) {
                                     // Pieces left on stack
                                     if (this.gameBoard.yellowPieces.length != 0) {
                                         // Verify valid yellow placed
-                                        this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function (data) {
-                                            if (data.target.response === '0') {
-                                                this.pickTile(null, this.tilePicked);
+                                        if (this.tilePicked.piece == null) {
+                                            this.prolog.getPrologRequest('forbiddenYellow(' + this.tilePicked.line + ',' + this.tilePicked.column + ')', function (data) {
+                                                if (data.target.response === '0') {
+                                                    this.pickTile(null, this.tilePicked);
+                                                    this.gameBoard.startingYellows++;
+                                                    if (this.currentPlayer == 1)
+                                                        this.currentPlayer = 2;
+                                                    else
+                                                        this.currentPlayer = 1;
+                                                    if (this.gameMode === "Player vs Bot") {
+                                                        this.prolog.getPrologRequest('sleep(4)', function (data) {
+                                                            this.botPlayer2PlayYellow();
+                                                        }.bind(this));
+                                                    }
 
-                                                if (this.gameBoard.yellowPieces.length == 0) {
-                                                    this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
-                                                        if (data.target.response === 'moveRed') {
-                                                            this.currentState = this.gameStates.moveRedPiece;
-                                                        }
-                                                        else if (data.target.response === 'moveGreen') {
-                                                            this.currentState = this.gameStates.moveGreenPiece;
-                                                        }
-                                                        else if (data.target.response === 'placeRed') {
-                                                            this.currentState = this.gameStates.placeRedPiece;
-                                                        }
-                                                    }.bind(this));
+                                                    if (this.gameBoard.yellowPieces.length == 0) {
+                                                        this.prolog.getPrologRequest('nextState(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ')', function (data) {
+                                                            if (data.target.response === 'moveRed') {
+                                                                this.currentState = this.gameStates.moveRedPiece;
+                                                            }
+                                                            else if (data.target.response === 'moveGreen') {
+                                                                this.currentState = this.gameStates.moveGreenPiece;
+                                                            }
+                                                            else if (data.target.response === 'placeRed') {
+                                                                this.currentState = this.gameStates.placeRedPiece;
+                                                            }
+                                                        }.bind(this));
+                                                    }
                                                 }
-                                            }
-                                            else console.log("Invalid yellow piece placement"); // TODO: Print message to user
-                                        }.bind(this));
-                                        //this.currentPlayer = 2;
-                                        break;
+                                                else console.log("Invalid yellow piece placement"); // TODO: Print message to user
+                                            }.bind(this));
+                                            //this.currentPlayer = 2;
+                                            break;
+                                        }
                                     }
                                 }
+                                
                                 if (this.currentState === this.gameStates.moveGreenPiece) {
                                     if (this.gameBoard.greenPiecesPlaced != 0) {
                                         if (results[i][0].piece != null || this.gameBoard.firstTile != null) {
@@ -571,18 +594,101 @@ class MyGameOrchestrator extends CGFobject {
                 }
                 if (this.gameBoard.yellowPieces.length == 0)
                     this.currentState = this.gameStates.moveRedPiece;
-                this.botvbotPlayPlayer1();
+                this.prolog.getPrologRequest('sleep(4)', function (data) {
+                    if (this.currentPlayer == 1)
+                        this.currentPlayer = 2;
+                    else
+                        this.currentPlayer = 1;
+                    this.botvbotPlayPlayer1();
+                }.bind(this));
             }.bind(this));
         }
         else {
-            this.prolog.getPrologRequest('choose_move(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + '2' + ')', function (data) {
+            this.prolog.getPrologRequest('sleep(4)', function (data) {
+                this.prolog.getPrologRequest('choose_move(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + '2' + ')', function (data) {
+                    let move = JSON.parse(data.target.response);
+
+                    let greenOrigin = move[1];
+                    let greenDestination = move[2];
+                    let redOrigin = move[3];
+                    let redDestination = move[4];
+                    let greenPlacement = move[5];
+
+                    let undoChecker = 0;
+
+                    let greenOriginTile = null;
+                    let greenDestinationTile = null;
+                    let redOriginTile = null;
+                    let redDestinationTile = null;
+
+                    if (greenOrigin.length !== 0) {
+                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                            if ((this.gameBoard.tiles[i].getLine() === greenOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === greenOrigin[1])) {
+                                greenOriginTile = this.gameBoard.tiles[i];
+                                break;
+                            }
+                        }
+                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                            if ((this.gameBoard.tiles[i].getLine() === greenDestination[0]) && (this.gameBoard.tiles[i].getColumn() === greenDestination[1])) {
+                                greenDestinationTile = this.gameBoard.tiles[i];
+                                break;
+                            }
+                        }
+                        console.log("Player1:");
+                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                        this.move(greenOriginTile, greenDestinationTile, 'red', 0);
+                        undoChecker++;
+                    }
+                    if (redOrigin.length !== 0) {
+                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                            if ((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1])) {
+                                redOriginTile = this.gameBoard.tiles[i];
+                                break;
+                            }
+                        }
+                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                            if ((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1])) {
+                                redDestinationTile = this.gameBoard.tiles[i];
+                                break;
+                            }
+                        }
+                        console.log("Player1:");
+                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                        this.move(redOriginTile, redDestinationTile, 'green', 0);
+                        undoChecker++;
+                    }
+                    for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                        if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
+                            console.log("Player1:");
+                            console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                            this.move(null, this.gameBoard.tiles[i], 'red', undoChecker);
+                            break;
+                        }
+                    }
+                    this.nextPlayer = true;
+                    this.currentPlayer = 1;
+                    this.currentState = this.gameStates.moveRedPiece;
+                    if (this.currentPlayer == 1)
+                        this.currentPlayer = 2;
+                    else
+                        this.currentPlayer = 1;
+                    this.botvbotPlayPlayer2();
+                }.bind(this));
+            }.bind(this));
+        }
+    }
+
+    botvbotPlayPlayer2() {
+        this.nextPlayer = false;
+        this.prolog.getPrologRequest('sleep(4)', function (data) {
+            this.prolog.getPrologRequest('choose_move_hard(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + '1' + ')', function (data) {
                 let move = JSON.parse(data.target.response);
 
-                let greenOrigin = move[1];
-                let greenDestination = move[2];
-                let redOrigin = move[3];
-                let redDestination = move[4];
-                let greenPlacement = move[5];
+                let redOrigin = move[2];
+                let redDestination = move[3];
+                let greenOrigin = move[4];
+                let greenDestination = move[5];
+                let greenPlacement = move[6];
 
                 let undoChecker = 0;
 
@@ -604,92 +710,90 @@ class MyGameOrchestrator extends CGFobject {
                             break;
                         }
                     }
-                    console.log("Player1:");
-                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                    this.move(greenOriginTile, greenDestinationTile, 'red', 0);
-                    undoChecker++;
-                }
-                if (redOrigin.length !== 0) {
-                    for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                        if ((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1])) {
-                            redOriginTile = this.gameBoard.tiles[i];
-                            break;
-                        }
-                    }
-                    for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                        if ((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1])) {
-                            redDestinationTile = this.gameBoard.tiles[i];
-                            break;
-                        }
-                    }
-                    console.log("Player1:");
-                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                    this.move(redOriginTile, redDestinationTile, 'green', 0);
-                    undoChecker++;
-                }
-                for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                    if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                        console.log("Player1:");
+
+                    this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + greenDestinationTile.getLine() + ',' + greenDestinationTile.getColumn() + ',' + 'g' + ')', function (data1) {
+                        /*console.log("------------------------");
+                        console.log(greenDestinationTile.getLine(), greenDestinationTile.getColumn());
                         console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                        this.move(null, this.gameBoard.tiles[i], 'red', undoChecker);
-                        break;
-                    }
+                        console.log(data1.target.response);
+                        console.log("------------------------");*/
+                        console.log("Player2:");
+                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                        this.move(greenOriginTile, greenDestinationTile, 'green', 0);
+                        undoChecker++;
+                        this.removePieces(JSON.parse(data1.target.response));
+                        this.gameBoard.player2Points += Math.floor(JSON.parse(data1.target.response).length / 2);
+                        this.gameBoard.player2Marker.changeText("Player 2 Points: " + this.gameBoard.player2Points);
+                        if (this.gameBoard.player2Points >= 5){
+                            this.currentState = this.gameStates.gameOver;
+                            return;
+                        }
+                        if (redOrigin.length !== 0) {
+                            for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                                if ((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1])) {
+                                    redOriginTile = this.gameBoard.tiles[i];
+                                    break;
+                                }
+                            }
+                            for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                                if ((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1])) {
+                                    redDestinationTile = this.gameBoard.tiles[i];
+                                    break;
+                                }
+                            }
+
+                            this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + redDestinationTile.getLine() + ',' + redDestinationTile.getColumn() + ',' + 'r' + ')', function (data1) {
+                                console.log("Player2:");
+                                console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                                this.move(redOriginTile, redDestinationTile, 'red', 0);
+                                undoChecker++;
+                                this.removePieces(JSON.parse(data1.target.response));
+                                this.gameBoard.player2Points += Math.floor(JSON.parse(data1.target.response).length / 2);
+                                this.gameBoard.player2Marker.changeText("Player 2 Points: " + this.gameBoard.player2Points);
+                                if (this.gameBoard.player2Points >= 5){
+                                    this.currentState = this.gameStates.gameOver;
+                                    return;
+                                }
+                                for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                                    if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
+                                        console.log("Player2:");
+                                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                                        this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
+                                        break;
+                                    }
+                                }
+                                this.nextPlayer = true;
+                                this.currentState = this.gameStates.moveRedPiece;
+                                if (this.currentPlayer == 1)
+                                    this.currentPlayer = 2;
+                                else
+                                    this.currentPlayer = 1;
+                                this.botvbotPlayPlayer1();
+                            }.bind(this));
+
+
+                        }
+                        else {
+                            for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                                if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
+                                    console.log("Player2:");
+                                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                                    this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
+                                    break;
+                                }
+                            }
+                            this.nextPlayer = true;
+                            this.currentState = this.gameStates.moveRedPiece;
+                            if (this.currentPlayer == 1)
+                                this.currentPlayer = 2;
+                            else
+                                this.currentPlayer = 1;
+                            this.botvbotPlayPlayer1();
+                        }
+
+                    }.bind(this));
                 }
-                this.nextPlayer = true;
-                this.currentPlayer = 1;
-                this.currentState = this.gameStates.moveRedPiece;
-                this.botvbotPlayPlayer2();
-            }.bind(this));
-        }
-    }
-
-    botvbotPlayPlayer2() {
-        this.nextPlayer = false;
-        this.prolog.getPrologRequest('choose_move_hard(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + '1' + ')', function (data) {
-            let move = JSON.parse(data.target.response);
-
-            let redOrigin = move[2];
-            let redDestination = move[3];
-            let greenOrigin = move[4];
-            let greenDestination = move[5];
-            let greenPlacement = move[6];
-
-            let undoChecker = 0;
-
-            let greenOriginTile = null;
-            let greenDestinationTile = null;
-            let redOriginTile = null;
-            let redDestinationTile = null;
-
-            if (greenOrigin.length !== 0) {
-                for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                    if ((this.gameBoard.tiles[i].getLine() === greenOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === greenOrigin[1])) {
-                        greenOriginTile = this.gameBoard.tiles[i];
-                        break;
-                    }
-                }
-                for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                    if ((this.gameBoard.tiles[i].getLine() === greenDestination[0]) && (this.gameBoard.tiles[i].getColumn() === greenDestination[1])) {
-                        greenDestinationTile = this.gameBoard.tiles[i];
-                        break;
-                    }
-                }
-
-                this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + greenDestinationTile.getLine() + ',' + greenDestinationTile.getColumn() + ',' + 'g' + ')', function (data1) {
-                    /*console.log("------------------------");
-                    console.log(greenDestinationTile.getLine(), greenDestinationTile.getColumn());
-                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                    console.log(data1.target.response);
-                    console.log("------------------------");*/
-                    console.log("Player2:");
-                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                    this.move(greenOriginTile, greenDestinationTile, 'green', 0);
-                    undoChecker++;
-                    this.removePieces(JSON.parse(data1.target.response));
-                    this.gameBoard.player2Points += Math.floor(JSON.parse(data1.target.response).length / 2);
-                    this.gameBoard.player2Marker.changeText("Player 2 Points: " + this.gameBoard.player2Points);
-                    if (this.gameBoard.player2Points >= 5)
-                        this.currentState = this.gameStates.gameOver;
+                else {
                     if (redOrigin.length !== 0) {
                         for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                             if ((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1])) {
@@ -703,7 +807,6 @@ class MyGameOrchestrator extends CGFobject {
                                 break;
                             }
                         }
-
                         this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + redDestinationTile.getLine() + ',' + redDestinationTile.getColumn() + ',' + 'r' + ')', function (data1) {
                             console.log("Player2:");
                             console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
@@ -712,8 +815,10 @@ class MyGameOrchestrator extends CGFobject {
                             this.removePieces(JSON.parse(data1.target.response));
                             this.gameBoard.player2Points += Math.floor(JSON.parse(data1.target.response).length / 2);
                             this.gameBoard.player2Marker.changeText("Player 2 Points: " + this.gameBoard.player2Points);
-                            if (this.gameBoard.player2Points >= 5)
+                            if (this.gameBoard.player2Points >= 5){
                                 this.currentState = this.gameStates.gameOver;
+                                return;
+                            }
                             for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                                 if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
                                     console.log("Player2:");
@@ -723,88 +828,35 @@ class MyGameOrchestrator extends CGFobject {
                                 }
                             }
                             this.nextPlayer = true;
-                            this.currentPlayer = 1;
                             this.currentState = this.gameStates.moveRedPiece;
+                            if (this.currentPlayer == 1)
+                                this.currentPlayer = 2;
+                            else
+                                this.currentPlayer = 1;
                             this.botvbotPlayPlayer1();
                         }.bind(this));
+                    }
+                    else {
+                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
+                            if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
+                                console.log("Player2:");
+                                console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
+                                this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
+                                break;
+                            }
+                        }
+                        this.nextPlayer = true;
+                        this.currentState = this.gameStates.moveRedPiece;
+                        if (this.currentPlayer == 1)
+                            this.currentPlayer = 2;
+                        else
+                            this.currentPlayer = 1;
+                        this.botvbotPlayPlayer1();
+                    }
 
-                        
-                    }
-                    else
-                    {
-                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                            if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                                console.log("Player2:");
-                                console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                                this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
-                                break;
-                            }
-                        }
-                        this.nextPlayer = true;
-                        this.currentPlayer = 1;
-                        this.currentState = this.gameStates.moveRedPiece;
-                        this.botvbotPlayPlayer1();
-                    }
-                    
-                }.bind(this));
-            }
-            else
-            {
-                if (redOrigin.length !== 0) {
-                    for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                        if ((this.gameBoard.tiles[i].getLine() === redOrigin[0]) && (this.gameBoard.tiles[i].getColumn() === redOrigin[1])) {
-                            redOriginTile = this.gameBoard.tiles[i];
-                            break;
-                        }
-                    }
-                    for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                        if ((this.gameBoard.tiles[i].getLine() === redDestination[0]) && (this.gameBoard.tiles[i].getColumn() === redDestination[1])) {
-                            redDestinationTile = this.gameBoard.tiles[i];
-                            break;
-                        }
-                    }
-                    this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + redDestinationTile.getLine() + ',' + redDestinationTile.getColumn() + ',' + 'r' + ')', function (data1) {
-                        console.log("Player2:");
-                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                        this.move(redOriginTile, redDestinationTile, 'red', 0);
-                        undoChecker++;
-                        this.removePieces(JSON.parse(data1.target.response));
-                        this.gameBoard.player2Points += Math.floor(JSON.parse(data1.target.response).length / 2);
-                        this.gameBoard.player2Marker.changeText("Player 2 Points: " + this.gameBoard.player2Points);
-                        if (this.gameBoard.player2Points >= 5)
-                            this.currentState = this.gameStates.gameOver;
-                        for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                            if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                                console.log("Player2:");
-                                console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                                this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
-                                break;
-                            }
-                        }
-                        this.nextPlayer = true;
-                        this.currentPlayer = 1;
-                        this.currentState = this.gameStates.moveRedPiece;
-                        this.botvbotPlayPlayer1();
-                    }.bind(this));
                 }
-                else
-                {
-                    for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                        if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                            console.log("Player2:");
-                            console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                            this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
-                            break;
-                        }
-                    }
-                    this.nextPlayer = true;
-                    this.currentPlayer = 1;
-                    this.currentState = this.gameStates.moveRedPiece;
-                    this.botvbotPlayPlayer1();
-                }
-                
-            }
-            
+
+            }.bind(this));
         }.bind(this));
     }
 
@@ -814,6 +866,10 @@ class MyGameOrchestrator extends CGFobject {
             for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                 if ((this.gameBoard.tiles[i].getLine() === move[0]) && (this.gameBoard.tiles[i].getColumn() === move[1])) {
                     this.move(null, this.gameBoard.tiles[i], 'yellow', 1);
+                    if(this.currentPlayer == 1)
+                        this.currentPlayer = 2;
+                    else
+                        this.currentPlayer = 1;
                     break;
                 }
 
@@ -821,6 +877,8 @@ class MyGameOrchestrator extends CGFobject {
             if (this.gameBoard.yellowPieces.length == 0)
                 this.currentState = this.gameStates.moveRedPiece;
 
+        }.bind(this));
+        this.prolog.getPrologRequest('sleep(4)', function (data) {
         }.bind(this));
     }
 
@@ -910,9 +968,10 @@ class MyGameOrchestrator extends CGFobject {
         if (this.gameMode !== "Bot vs Bot" || (this.gameMode === "Bot vs Bot" && this.currentState === this.gameStates.gameOver)) {
             this.player1Points = 0;
             this.player2Points = 0;
+            this.currentState =  this.gameStates.yellowPlacement;
             this.resetTime();
             this.animator.reset();
-        
+
         }
     }
 
