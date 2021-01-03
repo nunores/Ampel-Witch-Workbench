@@ -1,5 +1,10 @@
 class KeyframeAnimation extends Animation {
     
+    /**
+     * 
+     * @param {*} keyFrames
+     * @param {*} scene
+     */
     constructor(keyFrames, scene){
         super(scene);
         this.keyFrames = keyFrames;
@@ -31,6 +36,11 @@ class KeyframeAnimation extends Animation {
         this.interval = this.instants[0];
     }
 
+    
+    /**
+     * 
+     * @param {*} deltaTime - Time difference between updates
+     */
     update(deltaTime){
 
         this.currTime += deltaTime;

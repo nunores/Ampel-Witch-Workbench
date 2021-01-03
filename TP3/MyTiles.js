@@ -96,22 +96,40 @@ class MyTiles extends CGFobject {
         }    
     }
 
-    
+    /**
+     * 
+     * @param {*} piece - Piece to be set in tile
+     * @param {*} tile - Tile to have given piece
+     */
     setPiece(piece, tile){
         tile.setPiece(piece);
         piece.setTile(tile);
     }
 
+    
+    /**
+     * 
+     * @param {*} piece - Piece to be removed from tile
+     * @param {*} tile - Tile to unset piece
+     */
     removePiece(piece, tile){
         tile.unsetPiece();
         piece.unsetTile();
     }
 
+    /**
+     * 
+     * @param {*} tile - Tile to get piece from
+     */
     getPiece(tile){
         return tile.getPiece();
     }
 
 
+    /**
+     * 
+     * @param {*} piece - Piece to get tile from
+     */
     getTile(piece){
         for (const tile in this.tiles) {
             if (tile.getPiece() == piece)
@@ -125,6 +143,12 @@ class MyTiles extends CGFobject {
         return this.firstTile;
     }
 
+    /**
+     * 
+     * @param {*} piece - Piece to move
+     * @param {*} startingTile - Where
+     * @param {*} endingTile - To
+     */
     movePiece(piece, startingTile, endingTile){
         this.setPiece(piece, endingTile);
         this.removePiece(piece, startingTile);
@@ -220,6 +244,10 @@ class MyTiles extends CGFobject {
         this.scene.popMatrix();
     }
 
+    /**
+     * 
+     * @param {*} matrix - Matrix of transformations
+     */
     displayYellowPieces(matrix) {
         for(let i = 0; i < this.yellowPieces.length; i++){
             if(this.yellowPieces[i].tile === null){
@@ -230,6 +258,10 @@ class MyTiles extends CGFobject {
         }
     }
 
+    /**
+     * 
+     * @param {*} matrix - Matrix of transformations
+     */
     displayGreenPieces(matrix) {
         for(let i = 0; i < this.greenPieces.length; i++){
             if(this.greenPieces[i].tile === null){
@@ -240,6 +272,10 @@ class MyTiles extends CGFobject {
         }
     }
 
+    /**
+     * 
+     * @param {*} matrix - Matrix of transformations
+     */
     displayRedPieces(matrix) {
         for(let i = 0; i < this.redPieces.length; i++){
             if(this.redPieces[i].tile === null){
@@ -312,6 +348,10 @@ class MyTiles extends CGFobject {
     }
 
 
+        /**
+     * 
+     * @brief - Converts current board to an equivalent Prolog board
+     */
     convertToPrologGameState(){
         let gameState = [];
         let arrayIndex = 0;

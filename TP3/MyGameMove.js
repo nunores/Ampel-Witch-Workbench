@@ -1,4 +1,14 @@
 class MyGameMove{
+
+    /**
+     * 
+     * @param {*} scene 
+     * @param {*} piece - Piece moved 
+     * @param {*} origin - Tile from where it moves
+     * @param {*} destination - Tile where it moves to 
+     * @param {*} gameBoard - Board
+     * @param {*} semaphoreChecker - Makes semaphore
+     */
 	constructor(scene, piece, origin, destination, gameBoard, semaphoreChecker) {        
         this.scene = scene;
         this.piece = piece;
@@ -10,11 +20,19 @@ class MyGameMove{
         this.player = null;
     }
 
+    /**
+     * 
+     * @param {*} state - State to be set
+     */
     setState(state)
     {
         this.state = state;
     }
 
+    /**
+     * 
+     * @param {*} player - Player to be set
+     */
     setPlayer(player)
     {
         this.player = player;
@@ -36,6 +54,12 @@ class MyGameMove{
         
     }
 
+
+    /**
+     * @brief - Helper function for animate()
+     * @param {*} pieceType - Piece to be animatied
+     * @param {*} direction - Where it should go
+     */
     setupAnimation(pieceType, direction){
         if(pieceType === 'yellow'){
             if(direction === 'toBoard'){

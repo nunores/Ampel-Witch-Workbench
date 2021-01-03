@@ -1,6 +1,5 @@
 class MySpriteAnimation extends MySpriteSheet {
 
-
     constructor(scene, texture, sizeM, sizeN, duration, startCell, endCell) {
         super(scene, texture, sizeM, sizeN);
         this.duration = duration;
@@ -14,6 +13,10 @@ class MySpriteAnimation extends MySpriteSheet {
     }
 
 
+    /**
+     * 
+     * @param {*} deltaTime - Time difference between updates
+     */
     update(deltaTime) {
         if (this.currP != this.endCell) {
             this.currTime += deltaTime;

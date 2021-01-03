@@ -22,6 +22,10 @@ class MySpriteSheet extends CGFobject {
 		});
 	}
 
+	/**
+	 * 
+	 * @param {*} p - Index of cell to be activated
+	 */
 	activateCellP(p) {
 		let n = Math.floor(p / this.sizeM);
 		let m = p % this.sizeM;

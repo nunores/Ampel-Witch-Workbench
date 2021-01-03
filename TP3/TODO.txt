@@ -1,4 +1,3 @@
 Documentar
 Apagar ficheiros inuteis (imagens, etc)
 Apagar prints
-Fazer README e o PDF com as instruções

@@ -8,6 +8,15 @@
  * @param y2 - y coordinate corner 2
  */
 class MyRectangle extends CGFobject {
+	/**
+	 * 
+	 * @param {*} scene 
+	 * @param {*} x1 - First X
+	 * @param {*} y1 - First Y
+	 * @param {*} x2 - Second X
+	 * @param {*} y2 - Second Y
+	 */
+	
 	constructor(scene, x1, y1, x2, y2) {
 		super(scene);
 		this.x1 = x1;

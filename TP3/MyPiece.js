@@ -10,6 +10,10 @@ class MyPiece extends MyComponent {
         this.setMaterial(type);
     }
 
+    /**
+     * 
+     * @param {*} tile - Tile to be set
+     */
     setTile(tile){
         this.tile = tile;
     }
@@ -22,6 +26,11 @@ class MyPiece extends MyComponent {
         return this.tile;   
     }
 
+
+    /**
+     * 
+     * @param {*} type - Type to be set
+     */
     setType(type){
         this.type = type;
     }
@@ -38,22 +47,24 @@ class MyPiece extends MyComponent {
         return this.material;
     }
 
+
+    /**
+     * 
+     * @param {*} type - Type of piece
+     */
     setMaterial(type){
         if(type === 'yellow'){
             this.material = new CGFappearance(this.scene);
             this.material.setDiffuse(100, 92, 0, 1);
-            //this.material.setAmbient(100, 92, 0, 1);
         }
         else if (type === 'red'){
             this.material = new CGFappearance(this.scene);
             this.material.setDiffuse(255, 0, 0, 1);
-            //this.material.setAmbient(220, 20, 60, 1);
 
         }
         else if (type === 'green'){
             this.material = new CGFappearance(this.scene);
             this.material.setDiffuse(0, 128, 0, 1);
-            //this.material.setAmbient(0, 128, 0, 1);
 
         }
     }

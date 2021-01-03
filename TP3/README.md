@@ -9,15 +9,7 @@
 
 ----
 ## Project information
+ 
+- O nosso projeto consiste no desenvolvimento da interface gráfica para o jogo anteriormente implementado em Programação em Lógica.
 
-- Scene is somewhat complex
-- All features are working as intended
-
-- Our scene displays a witch's working bench which contains a cauldron, a crystal ball,
-some vials, among other things.
--The cauldron is bubbling with a neon green liquid, the crystal ball is blue-ish, the vials contain various alchemical contents and they also have a cork on top. The working bench also contains a pyramid and an cube with glyphs textures. Furthermore, smoke is coming out of the scalding cauldron, there's a witch's recipe is on the table and the crystal ball is levitating magically. 
-
-[Scene Link](scenes/demo.xml)
-## Issues/Problems
-
-- None that we know of.
+- Assim, criámos um ambiente de jogo com uma cena envolvente, uma interface que permite regular algumas das definições do jogo e criámos ainda o tabuleiro, que, ao clicar numa dada "tile", executa a jogada correspondente ao estado de jogo, com a ajuda de pedidos à máquina prolog através de pedidos HTTP.

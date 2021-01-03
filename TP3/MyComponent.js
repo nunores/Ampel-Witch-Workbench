@@ -1,4 +1,9 @@
 class MyComponent extends CGFobject {
+    /**
+     * 
+     * @param {*} scene 
+     * @param {*} id - Unique Id of component
+     */
     constructor(scene, id) {
         super(scene);
         this.id = id;
@@ -13,27 +18,53 @@ class MyComponent extends CGFobject {
 
     // Set Functions
 
+    /**
+     * 
+     * @param {*} afs - Amplificatoion in s direction
+     * @param {*} aft - Amplificatoion in s direction
+     */
     setAmplifications(afs, aft) {
         this.amplification.push(afs);
         this.amplification.push(aft);
     }
 
+    /**
+     * 
+     * @param {*} material - Material to be set
+     */
     setMaterial(material) {
         this.material = material;
     }
 
+    /**
+     * 
+     * @param {*} texturePath - Texture to be set
+     */
     setTexturePath(texturePath) {
         this.texturePath = texturePath;
     }
 
+    /**
+     * 
+     * @param {*} transformations - Transformations to be set
+     */
     setTransformations(transformations) {
         this.transformations = transformations;
     }
 
+
+    /**
+     * 
+     * @param {*} animation - Animation to be set
+     */
     setAnimation(animation){
         this.animation = animation;
     }
 
+    /**
+     * 
+     * @param {*} child - Child to be added
+     */
     addChildren(child) {
         this.children.push(child);
     }
@@ -42,11 +73,18 @@ class MyComponent extends CGFobject {
         this.textureObject = new CGFtexture(this.scene, this.texturePath);
     }
 
+    /**
+     * 
+     * @param {*} candidate - Candidate to verify
+     */
     isLeaf(candidate) {
         return (typeof candidate === 'string');
     }
 
-    // Return the component corresponding to the children candidate
+    /**
+     * @brief Return the component corresponding to the children candidate
+     * @param {*} candidate 
+     */
     findChildren(candidate) {
         for (var n = 0; n < this.scene.components.length; n++) {
             if (this.scene.components[n].id == candidate) // Find component corresponding to stored string
@@ -56,7 +94,9 @@ class MyComponent extends CGFobject {
         }
     }
 
-    // Sets Materials and Textures appropriately with the help of stacks
+    /**
+     * @brief Sets Materials and Textures appropriately with the help of stacks
+     */
     setMaterialsTextures(){
         var temp_material = null;
         var temp_texture = null;

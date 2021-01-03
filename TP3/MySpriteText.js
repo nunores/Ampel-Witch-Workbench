@@ -5,6 +5,10 @@ class MySpriteText extends MySpriteSheet {
         this.shadertext = text;
     }
 
+    /**
+     * 
+     * @param {*} text - Text to replace former text
+     */
     changeText(text){
         this.shadertext = text;
     }

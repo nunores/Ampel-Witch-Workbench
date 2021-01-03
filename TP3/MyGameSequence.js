@@ -5,6 +5,10 @@ class MyGameSequence {
     }
 
 
+    /**
+     * 
+     * @param {*} gameMove - Move to be added 
+     */
     addGameMove(gameMove) {
         this.gameMoves.push(gameMove);
     }

@@ -4,6 +4,12 @@ class MyConnection {
     }
 
 
+    /**
+     * 
+     * @param {*} requestString - String with request to pass
+     * @param {*} onSuccess - Success handler
+     * @param {*} onError - Error handler
+     */
     getPrologRequest(requestString, onSuccess, onError) {
         let requestPort = this.port /* || 8081*/;
         let request = new XMLHttpRequest();
@@ -17,19 +23,5 @@ class MyConnection {
         request.send();
 
     }
-
-    /*makeRequest() {
-        // Get Parameter Values
-        var requestString = document.querySelector("#query_field").value;
-
-        // Make Request
-        getPrologRequest(requestString, this.handleReply);
-    }
-
-    //Handle the Reply
-    handleReply(data) {
-        document.querySelector("#query_result").innerHTML = data.target.response;
-    
-    }*/
 
 }

@@ -1,4 +1,9 @@
 class MyGameOrchestrator extends CGFobject {
+    
+    /**
+     * 
+     * @param {*} scene 
+     */
     constructor(scene) {
         super(scene);
         this.gameStates = Object.freeze({ "yellowPlacement": 0, "moveRedPiece": 1, "moveGreenPiece": 2, "placeRedPiece": 3, "placeGreenPiece": 4, "gameOver": 5 })
@@ -33,6 +38,11 @@ class MyGameOrchestrator extends CGFobject {
         this.gameBoard.display();
     }
 
+    /**
+     * 
+     * @param {*} origin - Tile picked first
+     * @param {*} destination - Tile picked second
+     */
     pickTile(origin, destination) {
         if (this.currentState === this.gameStates.yellowPlacement)
             this.move(origin, destination, 'yellow', 0);
@@ -47,6 +57,13 @@ class MyGameOrchestrator extends CGFobject {
 
     }
 
+    /**
+     * 
+     * @param {*} origin - Origin Tile 
+     * @param {*} destination - Destination Tile
+     * @param {*} pieceType - Piece type of piece to move 
+     * @param {*} semaphoreChecker - Makes semaphore
+     */
     move(origin, destination, pieceType, semaphoreChecker) {
         this.resetTime();
         if (pieceType === 'yellow') {
@@ -56,21 +73,13 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.setState(this.currentState);
                 gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
-                //this.gameBoard.yellowPiecesPlaced.push(yellowPieceToMove);
                 gameMove.animate();
             }
             else if (origin !== null && destination === null) {
-                //this.gameBoard.yellowPieces.push(origin.getPiece());
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard, semaphoreChecker);
                 gameMove.setState(this.currentState);
                 gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
-                /*for (let index = 0; index < this.gameBoard.yellowPiecesPlaced.length; index++) {
-                    if (this.gameBoard.yellowPiecesPlaced[index].getTile() == origin) {
-                        this.gameBoard.yellowPiecesPlaced.splice(index);
-                        break;
-                    }
-                }*/
                 gameMove.animate();
             }
             else {
@@ -89,21 +98,13 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.setState(this.currentState);
                 gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
-                //this.gameBoard.redPiecesPlaced.push(redPieceToMove);
                 gameMove.animate();
             }
             else if (origin !== null && destination === null) {
-                //this.gameBoard.redPieces.push(origin.getPiece());
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard, semaphoreChecker);
                 gameMove.setState(this.currentState);
                 gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
-                /*for (let index = 0; index < this.gameBoard.redPiecesPlaced.length; index++) {
-                    if (this.gameBoard.redPiecesPlaced[index].getTile() == origin) {
-                        this.gameBoard.redPiecesPlaced.splice(index);
-                        break;
-                    }
-                }*/
                 gameMove.animate();
             }
             else {
@@ -122,21 +123,13 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.setState(this.currentState);
                 gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
-                //this.gameBoard.greenPiecesPlaced.push(greenPieceToMove);
                 gameMove.animate();
             }
             else if (origin !== null && destination === null) {
-                //this.gameBoard.greenPieces.push(origin.getPiece());
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard, semaphoreChecker);
                 gameMove.setState(this.currentState);
                 gameMove.setPlayer(this.currentPlayer);
                 this.gameSequence.addGameMove(gameMove);
-                /*for (let index = 0; index < this.gameBoard.greenPiecesPlaced.length; index++) {
-                    if (this.gameBoard.greenPiecesPlaced[index].getTile() == origin) {
-                        this.gameBoard.greenPiecesPlaced.splice(index);
-                        break;
-                    }
-                }*/
                 gameMove.animate();
             }
             else {
@@ -147,28 +140,26 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.animate();
             }
         }
-        //this.scene.activateCamera();
     }
 
+    /**
+     * 
+     * @param {*} origin - Origin Tile
+     * @param {*} destination - Destination Tile
+     * @param {*} pieceType - Piece type of piece to be moved
+     * @param {*} state - State of the game
+     * @param {*} player - Player's turn
+     */
     unMove(origin, destination, pieceType, state, player) {
         if (pieceType === 'yellow') {
             if (origin === null && destination !== null) {
                 let yellowPieceToMove = this.gameBoard.yellowPieces[this.gameBoard.yellowPieces.length - 1];
                 let gameMove = new MyGameMove(this.scene, yellowPieceToMove, null, destination, this.gameBoard, 0);
-                //this.gameBoard.yellowPiecesPlaced.push(yellowPieceToMove);
                 gameMove.animate();
             }
             else if (origin !== null && destination === null) {
-                //this.gameBoard.yellowPieces.push(origin.getPiece());
-                //this.gameBoard.yellowPiecesPlaced.pop();
                 this.gameBoard.startingYellows--;
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard, 0);
-                /*for (let index = 0; index < this.gameBoard.yellowPiecesPlaced.length; index++) {
-                    if (this.gameBoard.yellowPiecesPlaced[index].getTile() == origin) {
-                        this.gameBoard.yellowPiecesPlaced.splice(index);
-                        break;
-                    }
-                }*/
                 gameMove.animate();
             }
             else {
@@ -181,19 +172,10 @@ class MyGameOrchestrator extends CGFobject {
             if (origin === null && destination !== null) {
                 let redPieceToMove = this.gameBoard.redPieces[this.gameBoard.redPieces.length - 1];
                 let gameMove = new MyGameMove(this.scene, redPieceToMove, null, destination, this.gameBoard, 0);
-                //this.gameBoard.redPiecesPlaced.push(redPieceToMove);
                 gameMove.animate();
             }
             else if (origin !== null && destination === null) {
-                //this.gameBoard.redPieces.push(origin.getPiece());
-                //this.gameBoard.redPiecesPlaced.pop();
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard, 0);
-                /*for (let index = 0; index < this.gameBoard.redPiecesPlaced.length; index++) {
-                    if (this.gameBoard.redPiecesPlaced[index].getTile() == origin) {
-                        this.gameBoard.redPiecesPlaced.splice(index);
-                        break;
-                    }
-                }*/
                 gameMove.animate();
             }
             else {
@@ -206,19 +188,10 @@ class MyGameOrchestrator extends CGFobject {
             if (origin === null && destination !== null) {
                 let greenPieceToMove = this.gameBoard.greenPieces[this.gameBoard.greenPieces.length - 1];
                 let gameMove = new MyGameMove(this.scene, greenPieceToMove, null, destination, this.gameBoard, 0);
-                //this.gameBoard.greenPiecesPlaced.push(greenPieceToMove);
                 gameMove.animate();
             }
             else if (origin !== null && destination === null) {
-                //this.gameBoard.greenPieces.push(origin.getPiece());
-                //this.gameBoard.greenPiecesPlaced.pop();
                 let gameMove = new MyGameMove(this.scene, origin.getPiece(), origin, null, this.gameBoard, 0);
-                /*for (let index = 0; index < this.gameBoard.greenPiecesPlaced.length; index++) {
-                    if (this.gameBoard.greenPiecesPlaced[index].getTile() == origin) {
-                        this.gameBoard.greenPiecesPlaced.splice(index);
-                        break;
-                    }
-                }*/
                 gameMove.animate();
             }
             else {
@@ -233,6 +206,11 @@ class MyGameOrchestrator extends CGFobject {
 
     }
 
+    /**
+     * @brief - Handles all picking done on tiles
+     * @param {*} mode - Pick Mode
+     * @param {*} results - Pick Results
+     */
     managePick(mode, results) {
         if (mode == false) {
             if (results != null && results.length > 0) {
@@ -240,13 +218,6 @@ class MyGameOrchestrator extends CGFobject {
                     var obj = results[i][0];
                     this.tilePicked = results[i][0];
                     if (obj) {
-                        console.log(this.gameBoard.yellowPieces);
-                        console.log(this.gameSequence);
-                        console.log(this.gameBoard.greenPiecesPlaced);
-                        console.log(this.gameBoard.redPiecesPlaced);
-                        console.log("State: " + this.currentState);
-                        console.log("Player: " + this.currentPlayer);
-                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
 
                         // Player 1's turn
                         if (this.currentState !== this.gameStates.gameOver) {
@@ -289,9 +260,8 @@ class MyGameOrchestrator extends CGFobject {
                                                         }.bind(this));
                                                     }
                                                 }
-                                                else console.log("Invalid yellow piece placement"); // TODO: Print message to user
+                                                else console.log("Invalid yellow piece placement");
                                             }.bind(this));
-                                            //this.currentPlayer = 2;
                                             break;
                                         }
                                     }
@@ -466,9 +436,8 @@ class MyGameOrchestrator extends CGFobject {
                                                         }.bind(this));
                                                     }
                                                 }
-                                                else console.log("Invalid yellow piece placement"); // TODO: Print message to user
+                                                else console.log("Invalid yellow piece placement");
                                             }.bind(this));
-                                            //this.currentPlayer = 2;
                                             break;
                                         }
                                     }
@@ -652,8 +621,6 @@ class MyGameOrchestrator extends CGFobject {
                                 break;
                             }
                         }
-                        console.log("Player1:");
-                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                         this.move(greenOriginTile, greenDestinationTile, 'red', 0);
                         undoChecker++;
                     }
@@ -670,15 +637,11 @@ class MyGameOrchestrator extends CGFobject {
                                 break;
                             }
                         }
-                        console.log("Player1:");
-                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                         this.move(redOriginTile, redDestinationTile, 'green', 0);
                         undoChecker++;
                     }
                     for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                         if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                            console.log("Player1:");
-                            console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                             this.move(null, this.gameBoard.tiles[i], 'red', undoChecker);
                             break;
                         }
@@ -732,13 +695,6 @@ class MyGameOrchestrator extends CGFobject {
                     }
 
                     this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + greenDestinationTile.getLine() + ',' + greenDestinationTile.getColumn() + ',' + 'g' + ')', function (data1) {
-                        /*console.log("------------------------");
-                        console.log(greenDestinationTile.getLine(), greenDestinationTile.getColumn());
-                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
-                        console.log(data1.target.response);
-                        console.log("------------------------");*/
-                        console.log("Player2:");
-                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                         this.move(greenOriginTile, greenDestinationTile, 'green', 0);
                         undoChecker++;
                         this.removePieces(JSON.parse(data1.target.response));
@@ -763,8 +719,6 @@ class MyGameOrchestrator extends CGFobject {
                             }
 
                             this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + redDestinationTile.getLine() + ',' + redDestinationTile.getColumn() + ',' + 'r' + ')', function (data1) {
-                                console.log("Player2:");
-                                console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                                 this.move(redOriginTile, redDestinationTile, 'red', 0);
                                 undoChecker++;
                                 this.removePieces(JSON.parse(data1.target.response));
@@ -776,8 +730,6 @@ class MyGameOrchestrator extends CGFobject {
                                 }
                                 for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                                     if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                                        console.log("Player2:");
-                                        console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                                         this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
                                         break;
                                     }
@@ -798,8 +750,6 @@ class MyGameOrchestrator extends CGFobject {
                         else {
                             for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                                 if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                                    console.log("Player2:");
-                                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                                     this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
                                     break;
                                 }
@@ -832,8 +782,6 @@ class MyGameOrchestrator extends CGFobject {
                             }
                         }
                         this.prolog.getPrologRequest('makesSemaphore(' + JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", "") + ',' + redDestinationTile.getLine() + ',' + redDestinationTile.getColumn() + ',' + 'r' + ')', function (data1) {
-                            console.log("Player2:");
-                            console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                             this.move(redOriginTile, redDestinationTile, 'red', 0);
                             undoChecker++;
                             this.removePieces(JSON.parse(data1.target.response));
@@ -845,8 +793,6 @@ class MyGameOrchestrator extends CGFobject {
                             }
                             for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                                 if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                                    console.log("Player2:");
-                                    console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                                     this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
                                     break;
                                 }
@@ -865,8 +811,6 @@ class MyGameOrchestrator extends CGFobject {
                     else {
                         for (let i = 0; i < this.gameBoard.tiles.length; i++) {
                             if ((this.gameBoard.tiles[i].getLine() === greenPlacement[0]) && (this.gameBoard.tiles[i].getColumn() === greenPlacement[1])) {
-                                console.log("Player2:");
-                                console.log(JSON.stringify(this.gameBoard.convertToPrologGameState()).replaceAll("\"", ""));
                                 this.move(null, this.gameBoard.tiles[i], 'green', undoChecker);
                                 break;
                             }
@@ -908,8 +852,6 @@ class MyGameOrchestrator extends CGFobject {
                 this.currentState = this.gameStates.moveRedPiece;
 
         }.bind(this));
-        //this.prolog.getPrologRequest('sleep(4)', function (data) {
-        //}.bind(this));
     }
 
     botPlayer2Play() {
@@ -973,10 +915,14 @@ class MyGameOrchestrator extends CGFobject {
         }.bind(this));
     }
 
+
+    /**
+     * 
+     * @param {*} piecesToRemove - List of pieces to remove
+     */
     removePieces(piecesToRemove) {
         for (const pieceToRemove of piecesToRemove) {
             for (let i = 0; i < this.gameBoard.tiles.length; i++) {
-                console.log(this.gameBoard.tiles[i]);
                 if ((this.gameBoard.tiles[i].getLine() === pieceToRemove[0]) && this.gameBoard.tiles[i].getColumn() === pieceToRemove[1]) {
                     if (pieceToRemove === piecesToRemove[piecesToRemove.length - 1]) {
                         this.move(this.gameBoard.tiles[i], null, this.gameBoard.tiles[i].getPiece().getType(), piecesToRemove.length);
@@ -1031,6 +977,10 @@ class MyGameOrchestrator extends CGFobject {
         this.time = this.timeNumber;
     }
 
+    /**
+     * 
+     * @param {*} angle - Angle in radians to rotate camera
+     */
     rotateCamera(angle) {
         this.scene.camera.orbit([0, 0, 1], angle);
     }

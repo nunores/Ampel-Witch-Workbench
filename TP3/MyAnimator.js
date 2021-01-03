@@ -15,6 +15,10 @@ class MyAnimator{
         this.gameSequence.undo();
     }
 
+    /**
+     * 
+     * @param {*} deltaTime - Time difference between updates
+     */
     update(deltaTime){
         
         this.currTime += deltaTime;

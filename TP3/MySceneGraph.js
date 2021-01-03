@@ -1568,6 +1568,7 @@ class MySceneGraph {
 
     /**
      * Displays the scene, processing each node, starting in the root node.
+     * @param {*} selectedScene - Scene selected
      */
     displayScene(selectedScene) {
 

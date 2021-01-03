@@ -1,12 +1,19 @@
 class MyTile extends CGFobject {
+
+    /**
+     * 
+     * @param {*} scene 
+     * @param {*} firstX - Current X of coordinate
+     * @param {*} firstY - Current Y of coordinate
+     * @param {*} line - Line of tile
+     * @param {*} column - Column of tile
+     */
 	constructor(scene, firstX, firstY, line, column) {
         super(scene);
         this.plane = new Plane(this.scene, 20, 20);
 
         this.firstX = firstX;
         this.firstY = firstY;
-
-        //this.board = null;
 
         this.piece = null;
 
@@ -22,6 +29,10 @@ class MyTile extends CGFobject {
 
     }
 
+    /**
+     * 
+     * @param {*} piece - Piece to be set
+     */
     setPiece(piece){
         this.piece = piece;
     }
@@ -49,7 +60,6 @@ class MyTile extends CGFobject {
 
         this.scene.multMatrix(matrix);
         
-        //this.setMaterialPurple();
 
         if(this.piece != null)
         { 
@@ -58,7 +68,6 @@ class MyTile extends CGFobject {
 
         this.material.apply();
         
-        //this.setMaterialWhite();
         this.plane.display();
 
         let matrix1 = mat4.create();

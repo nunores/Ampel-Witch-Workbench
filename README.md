@@ -21,11 +21,8 @@ some vials, among other things.
 
 [Scene Link](TP1/scenes/demo.xml)
 
-### [TP2 - ...](TP2)
-- (items briefly describing main strong points)
+### [TP2 - Scene Graph](TP2)
+- Same as TP1 with animations, spritesheets, etc.
 
-----
-
-### [TP3 - ...](TP3)
-- (items briefly describing main strong points)
-
+### [TP3 - Ampel](TP3)
+- Implementation of game Ampel
