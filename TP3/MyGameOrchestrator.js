@@ -21,7 +21,7 @@ class MyGameOrchestrator extends CGFobject {
 
         this.nextPlayer = false;
 
-        this.timeNumber = 10;
+        this.timeNumber = 30;
         this.time = this.timeNumber;
     }
 
@@ -147,7 +147,7 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.animate();
             }
         }
-        this.scene.activateCamera();
+        //this.scene.activateCamera();
     }
 
     unMove(origin, destination, pieceType, state, player) {
@@ -228,6 +228,9 @@ class MyGameOrchestrator extends CGFobject {
         }
         this.currentState = state;
         this.currentPlayer = player;
+
+        this.scene.activateCamera();
+
     }
 
     managePick(mode, results) {
@@ -264,6 +267,8 @@ class MyGameOrchestrator extends CGFobject {
                                                         this.currentPlayer = 2;
                                                     else
                                                         this.currentPlayer = 1;
+                                                    
+                                                    this.scene.activateCamera();
                                                     if (this.gameMode === "Player vs Bot") {
                                                         this.prolog.getPrologRequest('sleep(4)', function (data) {
                                                             this.botPlayer2PlayYellow();
@@ -389,12 +394,16 @@ class MyGameOrchestrator extends CGFobject {
                                                     this.pickTile(null, this.tilePicked);
                                                     if (this.gameMode !== "Player vs Bot") {
                                                         this.currentPlayer = 2;
+                                                        this.scene.activateCamera();
                                                         this.currentState = this.gameStates.moveGreenPiece;
                                                     }
                                                     else {
-                                                        this.currentPlayer = 1;
+                                                        this.currentPlayer = 2;
+                                                        this.scene.activateCamera();
                                                         this.currentState = this.gameStates.moveRedPiece;
-                                                        this.botPlayer2Play();
+                                                        this.prolog.getPrologRequest('sleep(4)', function (data) {
+                                                            this.botPlayer2Play();
+                                                        }.bind(this));
                                                     }
                                                 }
                                             }.bind(this));
@@ -404,12 +413,16 @@ class MyGameOrchestrator extends CGFobject {
                                     else {
                                         if (this.gameMode !== "Player vs Bot") {
                                             this.currentPlayer = 2;
+                                            this.scene.activateCamera();
                                             this.currentState = this.gameStates.moveGreenPiece;
                                         }
                                         else {
-                                            this.currentPlayer = 1;
+                                            this.currentPlayer = 2;
+                                            this.scene.activateCamera();
                                             this.currentState = this.gameStates.moveRedPiece;
-                                            this.botPlayer2Play();
+                                            this.prolog.getPrologRequest('sleep(4)', function (data) {
+                                                this.botPlayer2Play();
+                                            }.bind(this));
                                         }
                                     }
                                 }
@@ -432,6 +445,7 @@ class MyGameOrchestrator extends CGFobject {
                                                         this.currentPlayer = 2;
                                                     else
                                                         this.currentPlayer = 1;
+                                                    this.scene.activateCamera();
                                                     if (this.gameMode === "Player vs Bot") {
                                                         this.prolog.getPrologRequest('sleep(4)', function (data) {
                                                             this.botPlayer2PlayYellow();
@@ -559,6 +573,7 @@ class MyGameOrchestrator extends CGFobject {
                                                 if (data.target.response === '1') {
                                                     this.pickTile(null, this.tilePicked);
                                                     this.currentPlayer = 1;
+                                                    this.scene.activateCamera();
                                                     this.currentState = this.gameStates.moveRedPiece;
                                                 }
                                             }.bind(this));
@@ -567,6 +582,7 @@ class MyGameOrchestrator extends CGFobject {
                                     }
                                     else {
                                         this.currentPlayer = 1;
+                                        this.scene.activateCamera();
                                         this.currentState = this.gameStates.moveRedPiece;
                                     }
                                 }
@@ -599,6 +615,8 @@ class MyGameOrchestrator extends CGFobject {
                         this.currentPlayer = 2;
                     else
                         this.currentPlayer = 1;
+                    
+                    this.scene.activateCamera();
                     this.botvbotPlayPlayer1();
                 }.bind(this));
             }.bind(this));
@@ -672,6 +690,8 @@ class MyGameOrchestrator extends CGFobject {
                         this.currentPlayer = 2;
                     else
                         this.currentPlayer = 1;
+
+                    this.scene.activateCamera();
                     this.botvbotPlayPlayer2();
                 }.bind(this));
             }.bind(this));
@@ -768,6 +788,8 @@ class MyGameOrchestrator extends CGFobject {
                                     this.currentPlayer = 2;
                                 else
                                     this.currentPlayer = 1;
+                                
+                                this.scene.activateCamera();
                                 this.botvbotPlayPlayer1();
                             }.bind(this));
 
@@ -788,6 +810,8 @@ class MyGameOrchestrator extends CGFobject {
                                 this.currentPlayer = 2;
                             else
                                 this.currentPlayer = 1;
+
+                            this.scene.activateCamera();
                             this.botvbotPlayPlayer1();
                         }
 
@@ -833,6 +857,8 @@ class MyGameOrchestrator extends CGFobject {
                                 this.currentPlayer = 2;
                             else
                                 this.currentPlayer = 1;
+                            
+                                this.scene.activateCamera();
                             this.botvbotPlayPlayer1();
                         }.bind(this));
                     }
@@ -851,6 +877,8 @@ class MyGameOrchestrator extends CGFobject {
                             this.currentPlayer = 2;
                         else
                             this.currentPlayer = 1;
+
+                        this.scene.activateCamera();
                         this.botvbotPlayPlayer1();
                     }
 
@@ -870,6 +898,8 @@ class MyGameOrchestrator extends CGFobject {
                         this.currentPlayer = 2;
                     else
                         this.currentPlayer = 1;
+                    
+                    this.scene.activateCamera();
                     break;
                 }
 
@@ -878,8 +908,8 @@ class MyGameOrchestrator extends CGFobject {
                 this.currentState = this.gameStates.moveRedPiece;
 
         }.bind(this));
-        this.prolog.getPrologRequest('sleep(4)', function (data) {
-        }.bind(this));
+        //this.prolog.getPrologRequest('sleep(4)', function (data) {
+        //}.bind(this));
     }
 
     botPlayer2Play() {
@@ -938,6 +968,7 @@ class MyGameOrchestrator extends CGFobject {
                 }
             }
             this.currentPlayer = 1;
+            this.scene.activateCamera();
             this.currentState = this.gameStates.moveRedPiece;
         }.bind(this));
     }

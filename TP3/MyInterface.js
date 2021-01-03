@@ -88,12 +88,8 @@ class MyInterface extends CGFinterface {
 
         scenesFolder.open();
 
-        scenesFolder.add(this.scene, "selectedScene", [ "root", "root2" ] ).name("Scenes");
+        scenesFolder.add(this.scene, "selectedScene", [ "Room 1", "Room 2" ] ).name("Scenes");
 
     }
-
-    /*addBotOptions(){
-        this.gui.add(this.scene.gameOrchestrator, 'botOption', Object.keys(this.scene.gameOrchestrator.botOptions)).name('Players').onChange(this.changeBot.bind(this));
-    }*/
 
 }

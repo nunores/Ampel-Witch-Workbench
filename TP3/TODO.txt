@@ -1,7 +1,3 @@
-Segunda cena - pensar nos temas e dar titulos
-Rodar camara no undo e replay
-Fazer checkbox com camara a poder mexer
-
 Documentar
 Apagar ficheiros inuteis (imagens, etc)
 Apagar prints

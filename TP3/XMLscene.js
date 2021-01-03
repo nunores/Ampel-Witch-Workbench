@@ -41,7 +41,9 @@ class XMLscene extends CGFscene {
         this.cameraActive = false;
         this.cameraRotationAngle = 180 * DEGREE_TO_RAD;
 
-        this.selectedScene = "root";
+        this.selectedScene = "Room 1";
+
+        this.selectedCamera = "Default Camera";
 
 
     }
@@ -135,6 +137,7 @@ class XMLscene extends CGFscene {
         this.interface.addOptionsGUI();
         this.interface.addSettings();
         this.interface.addScenesGUI();
+
 
         this.setUpdatePeriod(100);
 

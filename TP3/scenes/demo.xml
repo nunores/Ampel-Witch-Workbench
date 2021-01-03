@@ -70,7 +70,11 @@
         <texture id="paintingTexture" path="./scenes/images/paintingTexture.jpg" />
         <texture id="doorTexture" path="./scenes/images/doorTexture.jpg" />
         <texture id="doorTexture_2" path="./scenes/images/doorTexture_2.jpg" />
-        <texture id="wallTexture_2" path="./scenes/images/wallTexture_2.jpg" />
+        <texture id="wallTexture_2" path="./scenes/images/wallTexture.jpg" />
+        <texture id="floorTexture_2" path="./scenes/images/floorTexture_2.jpg" />
+        <texture id="tableTexture_2" path="./scenes/images/tableTexture_2.jpg" />
+        <texture id="paintingTexture_2" path="./scenes/images/paintingTexture_2.jpg" />
+        <texture id="stoolTexture_2" path="./scenes/images/stoolTexture_2.jpg" />
     </textures>
 
 
@@ -95,7 +99,7 @@
     </spritesheets>
 
     <nodes>
-        <node id="root">
+        <node id="Room 1">
             <material id ="null" />
             <texture id ="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -115,7 +119,7 @@
             </descendants>
         </node>
 
-        <node id="root2">
+        <node id="Room 2">
             <material id ="null" />
             <texture id ="clear">
                 <amplification afs="1.0" aft="1.0" />
@@ -187,7 +191,7 @@
 
         <node id="painting_2">
             <material id="null"/>
-            <texture id="paintingTexture">
+            <texture id="paintingTexture_2">
                 <amplification afs="1.0" aft="1.0"/>
             </texture>
             <transformations>
@@ -271,7 +275,7 @@
 
         <node id="floor_2">
             <material id="null"/>
-            <texture id="floorTexture">
+            <texture id="floorTexture_2">
                 <amplification afs="1.0" aft="1.0"/>
             </texture>
             <transformations>
@@ -286,7 +290,7 @@
 
         <node id="ceiling_2">
             <material id="null"/>
-            <texture id="floorTexture">
+            <texture id="floorTexture_2">
                 <amplification afs="1.0" aft="1.0"/>
             </texture>
             <transformations>
@@ -464,7 +468,7 @@
 
         <node id="stool1_2">
             <material id="null"/>
-            <texture id="stoolTexture">
+            <texture id="stoolTexture_2">
                 <amplification afs="1.0" aft="1.0"/>
             </texture>
             <transformations>
@@ -496,7 +500,7 @@
 
         <node id="stool2_2">
             <material id="null"/>
-            <texture id="stoolTexture">
+            <texture id="stoolTexture_2">
                 <amplification afs="1.0" aft="1.0"/>
             </texture>
             <transformations>
@@ -531,7 +535,7 @@
 
         <node id="table_2">
             <material id="null"/>
-            <texture id="tableTexture">
+            <texture id="tableTexture_2">
                 <amplification afs="1.0" aft="1.0"/>
             </texture>
             <transformations>
