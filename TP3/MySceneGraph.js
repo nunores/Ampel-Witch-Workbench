@@ -1578,9 +1578,10 @@ class MySceneGraph {
         this.scene.stack_material.push(this.scene.defaultAppearance);
         this.scene.stack_texture.push(null);
 
+        this.scene.pushMatrix();
 
-        
-        //this.scene.components[50].display();
+        this.scene.rotate(90*DEGREE_TO_RAD, -1, 0, 0)
+
         this.scene.gameOrchestrator.display();
 
         //Looking for root node
@@ -1589,5 +1590,7 @@ class MySceneGraph {
                 this.scene.components[i].display();
             }
         }
+
+        this.scene.popMatrix();
     }
 }

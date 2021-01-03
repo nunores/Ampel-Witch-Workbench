@@ -3,10 +3,9 @@ Implementar bots
 
 Tratar gameover
 
-Replay - só faz em gameover no botvsbot
-
-
 Mudar o estado no reset - ver se é preciso 
+
+Fazer camara fixed
 
 
 Mensagens para user quando algo estiver errado?

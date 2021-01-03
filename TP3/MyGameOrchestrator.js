@@ -147,7 +147,7 @@ class MyGameOrchestrator extends CGFobject {
                 gameMove.animate();
             }
         }
-        this.rotateCamera();
+        this.scene.activateCamera();
     }
 
     unMove(origin, destination, pieceType, state, player) {
@@ -907,10 +907,13 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     reset() {
-        this.player1Points = 0;
-        this.player2Points = 0;
-        this.resetTime();
-        this.animator.reset();
+        if (this.gameMode !== "Bot vs Bot" || (this.gameMode === "Bot vs Bot" && this.currentState === this.gameStates.gameOver)) {
+            this.player1Points = 0;
+            this.player2Points = 0;
+            this.resetTime();
+            this.animator.reset();
+        
+        }
     }
 
     replay() {
@@ -938,8 +941,8 @@ class MyGameOrchestrator extends CGFobject {
         this.time = this.timeNumber;
     }
 
-    rotateCamera() {
-        //this.scene.camera.orbit([1, 0, 0], 180 * DEGREE_TO_RAD);
+    rotateCamera(angle) {
+        this.scene.camera.orbit([0, 0, 1], angle);
     }
 
 }

@@ -9,9 +9,10 @@
     <views default="defaultCamera">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="0" y="-10" z="20" />
-            <to x="0" y="8" z="0" />
+            <from x="0" y="20" z="10" />
+            <to x="0" y="0" z="-8" />
         </perspective>
+
     </views>
 
     <illumination>

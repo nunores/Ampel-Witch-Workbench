@@ -38,6 +38,9 @@ class XMLscene extends CGFscene {
 
         this.firstTime = true;
 
+        this.cameraActive = false;
+        this.cameraRotationAngle = 180 * DEGREE_TO_RAD;
+
 
     }
 
@@ -48,29 +51,29 @@ class XMLscene extends CGFscene {
     init(application) {
         super.init(application);
 
-        
+
         this.sceneInited = false;
 
         this.initCameras();
-        
+
         this.enableTextures(true);
-        
+
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-        
+
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
-        this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
-        this.loadingProgress=0;
-        
-        this.defaultAppearance=new CGFappearance(this);
-        
+        this.loadingProgressObject = new MyRectangle(this, -1, -.1, 1, .1);
+        this.loadingProgress = 0;
+
+        this.defaultAppearance = new CGFappearance(this);
+
         this.setPickEnabled(true);
         this.gameOrchestrator = new MyGameOrchestrator(this);
-        
+
     }
 
     /**
@@ -134,8 +137,8 @@ class XMLscene extends CGFscene {
 
     }
 
-    update(time){ // Time in milliseconds
-        if(this.firstTime){
+    update(time) { // Time in milliseconds
+        if (this.firstTime) {
             this.previous = time - 1;
             this.deltaTime = 0;
             this.countOneSecond = 0;
@@ -145,43 +148,71 @@ class XMLscene extends CGFscene {
         this.deltaTime = (time - this.previous) / 1000;
         // Update animations
 
-        for(const animation in this.animations){
+        for (const animation in this.animations) {
             this.animations[animation].update(this.deltaTime);
         }
 
-        for (const spriteAnimation in this.spriteAnimations){
+        for (const spriteAnimation in this.spriteAnimations) {
             this.spriteAnimations[spriteAnimation].update(this.deltaTime);
         }
 
-        if(this.gameOrchestrator.replayMode)
-        {
+        if (this.gameOrchestrator.replayMode) {
             this.gameOrchestrator.animator.update(this.deltaTime);
         }
 
         this.handleTimer();
 
+        if (this.cameraActive) {
+            this.cameraRotation();
+        }
 
         this.previous = time;
 
     }
 
-    handleTimer(){
+    cameraRotation(){
+        let currAng = Math.PI * this.deltaTime;
+        this.cameraRotationAngle -= currAng;
+        if (this.cameraRotationAngle < 0) {
+            this.cameraActive = false;
+            this.setCamera();
+        } else this.gameOrchestrator.rotateCamera(currAng);
+    }
 
-        if(this.gameOrchestrator.gameMode === "Bot vs Bot" || this.gameOrchestrator.gameMode === "Player vs Bot" || this.gameOrchestrator.replayMode == true)
+    setCamera(){
+
+        if(this.gameOrchestrator.currentPlayer == 1){
+            this.camera.setPosition(vec3.fromValues(0, 20, -20))
+            this.camera.setTarget(vec3.fromValues(0, 0, -3))
+        }
+        else{
+            this.camera.setPosition(vec3.fromValues(0, 20, 10))
+            this.camera.setTarget(vec3.fromValues(0, 0, -8))
+        }
+    }
+
+    activateCamera() {
+        this.cameraActive = true;
+        this.cameraRotationAngle = 180*DEGREE_TO_RAD;
+    }
+
+    handleTimer() {
+
+        if (this.gameOrchestrator.gameMode === "Bot vs Bot" || this.gameOrchestrator.gameMode === "Player vs Bot" || this.gameOrchestrator.replayMode == true)
             this.gameOrchestrator.gameBoard.timer.changeText("Time: ---");
 
         else {
             this.gameOrchestrator.gameBoard.timer.changeText("Time: " + this.gameOrchestrator.time);
             this.countOneSecond += this.deltaTime;
 
-            if(this.countOneSecond > 1){
+            if (this.countOneSecond > 1) {
                 this.gameOrchestrator.decreaseTime();
                 this.countOneSecond = 0;
             }
-    
-            if(this.gameOrchestrator.time === 0){
+
+            if (this.gameOrchestrator.time === 0) {
                 this.gameOrchestrator.currentState = this.gameOrchestrator.gameStates.gameOver;
-    
+
                 /*
                     if(this.gameOrchestrator.currentPlayer === 1) winner é 2
                     else winner é 1
@@ -190,7 +221,7 @@ class XMLscene extends CGFscene {
 
         }
     }
-    
+
 
     /**
      * Displays the scene.
@@ -204,14 +235,14 @@ class XMLscene extends CGFscene {
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
-        this.loadIdentity(); 
+        this.loadIdentity();
 
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
         this.pushMatrix();
 
-        
+
 
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].update();
@@ -220,21 +251,20 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             // Draw axis
             this.axis.display();
- 
+
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-            
-            
+
+
         }
-        else
-        {
+        else {
             // Show some "loading" visuals
             this.defaultAppearance.apply();
 
-            this.rotate(-this.loadingProgress/10.0,0,0,1);
-            
+            this.rotate(-this.loadingProgress / 10.0, 0, 0, 1);
+
             this.loadingProgressObject.display();
             this.loadingProgress++;
         }

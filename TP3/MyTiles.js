@@ -160,7 +160,6 @@ class MyTiles extends CGFobject {
 
         this.scene.popMatrix();
 
-
         let matrix = mat4.create();
         let matrix1 = mat4.create();
         let matrix2 = mat4.create();
