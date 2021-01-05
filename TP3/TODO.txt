@@ -1,3 +1,0 @@
-Documentar
-Apagar ficheiros inuteis (imagens, etc)
-Apagar prints

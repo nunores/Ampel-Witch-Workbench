@@ -172,6 +172,9 @@ class XMLscene extends CGFscene {
             this.cameraRotation();
         };
 
+        this.gameOrchestrator.gameBoard.player1Marker.changeText("Player 1 Points: " + this.gameOrchestrator.gameBoard.player1Points.toString());
+        this.gameOrchestrator.gameBoard.player2Marker.changeText("Player 2 Points: " + this.gameOrchestrator.gameBoard.player2Points.toString());
+
         this.previous = time;
 
     }

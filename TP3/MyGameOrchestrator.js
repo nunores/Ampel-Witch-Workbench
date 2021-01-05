@@ -943,8 +943,8 @@ class MyGameOrchestrator extends CGFobject {
 
     reset() {
         if (this.gameMode !== "Bot vs Bot" || (this.gameMode === "Bot vs Bot" && this.currentState === this.gameStates.gameOver)) {
-            this.player1Points = 0;
-            this.player2Points = 0;
+            this.gameBoard.player1Points = 0;
+            this.gameBoard.player2Points = 0;
             this.currentState =  this.gameStates.yellowPlacement;
             this.resetTime();
             this.animator.reset();
