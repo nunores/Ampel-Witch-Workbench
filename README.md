@@ -2,9 +2,7 @@
 
 A collection of 3D projects developed using **Javascript**, WebGL and **Prolog**, including the [Ampel](https://boardgamegeek.com/boardgame/151978/ampel) board game and a witch's workbench scene as part of the *Laboratório de Aplicações com Interface Gráfica* ([LAIG](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=281214)) course at [FEUP](https://fe.up.pt)
 
-## Projects
-
-### Ampel Board Game
+## Ampel Board Game
 
 A 3D implementation of the Ampel board game, showcasing:
 
@@ -17,7 +15,7 @@ A 3D implementation of the Ampel board game, showcasing:
 ![working application screenshot 1](./docs/LAIG3_T07_G07_1.jpg)
 ![working application screenshot 2](./docs/LAIG3_T07_G07_2.jpg)
 
-#### Game Rules
+### Game Rules
 
 **Ampel** is a two-player abstract strategy game played on a hexagonal grid. The goal is to align your pieces and control space more effectively than your opponent.
 
@@ -25,7 +23,7 @@ Players aim to create valid **traffic lights** (a set of one red, one yellow, an
 
 The game is divided into two phases:
 
-##### 🟡 Phase 1: Yellow Placement
+#### 🟡 Phase 1: Yellow Placement
 
 - Players alternate turns placing **yellow pieces** on the board.
 - Exactly **10 yellow pieces** must be placed in total.
@@ -33,7 +31,7 @@ The game is divided into two phases:
 
 ---
 
-##### 🟢🔴 Phase 2: Movement and Placement
+#### 🟢🔴 Phase 2: Movement and Placement
 
 After the 10 yellow pieces are placed, the second phase begins.
 
@@ -45,7 +43,7 @@ On each turn, a player must:
 
 ---
 
-### 🧠 Movement Rules
+#### 🧠 Movement Rules
 
 - Pieces move in straight lines.
 - The **distance moved equals the number of pieces** (of any color) in the direction of movement.
@@ -53,7 +51,7 @@ On each turn, a player must:
 
 ---
 
-### 🏆 Winning the Game
+#### 🏆 Winning the Game
 
 - The goal is to form **traffic lights**: one red, one yellow, and one green piece aligned in a straight, uninterrupted line.
 - Multiple traffic lights can exist.
@@ -61,7 +59,7 @@ On each turn, a player must:
 
 > All game rules and logic are enforced by the Prolog engine integrated in the game.
 
-### Witch's Workbench
+## Witch's Workbench
 
 A 3D animated scene depicting a witch's workbench, built with **custom shaders** and **animation routines**, featuring:
 
