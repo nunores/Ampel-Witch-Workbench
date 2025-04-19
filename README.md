@@ -1,6 +1,6 @@
 # Ampel / Witch Workbench
 
-A collection of 3D projects developed using **Javascript**, WebGL and **Prolog**, including the [Ampel](https://boardgamegeek.com/boardgame/151978/ampel) board game and a witch's workbench scene as part of the *Laboratório de Aplicações com Interface Gráfica* ([LAIG](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=281214)) course at [FEUP](https://fe.up.pt)
+A collection of 3D projects developed using **Javascript**, WebGL and **Prolog**, including the [Ampel](https://boardgamegeek.com/boardgame/151978/ampel) board game and a witch's workbench scene as part of the *Laboratório de Aplicações com Interface Gráfica* ([LAIG](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=281214)) course at [FEUP](https://fe.up.pt) (Faculdade de Engenharia da Universidade do Porto).
 
 ## Ampel Board Game
 
@@ -57,7 +57,7 @@ On each turn, a player must:
 - Multiple traffic lights can exist.
 - The winner is determined by the number of valid traffic lights formed.
 
-> All game rules and logic are enforced by the Prolog engine integrated in the game.
+> All game rules and logic are enforced by the Prolog engine integrated into the game.
 
 ## Witch's Workbench
 
